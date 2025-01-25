@@ -25,25 +25,15 @@ WINDOW_H = 360
 NUM_SPRITES = 100
 
 def load_sprite(file, renderer)
-  temp = SDL::Surface.new(SDL.LoadBMP_IO(SDL.IOFromFile(file, "rb"), true)) # temp = SDL_Surface.new(SDL2.SDL_LoadBMP(file))
+  surface = SDL::Surface.new(SDL.LoadBMP(file))
   $texture = Texture.new
-  $texture.w = temp[:w]
-  $texture.h = temp[:h]
+  $texture.w = surface[:w]
+  $texture.h = surface[:h]
 
-  # format = SDL::PixelFormatDetails.new(temp[:format])
-  # if format[:palette] != nil
-    SDL.SetSurfaceColorKey(temp, true, temp[:pixels].read(:uint8))
-  # else
-  #   case format[:BitsPerPixel]
-  #   when 15; SDL.SetSurfaceColorKey(temp, 1, (temp[:pixels].read(:uint16)) & 0x00007FFF)
-  #   when 16; SDL.SetSurfaceColorKey(temp, 1, (temp[:pixels].read(:uint16)))
-  #   when 24; SDL.SetSurfaceColorKey(temp, 1, (temp[:pixels].read(:uint32)) & 0x00FFFFFF)
-  #   when 32; SDL.SetSurfaceColorKey(temp, 1, (temp[:pixels].read(:uint32)))
-  #   end
-  # end
+  SDL.SetSurfaceColorKey(surface, true, surface[:pixels].read(:uint8))
 
-  $texture.sprite = SDL.CreateTextureFromSurface(renderer, temp)
-  SDL.DestroySurface(temp)
+  $texture.sprite = SDL.CreateTextureFromSurface(renderer, surface)
+  SDL.DestroySurface(surface)
 end
 
 def move_sprite(renderer)
@@ -71,21 +61,16 @@ end
 
 if __FILE__ == $PROGRAM_NAME
   load_sdl2_lib()
-  success = SDL.Init(SDL::INIT_VIDEO)
-  exit unless success
 
-  # SDL.SetHint(SDL::HINT_RENDER_DRIVER, "metal")
-
-  window = SDL.CreateWindow("Minimal Sprite Test via sdl3-bindings", WINDOW_W, WINDOW_H, 0)
+  window = SDL.CreateWindow("Minimal Sprite Test via sdl3-bindings", WINDOW_W, WINDOW_H, SDL::WINDOW_RESIZABLE)
   SDL.SetWindowPosition(window, 32, 32)
 
-  renderer = SDL.CreateRenderer(window, nil) #, 0)
-  if renderer != nil
-    # renderer_info = SDL::RendererInfo.new
-    # SDL.GetRendererInfo(renderer, renderer_info)
-    # pp renderer_info[:name].read_string
-    pp SDL.GetRendererName(renderer).read_string
-  end
+  SDL.SetHint(SDL::HINT_RENDER_VSYNC, "1")
+  renderer = SDL.CreateRenderer(window, nil)
+  pp SDL.GetRendererName(renderer).read_string if renderer != nil
+
+
+  SDL.SetRenderLogicalPresentation(renderer, WINDOW_W, WINDOW_H, SDL::LOGICAL_PRESENTATION_LETTERBOX)
 
   load_sprite("Globe.bmp", renderer)
 
@@ -101,21 +86,15 @@ if __FILE__ == $PROGRAM_NAME
 
   event = SDL::Event.new
   done = false
-  while not done
-    while SDL.PollEvent(event) != 0
-      # 'type' and 'timestamp' are common members for all SDL Event structs.
+  until done
+    while SDL.PollEvent(event)
       event_type = event[:common][:type]
-      # event_timestamp = event.common.timestamp
-      # puts "Event : type=0x#{event_type.to_s(16)}, timestamp=#{event_timestamp}"
       case event_type
       when SDL::EVENT_KEY_DOWN
-        if event[:key][:keysym][:sym] == SDL::SDLK_ESCAPE
-          done = true
-        end
+        done = true if event[:key][:key] == SDL::SDLK_ESCAPE
       end
     end
     move_sprite(renderer)
-    SDL.Delay(10)
   end
 
   SDL.DestroyRenderer(renderer)
