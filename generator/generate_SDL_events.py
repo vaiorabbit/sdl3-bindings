@@ -17,10 +17,10 @@ if __name__ == "__main__":
     sdl2_parser.execute(ctx)
 
     # TODO : naming convention
-    ctx.decl_structs['ClipboardCancelled'] = None
+    # ctx.decl_structs['ClipboardCancelled'] = None
 
     sdl2_generator.sanitize(ctx)
     sdl2_generator.generate(ctx,
-                            prefix = sdl2_generator.PREFIX + "require_relative 'sdl2_keyboard'\n",
+                            # prefix = sdl2_generator.PREFIX + "require_relative 'sdl2_keyboard'\n",
                             setup_method_name = 'events'
     )

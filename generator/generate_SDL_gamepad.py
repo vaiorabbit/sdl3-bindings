@@ -1,6 +1,14 @@
 import sdl2_parser, sdl2_generator
 
 TYPEDEF_PREFIX_GAMEPAD = """
+  class GamepadBinding_value_axis < FFI::Struct
+    layout(
+        :axis, :int,
+        :axis_min, :int,
+        :axis_max, :int,
+    )
+  end
+
   class GamepadBinding_value_hat < FFI::Struct
     layout(
         :hat, :int,
@@ -8,18 +16,27 @@ TYPEDEF_PREFIX_GAMEPAD = """
     )
   end
 
-  class GamepadBinding_value < FFI::Struct
+  class GamepadBinding_input < FFI::Struct
     layout(
         :button, :int,
-        :axis, :int,
+        :axis, GamepadBinding_value_axis,
         :hat, GamepadBinding_value_hat,
+    )
+  end
+
+  class GamepadBinding_output < FFI::Struct
+    layout(
+        :button, :int,
+        :axis, GamepadBinding_value_axis,
     )
   end
 
   class GamepadBinding < FFI::Struct
     layout(
-        :bindType, :int,
-        :value, GamepadBinding_value,
+        :input_type, :int,
+        :input, GamepadBinding_input,
+        :output_type, :int,
+        :output, GamepadBinding_output,
     )
   end
 """

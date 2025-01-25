@@ -9,12 +9,12 @@ python generate_SDL_blendmode.py > ../lib/sdl3_blendmode.rb
 python generate_SDL_camera.py > ../lib/sdl3_camera.rb
 python generate_SDL_clipboard.py > ../lib/sdl3_clipboard.rb
 python generate_SDL_cpuinfo.py > ../lib/sdl3_cpuinfo.rb
-:: python generate_SDL_dialog.py > ../lib/sdl3_dialog.rb
-:: python generate_SDL_endian.py > ../lib/sdl3_endian.rb
-:: python generate_SDL_error.py > ../lib/sdl3_error.rb
-:: python generate_SDL_events.py > ../lib/sdl3_events.rb
-:: python generate_SDL_filesystem.py > ../lib/sdl3_filesystem.rb
-:: python generate_SDL_gamepad.py > ../lib/sdl3_gamepad.rb
+python generate_SDL_dialog.py > ../lib/sdl3_dialog.rb
+python generate_SDL_endian.py > ../lib/sdl3_endian.rb
+python generate_SDL_error.py > ../lib/sdl3_error.rb
+python generate_SDL_events.py > ../lib/sdl3_events.rb
+python generate_SDL_filesystem.py > ../lib/sdl3_filesystem.rb
+python generate_SDL_gamepad.py > ../lib/sdl3_gamepad.rb
 :: python generate_SDL_gpu.py > ../lib/sdl3_gpu.rb
 :: python generate_SDL_guid.py > ../lib/sdl3_guid.rb
 :: python generate_SDL_haptic.py > ../lib/sdl3_haptic.rb
