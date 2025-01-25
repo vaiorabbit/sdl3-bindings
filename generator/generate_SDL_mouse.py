@@ -1,8 +1,8 @@
 import sdl2_parser, sdl2_generator
 
-POSTFIX_MOUSE = """
-# TODO : def self.BUTTON(X); (1 << ((X)-1)); end;
-"""
+# POSTFIX_MOUSE = """
+# # TODO : def self.BUTTON(X); (1 << ((X)-1)); end;
+# """
 
 if __name__ == "__main__":
 
@@ -10,5 +10,6 @@ if __name__ == "__main__":
     sdl2_parser.execute(ctx)
 
     sdl2_generator.sanitize(ctx)
-    sdl2_generator.generate(ctx, postfix = sdl2_generator.POSTFIX + POSTFIX_MOUSE,
+    sdl2_generator.generate(ctx,
+                            # postfix = sdl2_generator.POSTFIX + POSTFIX_MOUSE,
                             setup_method_name = 'mouse')

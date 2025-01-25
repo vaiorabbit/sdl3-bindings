@@ -1,8 +1,15 @@
 import sdl2_parser, sdl2_generator
 
 TYPEDEF_PREFIX_RECT = """
+  def self.RectToFRect(rect, frect)
+    frect.x = rect.x
+    frect.y = rect.y
+    frect.w = rect.w
+    frect.y = rect.h
+  end
+
   def self.PointInRectFloat(p, r)
-    return ( (p.x >= r.x) && (p.x < (r.x + r.w)) && (p.y >= r.y) && (p.y < (r.y + r.h)) ) ? 1 : 0;
+    return ( (p.x >= r.x) && (p.x < (r.x + r.w)) && (p.y >= r.y) && (p.y < (r.y + r.h)) ) ? 1 : 0
   end
 
   def self.RectEmpty(r)
@@ -19,6 +26,7 @@ if __name__ == "__main__":
     ctx = sdl2_parser.ParseContext('./SDL3/SDL_rect.h')
     sdl2_parser.execute(ctx)
 
+    ctx.decl_functions['SDL_RectToFRect'] = None
     ctx.decl_functions['SDL_PointInRect'] = None
     ctx.decl_functions['SDL_RectEmpty'] = None
     ctx.decl_functions['SDL_RectsEqual'] = None
