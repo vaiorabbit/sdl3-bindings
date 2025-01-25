@@ -41,20 +41,20 @@ python generate_SDL_properties.py > ../lib/sdl3_properties.rb
 python generate_SDL_rect.py > ../lib/sdl3_rect.rb
 python generate_SDL_render.py > ../lib/sdl3_render.rb
 python generate_SDL_revision.py > ../lib/sdl3_revision.rb
-:: python generate_SDL_scancode.py > ../lib/sdl3_scancode.rb
-:: python generate_SDL_sensor.py > ../lib/sdl3_sensor.rb
-:: python generate_SDL_stdinc.py > ../lib/sdl3_stdinc.rb
-:: python generate_SDL_storage.py > ../lib/sdl3_storage.rb
-:: python generate_SDL_surface.py > ../lib/sdl3_surface.rb
+python generate_SDL_scancode.py > ../lib/sdl3_scancode.rb
+python generate_SDL_sensor.py > ../lib/sdl3_sensor.rb
+python generate_SDL_stdinc.py > ../lib/sdl3_stdinc.rb
+python generate_SDL_storage.py > ../lib/sdl3_storage.rb
+python generate_SDL_surface.py > ../lib/sdl3_surface.rb
 :: python generate_SDL_system.py > ../lib/sdl3_system.rb
-:: python generate_SDL_thread.py > ../lib/sdl3_thread.rb
-:: python generate_SDL_time.py > ../lib/sdl3_time.rb
-:: python generate_SDL_timer.py > ../lib/sdl3_timer.rb
-:: python generate_SDL_touch.py > ../lib/sdl3_touch.rb
-:: python generate_SDL_tray.py > ../lib/sdl3_tray.rb
-:: python generate_SDL_version.py > ../lib/sdl3_version.rb
-:: python generate_SDL_video.py > ../lib/sdl3_video.rb
-:: python generate_SDL_vulkan.py > ../lib/sdl3_vulkan.rb
+python generate_SDL_thread.py > ../lib/sdl3_thread.rb
+python generate_SDL_time.py > ../lib/sdl3_time.rb
+python generate_SDL_timer.py > ../lib/sdl3_timer.rb
+python generate_SDL_touch.py > ../lib/sdl3_touch.rb
+python generate_SDL_tray.py > ../lib/sdl3_tray.rb
+python generate_SDL_version.py > ../lib/sdl3_version.rb
+python generate_SDL_video.py > ../lib/sdl3_video.rb
+python generate_SDL_vulkan.py > ../lib/sdl3_vulkan.rb
 :: 
 :: python generate_SDL_ttf.py > ../lib/sdl3_ttf.rb
 :: python generate_SDL_image.py > ../lib/sdl3_image.rb

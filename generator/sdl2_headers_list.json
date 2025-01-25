@@ -45,7 +45,6 @@
     "SDL_stdinc.h",
     "SDL_storage.h",
     "SDL_surface.h",
-    "SDL_system.h",
     "SDL_thread.h",
     "SDL_time.h",
     "SDL_timer.h",
