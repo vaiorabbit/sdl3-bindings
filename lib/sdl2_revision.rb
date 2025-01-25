@@ -10,9 +10,7 @@ module SDL
   extend FFI::Library
   # Define/Macro
 
-  MAJOR_VERSION = 3
-  MINOR_VERSION = 2
-  MICRO_VERSION = 0
+  REVISION = "release-3.2.0-0-g535d80bad"
 
   # Enum
 
@@ -25,22 +23,14 @@ module SDL
 
   # Function
 
-  def self.setup_version_symbols(output_error = false)
+  def self.setup_revision_symbols(output_error = false)
     symbols = [
-      :SDL_GetVersion,
-      :SDL_GetRevision,
     ]
     apis = {
-      :SDL_GetVersion => :GetVersion,
-      :SDL_GetRevision => :GetRevision,
     }
     args = {
-      :SDL_GetVersion => [],
-      :SDL_GetRevision => [],
     }
     retvals = {
-      :SDL_GetVersion => :int,
-      :SDL_GetRevision => :pointer,
     }
     symbols.each do |sym|
       begin

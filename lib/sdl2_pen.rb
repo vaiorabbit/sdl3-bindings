@@ -10,37 +10,46 @@ module SDL
   extend FFI::Library
   # Define/Macro
 
-  MAJOR_VERSION = 3
-  MINOR_VERSION = 2
-  MICRO_VERSION = 0
+  PEN_MOUSEID = -2
+  PEN_TOUCHID = -2
+  PEN_INPUT_DOWN = 1 << 0
+  PEN_INPUT_BUTTON_1 = 1 << 1
+  PEN_INPUT_BUTTON_2 = 1 << 2
+  PEN_INPUT_BUTTON_3 = 1 << 3
+  PEN_INPUT_BUTTON_4 = 1 << 4
+  PEN_INPUT_BUTTON_5 = 1 << 5
+  PEN_INPUT_ERASER_TIP = 1 << 30
 
   # Enum
 
+  PEN_AXIS_PRESSURE = 0
+  PEN_AXIS_XTILT = 1
+  PEN_AXIS_YTILT = 2
+  PEN_AXIS_DISTANCE = 3
+  PEN_AXIS_ROTATION = 4
+  PEN_AXIS_SLIDER = 5
+  PEN_AXIS_TANGENTIAL_PRESSURE = 6
+  PEN_AXIS_COUNT = 7
 
   # Typedef
 
+  typedef :uint, :SDL_PenID
+  typedef :uint, :SDL_PenInputFlags
+  typedef :int, :SDL_PenAxis
 
   # Struct
 
 
   # Function
 
-  def self.setup_version_symbols(output_error = false)
+  def self.setup_pen_symbols(output_error = false)
     symbols = [
-      :SDL_GetVersion,
-      :SDL_GetRevision,
     ]
     apis = {
-      :SDL_GetVersion => :GetVersion,
-      :SDL_GetRevision => :GetRevision,
     }
     args = {
-      :SDL_GetVersion => [],
-      :SDL_GetRevision => [],
     }
     retvals = {
-      :SDL_GetVersion => :int,
-      :SDL_GetRevision => :pointer,
     }
     symbols.each do |sym|
       begin

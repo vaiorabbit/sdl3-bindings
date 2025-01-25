@@ -10,9 +10,6 @@ module SDL
   extend FFI::Library
   # Define/Macro
 
-  MAJOR_VERSION = 3
-  MINOR_VERSION = 2
-  MICRO_VERSION = 0
 
   # Enum
 
@@ -25,22 +22,22 @@ module SDL
 
   # Function
 
-  def self.setup_version_symbols(output_error = false)
+  def self.setup_bits_symbols(output_error = false)
     symbols = [
-      :SDL_GetVersion,
-      :SDL_GetRevision,
+      :SDL_MostSignificantBitIndex32,
+      :SDL_HasExactlyOneBitSet32,
     ]
     apis = {
-      :SDL_GetVersion => :GetVersion,
-      :SDL_GetRevision => :GetRevision,
+      :SDL_MostSignificantBitIndex32 => :MostSignificantBitIndex32,
+      :SDL_HasExactlyOneBitSet32 => :HasExactlyOneBitSet32,
     }
     args = {
-      :SDL_GetVersion => [],
-      :SDL_GetRevision => [],
+      :SDL_MostSignificantBitIndex32 => [:uint],
+      :SDL_HasExactlyOneBitSet32 => [:uint],
     }
     retvals = {
-      :SDL_GetVersion => :int,
-      :SDL_GetRevision => :pointer,
+      :SDL_MostSignificantBitIndex32 => :int,
+      :SDL_HasExactlyOneBitSet32 => :bool,
     }
     symbols.each do |sym|
       begin

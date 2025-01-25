@@ -10,9 +10,8 @@ module SDL
   extend FFI::Library
   # Define/Macro
 
-  MAJOR_VERSION = 3
-  MINOR_VERSION = 2
-  MICRO_VERSION = 0
+  LIL_ENDIAN = 1234
+  BIG_ENDIAN = 4321
 
   # Enum
 
@@ -25,22 +24,18 @@ module SDL
 
   # Function
 
-  def self.setup_version_symbols(output_error = false)
+  def self.setup_endian_symbols(output_error = false)
     symbols = [
-      :SDL_GetVersion,
-      :SDL_GetRevision,
+      :SDL_SwapFloat,
     ]
     apis = {
-      :SDL_GetVersion => :GetVersion,
-      :SDL_GetRevision => :GetRevision,
+      :SDL_SwapFloat => :SwapFloat,
     }
     args = {
-      :SDL_GetVersion => [],
-      :SDL_GetRevision => [],
+      :SDL_SwapFloat => [:float],
     }
     retvals = {
-      :SDL_GetVersion => :int,
-      :SDL_GetRevision => :pointer,
+      :SDL_SwapFloat => :float,
     }
     symbols.each do |sym|
       begin
