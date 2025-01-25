@@ -1,9 +1,15 @@
 import os, pprint, re, sys
 import json
+import platform
 from pathlib import Path
 from clang.cindex import Config, CursorKind, Index, TranslationUnit, TranslationUnitLoadError, TypeKind
 
-Config.set_library_path("/opt/homebrew/opt/llvm/lib")
+if platform.system() == 'Windows':
+    Config.set_library_path('C:/Program Files/LLVM/bin')
+elif platform.system() == 'Darwin':
+    Config.set_library_path("/opt/homebrew/opt/llvm/lib")
+else:
+    raise Exception("Unsupported platform")
 
 ####################################################################################################
 
