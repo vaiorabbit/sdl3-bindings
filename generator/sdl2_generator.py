@@ -1,9 +1,9 @@
 import ctypes, re, sys
 import sdl2_parser
 
-PREFIX = """# Ruby-SDL2 : Yet another SDL2 wrapper for Ruby
+PREFIX = """# Ruby-SDL3 : SDL3 wrapper for Ruby
 #
-# * https://github.com/vaiorabbit/sdl2-bindings
+# * https://github.com/vaiorabbit/sdl3-bindings
 #
 # [NOTICE] This is an automatically generated file.
 
