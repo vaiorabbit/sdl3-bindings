@@ -15,14 +15,14 @@ python generate_SDL_error.py > ../lib/sdl3_error.rb
 python generate_SDL_events.py > ../lib/sdl3_events.rb
 python generate_SDL_filesystem.py > ../lib/sdl3_filesystem.rb
 python generate_SDL_gamepad.py > ../lib/sdl3_gamepad.rb
-:: python generate_SDL_gpu.py > ../lib/sdl3_gpu.rb
-:: python generate_SDL_guid.py > ../lib/sdl3_guid.rb
-:: python generate_SDL_haptic.py > ../lib/sdl3_haptic.rb
-:: python generate_SDL_hidapi.py > ../lib/sdl3_hidapi.rb
-:: python generate_SDL_hints.py > ../lib/sdl3_hints.rb
-:: python generate_SDL_init.py > ../lib/sdl3_init.rb
-:: python generate_SDL_iostream.py > ../lib/sdl3_iostream.rb
-:: python generate_SDL_joystick.py > ../lib/sdl3_joystick.rb
+python generate_SDL_gpu.py > ../lib/sdl3_gpu.rb
+python generate_SDL_guid.py > ../lib/sdl3_guid.rb
+python generate_SDL_haptic.py > ../lib/sdl3_haptic.rb
+python generate_SDL_hidapi.py > ../lib/sdl3_hidapi.rb
+python generate_SDL_hints.py > ../lib/sdl3_hints.rb
+python generate_SDL_init.py > ../lib/sdl3_init.rb
+python generate_SDL_iostream.py > ../lib/sdl3_iostream.rb
+python generate_SDL_joystick.py > ../lib/sdl3_joystick.rb
 :: python generate_SDL_keyboard.py > ../lib/sdl3_keyboard.rb
 :: python generate_SDL_keycode.py > ../lib/sdl3_keycode.rb
 :: python generate_SDL_loadso.py > ../lib/sdl3_loadso.rb
