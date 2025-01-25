@@ -47,7 +47,7 @@ def generate_type_mapping(headers_list_filename = './sdl2_headers_list.json', he
     print("}", file = sys.stdout)
 
 
-def generate_define_list(headers_list_filename = './sdl2_headers_list.json', headers_dir = './SDL3', concatinate = True):
+def generate_define_list(headers_list_filename = './sdl2_headers_list.json', headers_dir = './SDL3', concatenate = True):
     headers_list_file = Path(headers_list_filename)
 
     if not headers_list_file.exists():
@@ -76,7 +76,7 @@ def generate_define_list(headers_list_filename = './sdl2_headers_list.json', hea
         assert ctx.depth == 0
 
         for macro_name, macro_value in ctx.decl_macros.items():
-            val = ' '.join(macro_value) if concatinate else macro_value
+            val = ' '.join(macro_value) if concatenate else macro_value
             print("    %s \"%s\" : %s" % (' ' if first else ',', macro_name, val), file = sys.stdout)
             first = False
     print("}", file = sys.stdout)
@@ -402,12 +402,13 @@ def collect_decl_macro(ctx, cursor):
 
     # pick out values with these prefixes:
     # - SDL_
+    # - SDLK_ (SDL_keycode.h)
     # - AUDIO_ (for SDL_audio)
     # - SDL2_ (for SDL2_gfx)
     # - MIX_ (for SDL_mixer)
     # - TTF_ (for SDL_ttf)
     # - SOUND_ (for SDL_sound)
-    if re.match(r"^SDL_|^AUDIO_|^SDL2_|^MIX_|^TTF_|^SOUND", macro_name):
+    if re.match(r"^SDL_|SDLK_|^AUDIO_|^SDL2_|^MIX_|^TTF_|^SOUND", macro_name):
         ctx.add_decl_macro(macro_name, macro_values)
     ctx.collection_mode = ParseContext.Decl_Unknown
 
