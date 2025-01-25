@@ -1,4 +1,4 @@
-require_relative '../lib/sdl2'
+require_relative '../lib/sdl3'
 require_relative 'util'
 
 class Texture
@@ -25,22 +25,22 @@ WINDOW_H = 360
 NUM_SPRITES = 100
 
 def load_sprite(file, renderer)
-  temp = SDL::Surface.new(SDL.LoadBMP_RW(SDL.RWFromFile(file, "rb"), 1)) # temp = SDL_Surface.new(SDL2.SDL_LoadBMP(file))
+  temp = SDL::Surface.new(SDL.LoadBMP_IO(SDL.IOFromFile(file, "rb"), true)) # temp = SDL_Surface.new(SDL2.SDL_LoadBMP(file))
   $texture = Texture.new
   $texture.w = temp[:w]
   $texture.h = temp[:h]
 
-  format = SDL::PixelFormat.new(temp[:format])
-  if format[:palette] != nil
-    SDL.SetSurfaceColorKey(temp, 1, temp[:pixels].read(:uint8))
-  else
-    case format[:BitsPerPixel]
-    when 15; SDL.SetSurfaceColorKey(temp, 1, (temp[:pixels].read(:uint16)) & 0x00007FFF)
-    when 16; SDL.SetSurfaceColorKey(temp, 1, (temp[:pixels].read(:uint16)))
-    when 24; SDL.SetSurfaceColorKey(temp, 1, (temp[:pixels].read(:uint32)) & 0x00FFFFFF)
-    when 32; SDL.SetSurfaceColorKey(temp, 1, (temp[:pixels].read(:uint32)))
-    end
-  end
+  # format = SDL::PixelFormatDetails.new(temp[:format])
+  # if format[:palette] != nil
+    SDL.SetSurfaceColorKey(temp, true, temp[:pixels].read(:uint8))
+  # else
+  #   case format[:BitsPerPixel]
+  #   when 15; SDL.SetSurfaceColorKey(temp, 1, (temp[:pixels].read(:uint16)) & 0x00007FFF)
+  #   when 16; SDL.SetSurfaceColorKey(temp, 1, (temp[:pixels].read(:uint16)))
+  #   when 24; SDL.SetSurfaceColorKey(temp, 1, (temp[:pixels].read(:uint32)) & 0x00FFFFFF)
+  #   when 32; SDL.SetSurfaceColorKey(temp, 1, (temp[:pixels].read(:uint32)))
+  #   end
+  # end
 
   $texture.sprite = SDL.CreateTextureFromSurface(renderer, temp)
   SDL.DestroySurface(temp)
@@ -71,19 +71,20 @@ end
 
 if __FILE__ == $PROGRAM_NAME
   load_sdl2_lib()
-  success = SDL.Init(SDL::INIT_EVERYTHING)
-  exit if success < 0
+  success = SDL.Init(SDL::INIT_VIDEO)
+  exit unless success
 
   # SDL.SetHint(SDL::HINT_RENDER_DRIVER, "metal")
 
   window = SDL.CreateWindow("Minimal Sprite Test via sdl3-bindings", WINDOW_W, WINDOW_H, 0)
   SDL.SetWindowPosition(window, 32, 32)
 
-  renderer = SDL.CreateRenderer(window, nil, 0)
+  renderer = SDL.CreateRenderer(window, nil) #, 0)
   if renderer != nil
-    renderer_info = SDL::RendererInfo.new
-    SDL.GetRendererInfo(renderer, renderer_info)
-    pp renderer_info[:name].read_string
+    # renderer_info = SDL::RendererInfo.new
+    # SDL.GetRendererInfo(renderer, renderer_info)
+    # pp renderer_info[:name].read_string
+    pp SDL.GetRendererName(renderer).read_string
   end
 
   load_sprite("Globe.bmp", renderer)
