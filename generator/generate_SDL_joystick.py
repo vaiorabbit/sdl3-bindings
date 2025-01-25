@@ -13,6 +13,6 @@ if __name__ == "__main__":
 
     sdl2_generator.sanitize(ctx)
     sdl2_generator.generate(ctx,
-                            prefix = sdl2_generator.PREFIX + "require_relative 'sdl2_guid'\n",
+                            prefix = sdl2_generator.PREFIX + "require_relative 'sdl3_guid'\n",
                             # typedef_prefix = TYPEDEF_PREFIX_JOYSTICK,
                             setup_method_name = 'joystick')

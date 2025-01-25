@@ -55,7 +55,7 @@ python generate_SDL_tray.py > ../lib/sdl3_tray.rb
 python generate_SDL_version.py > ../lib/sdl3_version.rb
 python generate_SDL_video.py > ../lib/sdl3_video.rb
 python generate_SDL_vulkan.py > ../lib/sdl3_vulkan.rb
-:: 
-:: python generate_SDL_ttf.py > ../lib/sdl3_ttf.rb
-:: python generate_SDL_image.py > ../lib/sdl3_image.rb
-:: python generate_SDL_mixer.py > ../lib/sdl3_mixer.rb
+
+python generate_SDL_ttf.py > ../lib/sdl3_ttf.rb
+python generate_SDL_image.py > ../lib/sdl3_image.rb
+python generate_SDL_mixer.py > ../lib/sdl3_mixer.rb

@@ -54,7 +54,7 @@ if __name__ == "__main__":
 
     sdl2_generator.sanitize(ctx)
     sdl2_generator.generate(ctx,
-                            prefix = sdl2_generator.PREFIX + "require_relative 'sdl2_joystick'\n",
+                            prefix = sdl2_generator.PREFIX + "require_relative 'sdl3_joystick'\n",
                             typedef_prefix = TYPEDEF_PREFIX_GAMEPAD,
                             setup_method_name = 'gamepad'
     )
