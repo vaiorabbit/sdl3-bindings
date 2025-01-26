@@ -19,7 +19,7 @@ See the project below to learn how to use this library:
 
 ## Limitations ##
 
-*   Several original APIs originally defined with pre-processor macro are unavailable in this library (e.g. `SDL_LoadBMP`)
+*   Several original APIs originally defined with pre-processor macro are unavailable in this library (e.g. `SDL_TriggerBreakpoint`, `SDL_stack_alloc`, `SDL_BUTTON_MASK`, etc.)
 
 ## Target version ##
 
@@ -28,7 +28,7 @@ See the project below to learn how to use this library:
     *   SDL_image : 3.1.1
     *   SDL_mixer : 3.0.0
     *   SDL_ttf : 3.1.0
-    *   SDL_sound : TODO
+    *   SDL_sound : 3.0.0
 
 <details>
 <summary>Older versions</summary>
