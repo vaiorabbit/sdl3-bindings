@@ -46,7 +46,6 @@ python generate_SDL_sensor.py > ../lib/sdl3_sensor.rb
 python generate_SDL_stdinc.py > ../lib/sdl3_stdinc.rb
 python generate_SDL_storage.py > ../lib/sdl3_storage.rb
 python generate_SDL_surface.py > ../lib/sdl3_surface.rb
-:: python generate_SDL_system.py > ../lib/sdl3_system.rb
 python generate_SDL_thread.py > ../lib/sdl3_thread.rb
 python generate_SDL_time.py > ../lib/sdl3_time.rb
 python generate_SDL_timer.py > ../lib/sdl3_timer.rb
@@ -59,3 +58,4 @@ python generate_SDL_vulkan.py > ../lib/sdl3_vulkan.rb
 python generate_SDL_ttf.py > ../lib/sdl3_ttf.rb
 python generate_SDL_image.py > ../lib/sdl3_image.rb
 python generate_SDL_mixer.py > ../lib/sdl3_mixer.rb
+python generate_SDL_sound.py > ../lib/sdl3_sound.rb

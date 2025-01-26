@@ -1237,4 +1237,9 @@
     , "MIX_MAX_VOLUME" : "128"
     , "MIX_CHANNEL_POST" : "-2"
     , "MIX_EFFECTSMAXSPEED" : "\"MIX_EFFECTSMAXSPEED\""
+    , "SDL_SOUND_H_" : null
+    , "SOUND_VER_MAJOR" : "3"
+    , "SOUND_VER_MINOR" : "0"
+    , "SOUND_VER_PATCH" : "0"
+    , "SOUND_VERSION" : null
 }

@@ -1,3 +1,4 @@
+@echo off
 set PYTHONPATH=.\clang
 set PYTHONEXE=%LOCALAPPDATA%\Programs\Python\Python312\python.exe
 %PYTHONEXE% generate_initial_cindex_mapping.py > sdl2_cindex_mapping.json
