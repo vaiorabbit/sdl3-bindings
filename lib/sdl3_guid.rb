@@ -29,28 +29,14 @@ module SDL
   # Function
 
   def self.setup_guid_symbols(output_error = false)
-    symbols = [
-      :SDL_GUIDToString,
-      :SDL_StringToGUID,
+    entries = [
+      [:GUIDToString, :SDL_GUIDToString, [GUID.by_value, :pointer, :int], :void],
+      [:StringToGUID, :SDL_StringToGUID, [:pointer], GUID.by_value],
     ]
-    apis = {
-      :SDL_GUIDToString => :GUIDToString,
-      :SDL_StringToGUID => :StringToGUID,
-    }
-    args = {
-      :SDL_GUIDToString => [GUID.by_value, :pointer, :int],
-      :SDL_StringToGUID => [:pointer],
-    }
-    retvals = {
-      :SDL_GUIDToString => :void,
-      :SDL_StringToGUID => GUID.by_value,
-    }
-    symbols.each do |sym|
-      begin
-        attach_function apis[sym], sym, args[sym], retvals[sym]
-      rescue FFI::NotFoundError => error
-        $stderr.puts("[Warning] Failed to import #{sym} (#{error}).") if output_error
-      end
+    entries.each do |entry|
+      attach_function entry[0], entry[1], entry[2], entry[3]
+    rescue FFI::NotFoundError => e
+      warn "[Warning] Failed to import #{entry[0]} (#{e})." if output_error
     end
   end
 

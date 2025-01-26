@@ -23,32 +23,15 @@ module SDL
   # Function
 
   def self.setup_loadso_symbols(output_error = false)
-    symbols = [
-      :SDL_LoadObject,
-      :SDL_LoadFunction,
-      :SDL_UnloadObject,
+    entries = [
+      [:LoadObject, :SDL_LoadObject, [:pointer], :pointer],
+      [:LoadFunction, :SDL_LoadFunction, [:pointer, :pointer], :pointer],
+      [:UnloadObject, :SDL_UnloadObject, [:pointer], :void],
     ]
-    apis = {
-      :SDL_LoadObject => :LoadObject,
-      :SDL_LoadFunction => :LoadFunction,
-      :SDL_UnloadObject => :UnloadObject,
-    }
-    args = {
-      :SDL_LoadObject => [:pointer],
-      :SDL_LoadFunction => [:pointer, :pointer],
-      :SDL_UnloadObject => [:pointer],
-    }
-    retvals = {
-      :SDL_LoadObject => :pointer,
-      :SDL_LoadFunction => :pointer,
-      :SDL_UnloadObject => :void,
-    }
-    symbols.each do |sym|
-      begin
-        attach_function apis[sym], sym, args[sym], retvals[sym]
-      rescue FFI::NotFoundError => error
-        $stderr.puts("[Warning] Failed to import #{sym} (#{error}).") if output_error
-      end
+    entries.each do |entry|
+      attach_function entry[0], entry[1], entry[2], entry[3]
+    rescue FFI::NotFoundError => e
+      warn "[Warning] Failed to import #{entry[0]} (#{e})." if output_error
     end
   end
 

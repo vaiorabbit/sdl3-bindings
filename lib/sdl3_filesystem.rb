@@ -58,64 +58,23 @@ module SDL
   # Function
 
   def self.setup_filesystem_symbols(output_error = false)
-    symbols = [
-      :SDL_GetBasePath,
-      :SDL_GetPrefPath,
-      :SDL_GetUserFolder,
-      :SDL_CreateDirectory,
-      :SDL_EnumerateDirectory,
-      :SDL_RemovePath,
-      :SDL_RenamePath,
-      :SDL_CopyFile,
-      :SDL_GetPathInfo,
-      :SDL_GlobDirectory,
-      :SDL_GetCurrentDirectory,
+    entries = [
+      [:GetBasePath, :SDL_GetBasePath, [], :pointer],
+      [:GetPrefPath, :SDL_GetPrefPath, [:pointer, :pointer], :pointer],
+      [:GetUserFolder, :SDL_GetUserFolder, [:int], :pointer],
+      [:CreateDirectory, :SDL_CreateDirectory, [:pointer], :bool],
+      [:EnumerateDirectory, :SDL_EnumerateDirectory, [:pointer, :SDL_EnumerateDirectoryCallback, :pointer], :bool],
+      [:RemovePath, :SDL_RemovePath, [:pointer], :bool],
+      [:RenamePath, :SDL_RenamePath, [:pointer, :pointer], :bool],
+      [:CopyFile, :SDL_CopyFile, [:pointer, :pointer], :bool],
+      [:GetPathInfo, :SDL_GetPathInfo, [:pointer, :pointer], :bool],
+      [:GlobDirectory, :SDL_GlobDirectory, [:pointer, :pointer, :uint, :pointer], :pointer],
+      [:GetCurrentDirectory, :SDL_GetCurrentDirectory, [], :pointer],
     ]
-    apis = {
-      :SDL_GetBasePath => :GetBasePath,
-      :SDL_GetPrefPath => :GetPrefPath,
-      :SDL_GetUserFolder => :GetUserFolder,
-      :SDL_CreateDirectory => :CreateDirectory,
-      :SDL_EnumerateDirectory => :EnumerateDirectory,
-      :SDL_RemovePath => :RemovePath,
-      :SDL_RenamePath => :RenamePath,
-      :SDL_CopyFile => :CopyFile,
-      :SDL_GetPathInfo => :GetPathInfo,
-      :SDL_GlobDirectory => :GlobDirectory,
-      :SDL_GetCurrentDirectory => :GetCurrentDirectory,
-    }
-    args = {
-      :SDL_GetBasePath => [],
-      :SDL_GetPrefPath => [:pointer, :pointer],
-      :SDL_GetUserFolder => [:int],
-      :SDL_CreateDirectory => [:pointer],
-      :SDL_EnumerateDirectory => [:pointer, :SDL_EnumerateDirectoryCallback, :pointer],
-      :SDL_RemovePath => [:pointer],
-      :SDL_RenamePath => [:pointer, :pointer],
-      :SDL_CopyFile => [:pointer, :pointer],
-      :SDL_GetPathInfo => [:pointer, :pointer],
-      :SDL_GlobDirectory => [:pointer, :pointer, :uint, :pointer],
-      :SDL_GetCurrentDirectory => [],
-    }
-    retvals = {
-      :SDL_GetBasePath => :pointer,
-      :SDL_GetPrefPath => :pointer,
-      :SDL_GetUserFolder => :pointer,
-      :SDL_CreateDirectory => :bool,
-      :SDL_EnumerateDirectory => :bool,
-      :SDL_RemovePath => :bool,
-      :SDL_RenamePath => :bool,
-      :SDL_CopyFile => :bool,
-      :SDL_GetPathInfo => :bool,
-      :SDL_GlobDirectory => :pointer,
-      :SDL_GetCurrentDirectory => :pointer,
-    }
-    symbols.each do |sym|
-      begin
-        attach_function apis[sym], sym, args[sym], retvals[sym]
-      rescue FFI::NotFoundError => error
-        $stderr.puts("[Warning] Failed to import #{sym} (#{error}).") if output_error
-      end
+    entries.each do |entry|
+      attach_function entry[0], entry[1], entry[2], entry[3]
+    rescue FFI::NotFoundError => e
+      warn "[Warning] Failed to import #{entry[0]} (#{e})." if output_error
     end
   end
 

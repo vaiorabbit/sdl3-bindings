@@ -75,60 +75,22 @@ module SDL
   # Function
 
   def self.setup_rect_symbols(output_error = false)
-    symbols = [
-      :SDL_HasRectIntersection,
-      :SDL_GetRectIntersection,
-      :SDL_GetRectUnion,
-      :SDL_GetRectEnclosingPoints,
-      :SDL_GetRectAndLineIntersection,
-      :SDL_HasRectIntersectionFloat,
-      :SDL_GetRectIntersectionFloat,
-      :SDL_GetRectUnionFloat,
-      :SDL_GetRectEnclosingPointsFloat,
-      :SDL_GetRectAndLineIntersectionFloat,
+    entries = [
+      [:HasRectIntersection, :SDL_HasRectIntersection, [:pointer, :pointer], :bool],
+      [:GetRectIntersection, :SDL_GetRectIntersection, [:pointer, :pointer, :pointer], :bool],
+      [:GetRectUnion, :SDL_GetRectUnion, [:pointer, :pointer, :pointer], :bool],
+      [:GetRectEnclosingPoints, :SDL_GetRectEnclosingPoints, [:pointer, :int, :pointer, :pointer], :bool],
+      [:GetRectAndLineIntersection, :SDL_GetRectAndLineIntersection, [:pointer, :pointer, :pointer, :pointer, :pointer], :bool],
+      [:HasRectIntersectionFloat, :SDL_HasRectIntersectionFloat, [:pointer, :pointer], :bool],
+      [:GetRectIntersectionFloat, :SDL_GetRectIntersectionFloat, [:pointer, :pointer, :pointer], :bool],
+      [:GetRectUnionFloat, :SDL_GetRectUnionFloat, [:pointer, :pointer, :pointer], :bool],
+      [:GetRectEnclosingPointsFloat, :SDL_GetRectEnclosingPointsFloat, [:pointer, :int, :pointer, :pointer], :bool],
+      [:GetRectAndLineIntersectionFloat, :SDL_GetRectAndLineIntersectionFloat, [:pointer, :pointer, :pointer, :pointer, :pointer], :bool],
     ]
-    apis = {
-      :SDL_HasRectIntersection => :HasRectIntersection,
-      :SDL_GetRectIntersection => :GetRectIntersection,
-      :SDL_GetRectUnion => :GetRectUnion,
-      :SDL_GetRectEnclosingPoints => :GetRectEnclosingPoints,
-      :SDL_GetRectAndLineIntersection => :GetRectAndLineIntersection,
-      :SDL_HasRectIntersectionFloat => :HasRectIntersectionFloat,
-      :SDL_GetRectIntersectionFloat => :GetRectIntersectionFloat,
-      :SDL_GetRectUnionFloat => :GetRectUnionFloat,
-      :SDL_GetRectEnclosingPointsFloat => :GetRectEnclosingPointsFloat,
-      :SDL_GetRectAndLineIntersectionFloat => :GetRectAndLineIntersectionFloat,
-    }
-    args = {
-      :SDL_HasRectIntersection => [:pointer, :pointer],
-      :SDL_GetRectIntersection => [:pointer, :pointer, :pointer],
-      :SDL_GetRectUnion => [:pointer, :pointer, :pointer],
-      :SDL_GetRectEnclosingPoints => [:pointer, :int, :pointer, :pointer],
-      :SDL_GetRectAndLineIntersection => [:pointer, :pointer, :pointer, :pointer, :pointer],
-      :SDL_HasRectIntersectionFloat => [:pointer, :pointer],
-      :SDL_GetRectIntersectionFloat => [:pointer, :pointer, :pointer],
-      :SDL_GetRectUnionFloat => [:pointer, :pointer, :pointer],
-      :SDL_GetRectEnclosingPointsFloat => [:pointer, :int, :pointer, :pointer],
-      :SDL_GetRectAndLineIntersectionFloat => [:pointer, :pointer, :pointer, :pointer, :pointer],
-    }
-    retvals = {
-      :SDL_HasRectIntersection => :bool,
-      :SDL_GetRectIntersection => :bool,
-      :SDL_GetRectUnion => :bool,
-      :SDL_GetRectEnclosingPoints => :bool,
-      :SDL_GetRectAndLineIntersection => :bool,
-      :SDL_HasRectIntersectionFloat => :bool,
-      :SDL_GetRectIntersectionFloat => :bool,
-      :SDL_GetRectUnionFloat => :bool,
-      :SDL_GetRectEnclosingPointsFloat => :bool,
-      :SDL_GetRectAndLineIntersectionFloat => :bool,
-    }
-    symbols.each do |sym|
-      begin
-        attach_function apis[sym], sym, args[sym], retvals[sym]
-      rescue FFI::NotFoundError => error
-        $stderr.puts("[Warning] Failed to import #{sym} (#{error}).") if output_error
-      end
+    entries.each do |entry|
+      attach_function entry[0], entry[1], entry[2], entry[3]
+    rescue FFI::NotFoundError => e
+      warn "[Warning] Failed to import #{entry[0]} (#{e})." if output_error
     end
   end
 

@@ -648,96 +648,31 @@ module SDL
   # Function
 
   def self.setup_events_symbols(output_error = false)
-    symbols = [
-      :SDL_PumpEvents,
-      :SDL_PeepEvents,
-      :SDL_HasEvent,
-      :SDL_HasEvents,
-      :SDL_FlushEvent,
-      :SDL_FlushEvents,
-      :SDL_PollEvent,
-      :SDL_WaitEvent,
-      :SDL_WaitEventTimeout,
-      :SDL_PushEvent,
-      :SDL_SetEventFilter,
-      :SDL_GetEventFilter,
-      :SDL_AddEventWatch,
-      :SDL_RemoveEventWatch,
-      :SDL_FilterEvents,
-      :SDL_SetEventEnabled,
-      :SDL_EventEnabled,
-      :SDL_RegisterEvents,
-      :SDL_GetWindowFromEvent,
+    entries = [
+      [:PumpEvents, :SDL_PumpEvents, [], :void],
+      [:PeepEvents, :SDL_PeepEvents, [:pointer, :int, :int, :uint, :uint], :int],
+      [:HasEvent, :SDL_HasEvent, [:uint], :bool],
+      [:HasEvents, :SDL_HasEvents, [:uint, :uint], :bool],
+      [:FlushEvent, :SDL_FlushEvent, [:uint], :void],
+      [:FlushEvents, :SDL_FlushEvents, [:uint, :uint], :void],
+      [:PollEvent, :SDL_PollEvent, [:pointer], :bool],
+      [:WaitEvent, :SDL_WaitEvent, [:pointer], :bool],
+      [:WaitEventTimeout, :SDL_WaitEventTimeout, [:pointer, :int], :bool],
+      [:PushEvent, :SDL_PushEvent, [:pointer], :bool],
+      [:SetEventFilter, :SDL_SetEventFilter, [:SDL_EventFilter, :pointer], :void],
+      [:GetEventFilter, :SDL_GetEventFilter, [:pointer, :pointer], :bool],
+      [:AddEventWatch, :SDL_AddEventWatch, [:SDL_EventFilter, :pointer], :bool],
+      [:RemoveEventWatch, :SDL_RemoveEventWatch, [:SDL_EventFilter, :pointer], :void],
+      [:FilterEvents, :SDL_FilterEvents, [:SDL_EventFilter, :pointer], :void],
+      [:SetEventEnabled, :SDL_SetEventEnabled, [:uint, :bool], :void],
+      [:EventEnabled, :SDL_EventEnabled, [:uint], :bool],
+      [:RegisterEvents, :SDL_RegisterEvents, [:int], :uint],
+      [:GetWindowFromEvent, :SDL_GetWindowFromEvent, [:pointer], :pointer],
     ]
-    apis = {
-      :SDL_PumpEvents => :PumpEvents,
-      :SDL_PeepEvents => :PeepEvents,
-      :SDL_HasEvent => :HasEvent,
-      :SDL_HasEvents => :HasEvents,
-      :SDL_FlushEvent => :FlushEvent,
-      :SDL_FlushEvents => :FlushEvents,
-      :SDL_PollEvent => :PollEvent,
-      :SDL_WaitEvent => :WaitEvent,
-      :SDL_WaitEventTimeout => :WaitEventTimeout,
-      :SDL_PushEvent => :PushEvent,
-      :SDL_SetEventFilter => :SetEventFilter,
-      :SDL_GetEventFilter => :GetEventFilter,
-      :SDL_AddEventWatch => :AddEventWatch,
-      :SDL_RemoveEventWatch => :RemoveEventWatch,
-      :SDL_FilterEvents => :FilterEvents,
-      :SDL_SetEventEnabled => :SetEventEnabled,
-      :SDL_EventEnabled => :EventEnabled,
-      :SDL_RegisterEvents => :RegisterEvents,
-      :SDL_GetWindowFromEvent => :GetWindowFromEvent,
-    }
-    args = {
-      :SDL_PumpEvents => [],
-      :SDL_PeepEvents => [:pointer, :int, :int, :uint, :uint],
-      :SDL_HasEvent => [:uint],
-      :SDL_HasEvents => [:uint, :uint],
-      :SDL_FlushEvent => [:uint],
-      :SDL_FlushEvents => [:uint, :uint],
-      :SDL_PollEvent => [:pointer],
-      :SDL_WaitEvent => [:pointer],
-      :SDL_WaitEventTimeout => [:pointer, :int],
-      :SDL_PushEvent => [:pointer],
-      :SDL_SetEventFilter => [:SDL_EventFilter, :pointer],
-      :SDL_GetEventFilter => [:pointer, :pointer],
-      :SDL_AddEventWatch => [:SDL_EventFilter, :pointer],
-      :SDL_RemoveEventWatch => [:SDL_EventFilter, :pointer],
-      :SDL_FilterEvents => [:SDL_EventFilter, :pointer],
-      :SDL_SetEventEnabled => [:uint, :bool],
-      :SDL_EventEnabled => [:uint],
-      :SDL_RegisterEvents => [:int],
-      :SDL_GetWindowFromEvent => [:pointer],
-    }
-    retvals = {
-      :SDL_PumpEvents => :void,
-      :SDL_PeepEvents => :int,
-      :SDL_HasEvent => :bool,
-      :SDL_HasEvents => :bool,
-      :SDL_FlushEvent => :void,
-      :SDL_FlushEvents => :void,
-      :SDL_PollEvent => :bool,
-      :SDL_WaitEvent => :bool,
-      :SDL_WaitEventTimeout => :bool,
-      :SDL_PushEvent => :bool,
-      :SDL_SetEventFilter => :void,
-      :SDL_GetEventFilter => :bool,
-      :SDL_AddEventWatch => :bool,
-      :SDL_RemoveEventWatch => :void,
-      :SDL_FilterEvents => :void,
-      :SDL_SetEventEnabled => :void,
-      :SDL_EventEnabled => :bool,
-      :SDL_RegisterEvents => :uint,
-      :SDL_GetWindowFromEvent => :pointer,
-    }
-    symbols.each do |sym|
-      begin
-        attach_function apis[sym], sym, args[sym], retvals[sym]
-      rescue FFI::NotFoundError => error
-        $stderr.puts("[Warning] Failed to import #{sym} (#{error}).") if output_error
-      end
+    entries.each do |entry|
+      attach_function entry[0], entry[1], entry[2], entry[3]
+    rescue FFI::NotFoundError => e
+      warn "[Warning] Failed to import #{entry[0]} (#{e})." if output_error
     end
   end
 

@@ -1,6 +1,7 @@
 2025-01-26  vaiorabbit  <http://twitter.com/vaiorabbit>
 
 	* SDL 3.2.0 ( https://github.com/libsdl-org/SDL/releases/tag/release-3.2.0 )
+	* Improved generator to produce shorter binding code.
 
 2023-02-05  vaiorabbit  <http://twitter.com/vaiorabbit>
 

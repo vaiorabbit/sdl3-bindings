@@ -40,88 +40,29 @@ module SDL
   # Function
 
   def self.setup_storage_symbols(output_error = false)
-    symbols = [
-      :SDL_OpenTitleStorage,
-      :SDL_OpenUserStorage,
-      :SDL_OpenFileStorage,
-      :SDL_OpenStorage,
-      :SDL_CloseStorage,
-      :SDL_StorageReady,
-      :SDL_GetStorageFileSize,
-      :SDL_ReadStorageFile,
-      :SDL_WriteStorageFile,
-      :SDL_CreateStorageDirectory,
-      :SDL_EnumerateStorageDirectory,
-      :SDL_RemoveStoragePath,
-      :SDL_RenameStoragePath,
-      :SDL_CopyStorageFile,
-      :SDL_GetStoragePathInfo,
-      :SDL_GetStorageSpaceRemaining,
-      :SDL_GlobStorageDirectory,
+    entries = [
+      [:OpenTitleStorage, :SDL_OpenTitleStorage, [:pointer, :uint], :pointer],
+      [:OpenUserStorage, :SDL_OpenUserStorage, [:pointer, :pointer, :uint], :pointer],
+      [:OpenFileStorage, :SDL_OpenFileStorage, [:pointer], :pointer],
+      [:OpenStorage, :SDL_OpenStorage, [:pointer, :pointer], :pointer],
+      [:CloseStorage, :SDL_CloseStorage, [:pointer], :bool],
+      [:StorageReady, :SDL_StorageReady, [:pointer], :bool],
+      [:GetStorageFileSize, :SDL_GetStorageFileSize, [:pointer, :pointer, :pointer], :bool],
+      [:ReadStorageFile, :SDL_ReadStorageFile, [:pointer, :pointer, :pointer, :ulong_long], :bool],
+      [:WriteStorageFile, :SDL_WriteStorageFile, [:pointer, :pointer, :pointer, :ulong_long], :bool],
+      [:CreateStorageDirectory, :SDL_CreateStorageDirectory, [:pointer, :pointer], :bool],
+      [:EnumerateStorageDirectory, :SDL_EnumerateStorageDirectory, [:pointer, :pointer, :SDL_EnumerateDirectoryCallback, :pointer], :bool],
+      [:RemoveStoragePath, :SDL_RemoveStoragePath, [:pointer, :pointer], :bool],
+      [:RenameStoragePath, :SDL_RenameStoragePath, [:pointer, :pointer, :pointer], :bool],
+      [:CopyStorageFile, :SDL_CopyStorageFile, [:pointer, :pointer, :pointer], :bool],
+      [:GetStoragePathInfo, :SDL_GetStoragePathInfo, [:pointer, :pointer, :pointer], :bool],
+      [:GetStorageSpaceRemaining, :SDL_GetStorageSpaceRemaining, [:pointer], :ulong_long],
+      [:GlobStorageDirectory, :SDL_GlobStorageDirectory, [:pointer, :pointer, :pointer, :uint, :pointer], :pointer],
     ]
-    apis = {
-      :SDL_OpenTitleStorage => :OpenTitleStorage,
-      :SDL_OpenUserStorage => :OpenUserStorage,
-      :SDL_OpenFileStorage => :OpenFileStorage,
-      :SDL_OpenStorage => :OpenStorage,
-      :SDL_CloseStorage => :CloseStorage,
-      :SDL_StorageReady => :StorageReady,
-      :SDL_GetStorageFileSize => :GetStorageFileSize,
-      :SDL_ReadStorageFile => :ReadStorageFile,
-      :SDL_WriteStorageFile => :WriteStorageFile,
-      :SDL_CreateStorageDirectory => :CreateStorageDirectory,
-      :SDL_EnumerateStorageDirectory => :EnumerateStorageDirectory,
-      :SDL_RemoveStoragePath => :RemoveStoragePath,
-      :SDL_RenameStoragePath => :RenameStoragePath,
-      :SDL_CopyStorageFile => :CopyStorageFile,
-      :SDL_GetStoragePathInfo => :GetStoragePathInfo,
-      :SDL_GetStorageSpaceRemaining => :GetStorageSpaceRemaining,
-      :SDL_GlobStorageDirectory => :GlobStorageDirectory,
-    }
-    args = {
-      :SDL_OpenTitleStorage => [:pointer, :uint],
-      :SDL_OpenUserStorage => [:pointer, :pointer, :uint],
-      :SDL_OpenFileStorage => [:pointer],
-      :SDL_OpenStorage => [:pointer, :pointer],
-      :SDL_CloseStorage => [:pointer],
-      :SDL_StorageReady => [:pointer],
-      :SDL_GetStorageFileSize => [:pointer, :pointer, :pointer],
-      :SDL_ReadStorageFile => [:pointer, :pointer, :pointer, :ulong_long],
-      :SDL_WriteStorageFile => [:pointer, :pointer, :pointer, :ulong_long],
-      :SDL_CreateStorageDirectory => [:pointer, :pointer],
-      :SDL_EnumerateStorageDirectory => [:pointer, :pointer, :SDL_EnumerateDirectoryCallback, :pointer],
-      :SDL_RemoveStoragePath => [:pointer, :pointer],
-      :SDL_RenameStoragePath => [:pointer, :pointer, :pointer],
-      :SDL_CopyStorageFile => [:pointer, :pointer, :pointer],
-      :SDL_GetStoragePathInfo => [:pointer, :pointer, :pointer],
-      :SDL_GetStorageSpaceRemaining => [:pointer],
-      :SDL_GlobStorageDirectory => [:pointer, :pointer, :pointer, :uint, :pointer],
-    }
-    retvals = {
-      :SDL_OpenTitleStorage => :pointer,
-      :SDL_OpenUserStorage => :pointer,
-      :SDL_OpenFileStorage => :pointer,
-      :SDL_OpenStorage => :pointer,
-      :SDL_CloseStorage => :bool,
-      :SDL_StorageReady => :bool,
-      :SDL_GetStorageFileSize => :bool,
-      :SDL_ReadStorageFile => :bool,
-      :SDL_WriteStorageFile => :bool,
-      :SDL_CreateStorageDirectory => :bool,
-      :SDL_EnumerateStorageDirectory => :bool,
-      :SDL_RemoveStoragePath => :bool,
-      :SDL_RenameStoragePath => :bool,
-      :SDL_CopyStorageFile => :bool,
-      :SDL_GetStoragePathInfo => :bool,
-      :SDL_GetStorageSpaceRemaining => :ulong_long,
-      :SDL_GlobStorageDirectory => :pointer,
-    }
-    symbols.each do |sym|
-      begin
-        attach_function apis[sym], sym, args[sym], retvals[sym]
-      rescue FFI::NotFoundError => error
-        $stderr.puts("[Warning] Failed to import #{sym} (#{error}).") if output_error
-      end
+    entries.each do |entry|
+      attach_function entry[0], entry[1], entry[2], entry[3]
+    rescue FFI::NotFoundError => e
+      warn "[Warning] Failed to import #{entry[0]} (#{e})." if output_error
     end
   end
 

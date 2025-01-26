@@ -26,48 +26,19 @@ module SDL
   # Function
 
   def self.setup_vulkan_symbols(output_error = false)
-    symbols = [
-      :SDL_Vulkan_LoadLibrary,
-      :SDL_Vulkan_GetVkGetInstanceProcAddr,
-      :SDL_Vulkan_UnloadLibrary,
-      :SDL_Vulkan_GetInstanceExtensions,
-      :SDL_Vulkan_CreateSurface,
-      :SDL_Vulkan_DestroySurface,
-      :SDL_Vulkan_GetPresentationSupport,
+    entries = [
+      [:Vulkan_LoadLibrary, :SDL_Vulkan_LoadLibrary, [:pointer], :bool],
+      [:Vulkan_GetVkGetInstanceProcAddr, :SDL_Vulkan_GetVkGetInstanceProcAddr, [], :pointer],
+      [:Vulkan_UnloadLibrary, :SDL_Vulkan_UnloadLibrary, [], :void],
+      [:Vulkan_GetInstanceExtensions, :SDL_Vulkan_GetInstanceExtensions, [:pointer], :pointer],
+      [:Vulkan_CreateSurface, :SDL_Vulkan_CreateSurface, [:pointer, :pointer, :pointer, :pointer], :bool],
+      [:Vulkan_DestroySurface, :SDL_Vulkan_DestroySurface, [:pointer, :pointer, :pointer], :void],
+      [:Vulkan_GetPresentationSupport, :SDL_Vulkan_GetPresentationSupport, [:pointer, :pointer, :uint], :bool],
     ]
-    apis = {
-      :SDL_Vulkan_LoadLibrary => :Vulkan_LoadLibrary,
-      :SDL_Vulkan_GetVkGetInstanceProcAddr => :Vulkan_GetVkGetInstanceProcAddr,
-      :SDL_Vulkan_UnloadLibrary => :Vulkan_UnloadLibrary,
-      :SDL_Vulkan_GetInstanceExtensions => :Vulkan_GetInstanceExtensions,
-      :SDL_Vulkan_CreateSurface => :Vulkan_CreateSurface,
-      :SDL_Vulkan_DestroySurface => :Vulkan_DestroySurface,
-      :SDL_Vulkan_GetPresentationSupport => :Vulkan_GetPresentationSupport,
-    }
-    args = {
-      :SDL_Vulkan_LoadLibrary => [:pointer],
-      :SDL_Vulkan_GetVkGetInstanceProcAddr => [],
-      :SDL_Vulkan_UnloadLibrary => [],
-      :SDL_Vulkan_GetInstanceExtensions => [:pointer],
-      :SDL_Vulkan_CreateSurface => [:pointer, :pointer, :pointer, :pointer],
-      :SDL_Vulkan_DestroySurface => [:pointer, :pointer, :pointer],
-      :SDL_Vulkan_GetPresentationSupport => [:pointer, :pointer, :uint],
-    }
-    retvals = {
-      :SDL_Vulkan_LoadLibrary => :bool,
-      :SDL_Vulkan_GetVkGetInstanceProcAddr => :pointer,
-      :SDL_Vulkan_UnloadLibrary => :void,
-      :SDL_Vulkan_GetInstanceExtensions => :pointer,
-      :SDL_Vulkan_CreateSurface => :bool,
-      :SDL_Vulkan_DestroySurface => :void,
-      :SDL_Vulkan_GetPresentationSupport => :bool,
-    }
-    symbols.each do |sym|
-      begin
-        attach_function apis[sym], sym, args[sym], retvals[sym]
-      rescue FFI::NotFoundError => error
-        $stderr.puts("[Warning] Failed to import #{sym} (#{error}).") if output_error
-      end
+    entries.each do |entry|
+      attach_function entry[0], entry[1], entry[2], entry[3]
+    rescue FFI::NotFoundError => e
+      warn "[Warning] Failed to import #{entry[0]} (#{e})." if output_error
     end
   end
 

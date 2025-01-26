@@ -44,64 +44,23 @@ module SDL
   # Function
 
   def self.setup_asyncio_symbols(output_error = false)
-    symbols = [
-      :SDL_AsyncIOFromFile,
-      :SDL_GetAsyncIOSize,
-      :SDL_ReadAsyncIO,
-      :SDL_WriteAsyncIO,
-      :SDL_CloseAsyncIO,
-      :SDL_CreateAsyncIOQueue,
-      :SDL_DestroyAsyncIOQueue,
-      :SDL_GetAsyncIOResult,
-      :SDL_WaitAsyncIOResult,
-      :SDL_SignalAsyncIOQueue,
-      :SDL_LoadFileAsync,
+    entries = [
+      [:AsyncIOFromFile, :SDL_AsyncIOFromFile, [:pointer, :pointer], :pointer],
+      [:GetAsyncIOSize, :SDL_GetAsyncIOSize, [:pointer], :long_long],
+      [:ReadAsyncIO, :SDL_ReadAsyncIO, [:pointer, :pointer, :ulong_long, :ulong_long, :pointer, :pointer], :bool],
+      [:WriteAsyncIO, :SDL_WriteAsyncIO, [:pointer, :pointer, :ulong_long, :ulong_long, :pointer, :pointer], :bool],
+      [:CloseAsyncIO, :SDL_CloseAsyncIO, [:pointer, :bool, :pointer, :pointer], :bool],
+      [:CreateAsyncIOQueue, :SDL_CreateAsyncIOQueue, [], :pointer],
+      [:DestroyAsyncIOQueue, :SDL_DestroyAsyncIOQueue, [:pointer], :void],
+      [:GetAsyncIOResult, :SDL_GetAsyncIOResult, [:pointer, :pointer], :bool],
+      [:WaitAsyncIOResult, :SDL_WaitAsyncIOResult, [:pointer, :pointer, :int], :bool],
+      [:SignalAsyncIOQueue, :SDL_SignalAsyncIOQueue, [:pointer], :void],
+      [:LoadFileAsync, :SDL_LoadFileAsync, [:pointer, :pointer, :pointer], :bool],
     ]
-    apis = {
-      :SDL_AsyncIOFromFile => :AsyncIOFromFile,
-      :SDL_GetAsyncIOSize => :GetAsyncIOSize,
-      :SDL_ReadAsyncIO => :ReadAsyncIO,
-      :SDL_WriteAsyncIO => :WriteAsyncIO,
-      :SDL_CloseAsyncIO => :CloseAsyncIO,
-      :SDL_CreateAsyncIOQueue => :CreateAsyncIOQueue,
-      :SDL_DestroyAsyncIOQueue => :DestroyAsyncIOQueue,
-      :SDL_GetAsyncIOResult => :GetAsyncIOResult,
-      :SDL_WaitAsyncIOResult => :WaitAsyncIOResult,
-      :SDL_SignalAsyncIOQueue => :SignalAsyncIOQueue,
-      :SDL_LoadFileAsync => :LoadFileAsync,
-    }
-    args = {
-      :SDL_AsyncIOFromFile => [:pointer, :pointer],
-      :SDL_GetAsyncIOSize => [:pointer],
-      :SDL_ReadAsyncIO => [:pointer, :pointer, :ulong_long, :ulong_long, :pointer, :pointer],
-      :SDL_WriteAsyncIO => [:pointer, :pointer, :ulong_long, :ulong_long, :pointer, :pointer],
-      :SDL_CloseAsyncIO => [:pointer, :bool, :pointer, :pointer],
-      :SDL_CreateAsyncIOQueue => [],
-      :SDL_DestroyAsyncIOQueue => [:pointer],
-      :SDL_GetAsyncIOResult => [:pointer, :pointer],
-      :SDL_WaitAsyncIOResult => [:pointer, :pointer, :int],
-      :SDL_SignalAsyncIOQueue => [:pointer],
-      :SDL_LoadFileAsync => [:pointer, :pointer, :pointer],
-    }
-    retvals = {
-      :SDL_AsyncIOFromFile => :pointer,
-      :SDL_GetAsyncIOSize => :long_long,
-      :SDL_ReadAsyncIO => :bool,
-      :SDL_WriteAsyncIO => :bool,
-      :SDL_CloseAsyncIO => :bool,
-      :SDL_CreateAsyncIOQueue => :pointer,
-      :SDL_DestroyAsyncIOQueue => :void,
-      :SDL_GetAsyncIOResult => :bool,
-      :SDL_WaitAsyncIOResult => :bool,
-      :SDL_SignalAsyncIOQueue => :void,
-      :SDL_LoadFileAsync => :bool,
-    }
-    symbols.each do |sym|
-      begin
-        attach_function apis[sym], sym, args[sym], retvals[sym]
-      rescue FFI::NotFoundError => error
-        $stderr.puts("[Warning] Failed to import #{sym} (#{error}).") if output_error
-      end
+    entries.each do |entry|
+      attach_function entry[0], entry[1], entry[2], entry[3]
+    rescue FFI::NotFoundError => e
+      warn "[Warning] Failed to import #{entry[0]} (#{e})." if output_error
     end
   end
 

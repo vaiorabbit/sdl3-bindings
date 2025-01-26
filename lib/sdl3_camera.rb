@@ -39,80 +39,27 @@ module SDL
   # Function
 
   def self.setup_camera_symbols(output_error = false)
-    symbols = [
-      :SDL_GetNumCameraDrivers,
-      :SDL_GetCameraDriver,
-      :SDL_GetCurrentCameraDriver,
-      :SDL_GetCameras,
-      :SDL_GetCameraSupportedFormats,
-      :SDL_GetCameraName,
-      :SDL_GetCameraPosition,
-      :SDL_OpenCamera,
-      :SDL_GetCameraPermissionState,
-      :SDL_GetCameraID,
-      :SDL_GetCameraProperties,
-      :SDL_GetCameraFormat,
-      :SDL_AcquireCameraFrame,
-      :SDL_ReleaseCameraFrame,
-      :SDL_CloseCamera,
+    entries = [
+      [:GetNumCameraDrivers, :SDL_GetNumCameraDrivers, [], :int],
+      [:GetCameraDriver, :SDL_GetCameraDriver, [:int], :pointer],
+      [:GetCurrentCameraDriver, :SDL_GetCurrentCameraDriver, [], :pointer],
+      [:GetCameras, :SDL_GetCameras, [:pointer], :pointer],
+      [:GetCameraSupportedFormats, :SDL_GetCameraSupportedFormats, [:uint, :pointer], :pointer],
+      [:GetCameraName, :SDL_GetCameraName, [:uint], :pointer],
+      [:GetCameraPosition, :SDL_GetCameraPosition, [:uint], :int],
+      [:OpenCamera, :SDL_OpenCamera, [:uint, :pointer], :pointer],
+      [:GetCameraPermissionState, :SDL_GetCameraPermissionState, [:pointer], :int],
+      [:GetCameraID, :SDL_GetCameraID, [:pointer], :uint],
+      [:GetCameraProperties, :SDL_GetCameraProperties, [:pointer], :uint],
+      [:GetCameraFormat, :SDL_GetCameraFormat, [:pointer, :pointer], :bool],
+      [:AcquireCameraFrame, :SDL_AcquireCameraFrame, [:pointer, :pointer], :pointer],
+      [:ReleaseCameraFrame, :SDL_ReleaseCameraFrame, [:pointer, :pointer], :void],
+      [:CloseCamera, :SDL_CloseCamera, [:pointer], :void],
     ]
-    apis = {
-      :SDL_GetNumCameraDrivers => :GetNumCameraDrivers,
-      :SDL_GetCameraDriver => :GetCameraDriver,
-      :SDL_GetCurrentCameraDriver => :GetCurrentCameraDriver,
-      :SDL_GetCameras => :GetCameras,
-      :SDL_GetCameraSupportedFormats => :GetCameraSupportedFormats,
-      :SDL_GetCameraName => :GetCameraName,
-      :SDL_GetCameraPosition => :GetCameraPosition,
-      :SDL_OpenCamera => :OpenCamera,
-      :SDL_GetCameraPermissionState => :GetCameraPermissionState,
-      :SDL_GetCameraID => :GetCameraID,
-      :SDL_GetCameraProperties => :GetCameraProperties,
-      :SDL_GetCameraFormat => :GetCameraFormat,
-      :SDL_AcquireCameraFrame => :AcquireCameraFrame,
-      :SDL_ReleaseCameraFrame => :ReleaseCameraFrame,
-      :SDL_CloseCamera => :CloseCamera,
-    }
-    args = {
-      :SDL_GetNumCameraDrivers => [],
-      :SDL_GetCameraDriver => [:int],
-      :SDL_GetCurrentCameraDriver => [],
-      :SDL_GetCameras => [:pointer],
-      :SDL_GetCameraSupportedFormats => [:uint, :pointer],
-      :SDL_GetCameraName => [:uint],
-      :SDL_GetCameraPosition => [:uint],
-      :SDL_OpenCamera => [:uint, :pointer],
-      :SDL_GetCameraPermissionState => [:pointer],
-      :SDL_GetCameraID => [:pointer],
-      :SDL_GetCameraProperties => [:pointer],
-      :SDL_GetCameraFormat => [:pointer, :pointer],
-      :SDL_AcquireCameraFrame => [:pointer, :pointer],
-      :SDL_ReleaseCameraFrame => [:pointer, :pointer],
-      :SDL_CloseCamera => [:pointer],
-    }
-    retvals = {
-      :SDL_GetNumCameraDrivers => :int,
-      :SDL_GetCameraDriver => :pointer,
-      :SDL_GetCurrentCameraDriver => :pointer,
-      :SDL_GetCameras => :pointer,
-      :SDL_GetCameraSupportedFormats => :pointer,
-      :SDL_GetCameraName => :pointer,
-      :SDL_GetCameraPosition => :int,
-      :SDL_OpenCamera => :pointer,
-      :SDL_GetCameraPermissionState => :int,
-      :SDL_GetCameraID => :uint,
-      :SDL_GetCameraProperties => :uint,
-      :SDL_GetCameraFormat => :bool,
-      :SDL_AcquireCameraFrame => :pointer,
-      :SDL_ReleaseCameraFrame => :void,
-      :SDL_CloseCamera => :void,
-    }
-    symbols.each do |sym|
-      begin
-        attach_function apis[sym], sym, args[sym], retvals[sym]
-      rescue FFI::NotFoundError => error
-        $stderr.puts("[Warning] Failed to import #{sym} (#{error}).") if output_error
-      end
+    entries.each do |entry|
+      attach_function entry[0], entry[1], entry[2], entry[3]
+    rescue FFI::NotFoundError => e
+      warn "[Warning] Failed to import #{entry[0]} (#{e})." if output_error
     end
   end
 

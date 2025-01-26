@@ -23,40 +23,17 @@ module SDL
   # Function
 
   def self.setup_error_symbols(output_error = false)
-    symbols = [
-      :SDL_SetError,
-      :SDL_SetErrorV,
-      :SDL_OutOfMemory,
-      :SDL_GetError,
-      :SDL_ClearError,
+    entries = [
+      [:SetError, :SDL_SetError, [:pointer], :bool],
+      [:SetErrorV, :SDL_SetErrorV, [:pointer, :pointer], :bool],
+      [:OutOfMemory, :SDL_OutOfMemory, [], :bool],
+      [:GetError, :SDL_GetError, [], :pointer],
+      [:ClearError, :SDL_ClearError, [], :bool],
     ]
-    apis = {
-      :SDL_SetError => :SetError,
-      :SDL_SetErrorV => :SetErrorV,
-      :SDL_OutOfMemory => :OutOfMemory,
-      :SDL_GetError => :GetError,
-      :SDL_ClearError => :ClearError,
-    }
-    args = {
-      :SDL_SetError => [:pointer],
-      :SDL_SetErrorV => [:pointer, :pointer],
-      :SDL_OutOfMemory => [],
-      :SDL_GetError => [],
-      :SDL_ClearError => [],
-    }
-    retvals = {
-      :SDL_SetError => :bool,
-      :SDL_SetErrorV => :bool,
-      :SDL_OutOfMemory => :bool,
-      :SDL_GetError => :pointer,
-      :SDL_ClearError => :bool,
-    }
-    symbols.each do |sym|
-      begin
-        attach_function apis[sym], sym, args[sym], retvals[sym]
-      rescue FFI::NotFoundError => error
-        $stderr.puts("[Warning] Failed to import #{sym} (#{error}).") if output_error
-      end
+    entries.each do |entry|
+      attach_function entry[0], entry[1], entry[2], entry[3]
+    rescue FFI::NotFoundError => e
+      warn "[Warning] Failed to import #{entry[0]} (#{e})." if output_error
     end
   end
 

@@ -43,36 +43,16 @@ module SDL
   # Function
 
   def self.setup_dialog_symbols(output_error = false)
-    symbols = [
-      :SDL_ShowOpenFileDialog,
-      :SDL_ShowSaveFileDialog,
-      :SDL_ShowOpenFolderDialog,
-      :SDL_ShowFileDialogWithProperties,
+    entries = [
+      [:ShowOpenFileDialog, :SDL_ShowOpenFileDialog, [:SDL_DialogFileCallback, :pointer, :pointer, :pointer, :int, :pointer, :bool], :void],
+      [:ShowSaveFileDialog, :SDL_ShowSaveFileDialog, [:SDL_DialogFileCallback, :pointer, :pointer, :pointer, :int, :pointer], :void],
+      [:ShowOpenFolderDialog, :SDL_ShowOpenFolderDialog, [:SDL_DialogFileCallback, :pointer, :pointer, :pointer, :bool], :void],
+      [:ShowFileDialogWithProperties, :SDL_ShowFileDialogWithProperties, [:int, :SDL_DialogFileCallback, :pointer, :uint], :void],
     ]
-    apis = {
-      :SDL_ShowOpenFileDialog => :ShowOpenFileDialog,
-      :SDL_ShowSaveFileDialog => :ShowSaveFileDialog,
-      :SDL_ShowOpenFolderDialog => :ShowOpenFolderDialog,
-      :SDL_ShowFileDialogWithProperties => :ShowFileDialogWithProperties,
-    }
-    args = {
-      :SDL_ShowOpenFileDialog => [:SDL_DialogFileCallback, :pointer, :pointer, :pointer, :int, :pointer, :bool],
-      :SDL_ShowSaveFileDialog => [:SDL_DialogFileCallback, :pointer, :pointer, :pointer, :int, :pointer],
-      :SDL_ShowOpenFolderDialog => [:SDL_DialogFileCallback, :pointer, :pointer, :pointer, :bool],
-      :SDL_ShowFileDialogWithProperties => [:int, :SDL_DialogFileCallback, :pointer, :uint],
-    }
-    retvals = {
-      :SDL_ShowOpenFileDialog => :void,
-      :SDL_ShowSaveFileDialog => :void,
-      :SDL_ShowOpenFolderDialog => :void,
-      :SDL_ShowFileDialogWithProperties => :void,
-    }
-    symbols.each do |sym|
-      begin
-        attach_function apis[sym], sym, args[sym], retvals[sym]
-      rescue FFI::NotFoundError => error
-        $stderr.puts("[Warning] Failed to import #{sym} (#{error}).") if output_error
-      end
+    entries.each do |entry|
+      attach_function entry[0], entry[1], entry[2], entry[3]
+    rescue FFI::NotFoundError => e
+      warn "[Warning] Failed to import #{entry[0]} (#{e})." if output_error
     end
   end
 

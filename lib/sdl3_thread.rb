@@ -40,68 +40,24 @@ module SDL
   # Function
 
   def self.setup_thread_symbols(output_error = false)
-    symbols = [
-      :SDL_CreateThreadRuntime,
-      :SDL_CreateThreadWithPropertiesRuntime,
-      :SDL_GetThreadName,
-      :SDL_GetCurrentThreadID,
-      :SDL_GetThreadID,
-      :SDL_SetCurrentThreadPriority,
-      :SDL_WaitThread,
-      :SDL_GetThreadState,
-      :SDL_DetachThread,
-      :SDL_GetTLS,
-      :SDL_SetTLS,
-      :SDL_CleanupTLS,
+    entries = [
+      [:CreateThreadRuntime, :SDL_CreateThreadRuntime, [:SDL_ThreadFunction, :pointer, :pointer, :SDL_FunctionPointer, :SDL_FunctionPointer], :pointer],
+      [:CreateThreadWithPropertiesRuntime, :SDL_CreateThreadWithPropertiesRuntime, [:uint, :SDL_FunctionPointer, :SDL_FunctionPointer], :pointer],
+      [:GetThreadName, :SDL_GetThreadName, [:pointer], :pointer],
+      [:GetCurrentThreadID, :SDL_GetCurrentThreadID, [], :ulong_long],
+      [:GetThreadID, :SDL_GetThreadID, [:pointer], :ulong_long],
+      [:SetCurrentThreadPriority, :SDL_SetCurrentThreadPriority, [:int], :bool],
+      [:WaitThread, :SDL_WaitThread, [:pointer, :pointer], :void],
+      [:GetThreadState, :SDL_GetThreadState, [:pointer], :int],
+      [:DetachThread, :SDL_DetachThread, [:pointer], :void],
+      [:GetTLS, :SDL_GetTLS, [:pointer], :pointer],
+      [:SetTLS, :SDL_SetTLS, [:pointer, :pointer, :SDL_TLSDestructorCallback], :bool],
+      [:CleanupTLS, :SDL_CleanupTLS, [], :void],
     ]
-    apis = {
-      :SDL_CreateThreadRuntime => :CreateThreadRuntime,
-      :SDL_CreateThreadWithPropertiesRuntime => :CreateThreadWithPropertiesRuntime,
-      :SDL_GetThreadName => :GetThreadName,
-      :SDL_GetCurrentThreadID => :GetCurrentThreadID,
-      :SDL_GetThreadID => :GetThreadID,
-      :SDL_SetCurrentThreadPriority => :SetCurrentThreadPriority,
-      :SDL_WaitThread => :WaitThread,
-      :SDL_GetThreadState => :GetThreadState,
-      :SDL_DetachThread => :DetachThread,
-      :SDL_GetTLS => :GetTLS,
-      :SDL_SetTLS => :SetTLS,
-      :SDL_CleanupTLS => :CleanupTLS,
-    }
-    args = {
-      :SDL_CreateThreadRuntime => [:SDL_ThreadFunction, :pointer, :pointer, :SDL_FunctionPointer, :SDL_FunctionPointer],
-      :SDL_CreateThreadWithPropertiesRuntime => [:uint, :SDL_FunctionPointer, :SDL_FunctionPointer],
-      :SDL_GetThreadName => [:pointer],
-      :SDL_GetCurrentThreadID => [],
-      :SDL_GetThreadID => [:pointer],
-      :SDL_SetCurrentThreadPriority => [:int],
-      :SDL_WaitThread => [:pointer, :pointer],
-      :SDL_GetThreadState => [:pointer],
-      :SDL_DetachThread => [:pointer],
-      :SDL_GetTLS => [:pointer],
-      :SDL_SetTLS => [:pointer, :pointer, :SDL_TLSDestructorCallback],
-      :SDL_CleanupTLS => [],
-    }
-    retvals = {
-      :SDL_CreateThreadRuntime => :pointer,
-      :SDL_CreateThreadWithPropertiesRuntime => :pointer,
-      :SDL_GetThreadName => :pointer,
-      :SDL_GetCurrentThreadID => :ulong_long,
-      :SDL_GetThreadID => :ulong_long,
-      :SDL_SetCurrentThreadPriority => :bool,
-      :SDL_WaitThread => :void,
-      :SDL_GetThreadState => :int,
-      :SDL_DetachThread => :void,
-      :SDL_GetTLS => :pointer,
-      :SDL_SetTLS => :bool,
-      :SDL_CleanupTLS => :void,
-    }
-    symbols.each do |sym|
-      begin
-        attach_function apis[sym], sym, args[sym], retvals[sym]
-      rescue FFI::NotFoundError => error
-        $stderr.puts("[Warning] Failed to import #{sym} (#{error}).") if output_error
-      end
+    entries.each do |entry|
+      attach_function entry[0], entry[1], entry[2], entry[3]
+    rescue FFI::NotFoundError => e
+      warn "[Warning] Failed to import #{entry[0]} (#{e})." if output_error
     end
   end
 

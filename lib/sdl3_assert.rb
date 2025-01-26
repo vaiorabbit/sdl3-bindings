@@ -42,44 +42,18 @@ module SDL
   # Function
 
   def self.setup_assert_symbols(output_error = false)
-    symbols = [
-      :SDL_ReportAssertion,
-      :SDL_SetAssertionHandler,
-      :SDL_GetDefaultAssertionHandler,
-      :SDL_GetAssertionHandler,
-      :SDL_GetAssertionReport,
-      :SDL_ResetAssertionReport,
+    entries = [
+      [:ReportAssertion, :SDL_ReportAssertion, [:pointer, :pointer, :pointer, :int], :int],
+      [:SetAssertionHandler, :SDL_SetAssertionHandler, [:SDL_AssertionHandler, :pointer], :void],
+      [:GetDefaultAssertionHandler, :SDL_GetDefaultAssertionHandler, [], :pointer],
+      [:GetAssertionHandler, :SDL_GetAssertionHandler, [:pointer], :pointer],
+      [:GetAssertionReport, :SDL_GetAssertionReport, [], :pointer],
+      [:ResetAssertionReport, :SDL_ResetAssertionReport, [], :void],
     ]
-    apis = {
-      :SDL_ReportAssertion => :ReportAssertion,
-      :SDL_SetAssertionHandler => :SetAssertionHandler,
-      :SDL_GetDefaultAssertionHandler => :GetDefaultAssertionHandler,
-      :SDL_GetAssertionHandler => :GetAssertionHandler,
-      :SDL_GetAssertionReport => :GetAssertionReport,
-      :SDL_ResetAssertionReport => :ResetAssertionReport,
-    }
-    args = {
-      :SDL_ReportAssertion => [:pointer, :pointer, :pointer, :int],
-      :SDL_SetAssertionHandler => [:SDL_AssertionHandler, :pointer],
-      :SDL_GetDefaultAssertionHandler => [],
-      :SDL_GetAssertionHandler => [:pointer],
-      :SDL_GetAssertionReport => [],
-      :SDL_ResetAssertionReport => [],
-    }
-    retvals = {
-      :SDL_ReportAssertion => :int,
-      :SDL_SetAssertionHandler => :void,
-      :SDL_GetDefaultAssertionHandler => :pointer,
-      :SDL_GetAssertionHandler => :pointer,
-      :SDL_GetAssertionReport => :pointer,
-      :SDL_ResetAssertionReport => :void,
-    }
-    symbols.each do |sym|
-      begin
-        attach_function apis[sym], sym, args[sym], retvals[sym]
-      rescue FFI::NotFoundError => error
-        $stderr.puts("[Warning] Failed to import #{sym} (#{error}).") if output_error
-      end
+    entries.each do |entry|
+      attach_function entry[0], entry[1], entry[2], entry[3]
+    rescue FFI::NotFoundError => e
+      warn "[Warning] Failed to import #{entry[0]} (#{e})." if output_error
     end
   end
 

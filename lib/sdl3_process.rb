@@ -43,56 +43,21 @@ module SDL
   # Function
 
   def self.setup_process_symbols(output_error = false)
-    symbols = [
-      :SDL_CreateProcess,
-      :SDL_CreateProcessWithProperties,
-      :SDL_GetProcessProperties,
-      :SDL_ReadProcess,
-      :SDL_GetProcessInput,
-      :SDL_GetProcessOutput,
-      :SDL_KillProcess,
-      :SDL_WaitProcess,
-      :SDL_DestroyProcess,
+    entries = [
+      [:CreateProcess, :SDL_CreateProcess, [:pointer, :bool], :pointer],
+      [:CreateProcessWithProperties, :SDL_CreateProcessWithProperties, [:uint], :pointer],
+      [:GetProcessProperties, :SDL_GetProcessProperties, [:pointer], :uint],
+      [:ReadProcess, :SDL_ReadProcess, [:pointer, :pointer, :pointer], :pointer],
+      [:GetProcessInput, :SDL_GetProcessInput, [:pointer], :pointer],
+      [:GetProcessOutput, :SDL_GetProcessOutput, [:pointer], :pointer],
+      [:KillProcess, :SDL_KillProcess, [:pointer, :bool], :bool],
+      [:WaitProcess, :SDL_WaitProcess, [:pointer, :bool, :pointer], :bool],
+      [:DestroyProcess, :SDL_DestroyProcess, [:pointer], :void],
     ]
-    apis = {
-      :SDL_CreateProcess => :CreateProcess,
-      :SDL_CreateProcessWithProperties => :CreateProcessWithProperties,
-      :SDL_GetProcessProperties => :GetProcessProperties,
-      :SDL_ReadProcess => :ReadProcess,
-      :SDL_GetProcessInput => :GetProcessInput,
-      :SDL_GetProcessOutput => :GetProcessOutput,
-      :SDL_KillProcess => :KillProcess,
-      :SDL_WaitProcess => :WaitProcess,
-      :SDL_DestroyProcess => :DestroyProcess,
-    }
-    args = {
-      :SDL_CreateProcess => [:pointer, :bool],
-      :SDL_CreateProcessWithProperties => [:uint],
-      :SDL_GetProcessProperties => [:pointer],
-      :SDL_ReadProcess => [:pointer, :pointer, :pointer],
-      :SDL_GetProcessInput => [:pointer],
-      :SDL_GetProcessOutput => [:pointer],
-      :SDL_KillProcess => [:pointer, :bool],
-      :SDL_WaitProcess => [:pointer, :bool, :pointer],
-      :SDL_DestroyProcess => [:pointer],
-    }
-    retvals = {
-      :SDL_CreateProcess => :pointer,
-      :SDL_CreateProcessWithProperties => :pointer,
-      :SDL_GetProcessProperties => :uint,
-      :SDL_ReadProcess => :pointer,
-      :SDL_GetProcessInput => :pointer,
-      :SDL_GetProcessOutput => :pointer,
-      :SDL_KillProcess => :bool,
-      :SDL_WaitProcess => :bool,
-      :SDL_DestroyProcess => :void,
-    }
-    symbols.each do |sym|
-      begin
-        attach_function apis[sym], sym, args[sym], retvals[sym]
-      rescue FFI::NotFoundError => error
-        $stderr.puts("[Warning] Failed to import #{sym} (#{error}).") if output_error
-      end
+    entries.each do |entry|
+      attach_function entry[0], entry[1], entry[2], entry[3]
+    rescue FFI::NotFoundError => e
+      warn "[Warning] Failed to import #{entry[0]} (#{e})." if output_error
     end
   end
 

@@ -73,28 +73,14 @@ module SDL
   # Function
 
   def self.setup_messagebox_symbols(output_error = false)
-    symbols = [
-      :SDL_ShowMessageBox,
-      :SDL_ShowSimpleMessageBox,
+    entries = [
+      [:ShowMessageBox, :SDL_ShowMessageBox, [:pointer, :pointer], :bool],
+      [:ShowSimpleMessageBox, :SDL_ShowSimpleMessageBox, [:uint, :pointer, :pointer, :pointer], :bool],
     ]
-    apis = {
-      :SDL_ShowMessageBox => :ShowMessageBox,
-      :SDL_ShowSimpleMessageBox => :ShowSimpleMessageBox,
-    }
-    args = {
-      :SDL_ShowMessageBox => [:pointer, :pointer],
-      :SDL_ShowSimpleMessageBox => [:uint, :pointer, :pointer, :pointer],
-    }
-    retvals = {
-      :SDL_ShowMessageBox => :bool,
-      :SDL_ShowSimpleMessageBox => :bool,
-    }
-    symbols.each do |sym|
-      begin
-        attach_function apis[sym], sym, args[sym], retvals[sym]
-      rescue FFI::NotFoundError => error
-        $stderr.puts("[Warning] Failed to import #{sym} (#{error}).") if output_error
-      end
+    entries.each do |entry|
+      attach_function entry[0], entry[1], entry[2], entry[3]
+    rescue FFI::NotFoundError => e
+      warn "[Warning] Failed to import #{entry[0]} (#{e})." if output_error
     end
   end
 

@@ -55,88 +55,29 @@ module SDL
   # Function
 
   def self.setup_log_symbols(output_error = false)
-    symbols = [
-      :SDL_SetLogPriorities,
-      :SDL_SetLogPriority,
-      :SDL_GetLogPriority,
-      :SDL_ResetLogPriorities,
-      :SDL_SetLogPriorityPrefix,
-      :SDL_Log,
-      :SDL_LogTrace,
-      :SDL_LogVerbose,
-      :SDL_LogDebug,
-      :SDL_LogInfo,
-      :SDL_LogWarn,
-      :SDL_LogError,
-      :SDL_LogCritical,
-      :SDL_LogMessage,
-      :SDL_GetDefaultLogOutputFunction,
-      :SDL_GetLogOutputFunction,
-      :SDL_SetLogOutputFunction,
+    entries = [
+      [:SetLogPriorities, :SDL_SetLogPriorities, [:int], :void],
+      [:SetLogPriority, :SDL_SetLogPriority, [:int, :int], :void],
+      [:GetLogPriority, :SDL_GetLogPriority, [:int], :int],
+      [:ResetLogPriorities, :SDL_ResetLogPriorities, [], :void],
+      [:SetLogPriorityPrefix, :SDL_SetLogPriorityPrefix, [:int, :pointer], :bool],
+      [:Log, :SDL_Log, [:pointer], :void],
+      [:LogTrace, :SDL_LogTrace, [:int, :pointer], :void],
+      [:LogVerbose, :SDL_LogVerbose, [:int, :pointer], :void],
+      [:LogDebug, :SDL_LogDebug, [:int, :pointer], :void],
+      [:LogInfo, :SDL_LogInfo, [:int, :pointer], :void],
+      [:LogWarn, :SDL_LogWarn, [:int, :pointer], :void],
+      [:LogError, :SDL_LogError, [:int, :pointer], :void],
+      [:LogCritical, :SDL_LogCritical, [:int, :pointer], :void],
+      [:LogMessage, :SDL_LogMessage, [:int, :int, :pointer], :void],
+      [:GetDefaultLogOutputFunction, :SDL_GetDefaultLogOutputFunction, [], :pointer],
+      [:GetLogOutputFunction, :SDL_GetLogOutputFunction, [:pointer, :pointer], :void],
+      [:SetLogOutputFunction, :SDL_SetLogOutputFunction, [:SDL_LogOutputFunction, :pointer], :void],
     ]
-    apis = {
-      :SDL_SetLogPriorities => :SetLogPriorities,
-      :SDL_SetLogPriority => :SetLogPriority,
-      :SDL_GetLogPriority => :GetLogPriority,
-      :SDL_ResetLogPriorities => :ResetLogPriorities,
-      :SDL_SetLogPriorityPrefix => :SetLogPriorityPrefix,
-      :SDL_Log => :Log,
-      :SDL_LogTrace => :LogTrace,
-      :SDL_LogVerbose => :LogVerbose,
-      :SDL_LogDebug => :LogDebug,
-      :SDL_LogInfo => :LogInfo,
-      :SDL_LogWarn => :LogWarn,
-      :SDL_LogError => :LogError,
-      :SDL_LogCritical => :LogCritical,
-      :SDL_LogMessage => :LogMessage,
-      :SDL_GetDefaultLogOutputFunction => :GetDefaultLogOutputFunction,
-      :SDL_GetLogOutputFunction => :GetLogOutputFunction,
-      :SDL_SetLogOutputFunction => :SetLogOutputFunction,
-    }
-    args = {
-      :SDL_SetLogPriorities => [:int],
-      :SDL_SetLogPriority => [:int, :int],
-      :SDL_GetLogPriority => [:int],
-      :SDL_ResetLogPriorities => [],
-      :SDL_SetLogPriorityPrefix => [:int, :pointer],
-      :SDL_Log => [:pointer],
-      :SDL_LogTrace => [:int, :pointer],
-      :SDL_LogVerbose => [:int, :pointer],
-      :SDL_LogDebug => [:int, :pointer],
-      :SDL_LogInfo => [:int, :pointer],
-      :SDL_LogWarn => [:int, :pointer],
-      :SDL_LogError => [:int, :pointer],
-      :SDL_LogCritical => [:int, :pointer],
-      :SDL_LogMessage => [:int, :int, :pointer],
-      :SDL_GetDefaultLogOutputFunction => [],
-      :SDL_GetLogOutputFunction => [:pointer, :pointer],
-      :SDL_SetLogOutputFunction => [:SDL_LogOutputFunction, :pointer],
-    }
-    retvals = {
-      :SDL_SetLogPriorities => :void,
-      :SDL_SetLogPriority => :void,
-      :SDL_GetLogPriority => :int,
-      :SDL_ResetLogPriorities => :void,
-      :SDL_SetLogPriorityPrefix => :bool,
-      :SDL_Log => :void,
-      :SDL_LogTrace => :void,
-      :SDL_LogVerbose => :void,
-      :SDL_LogDebug => :void,
-      :SDL_LogInfo => :void,
-      :SDL_LogWarn => :void,
-      :SDL_LogError => :void,
-      :SDL_LogCritical => :void,
-      :SDL_LogMessage => :void,
-      :SDL_GetDefaultLogOutputFunction => :pointer,
-      :SDL_GetLogOutputFunction => :void,
-      :SDL_SetLogOutputFunction => :void,
-    }
-    symbols.each do |sym|
-      begin
-        attach_function apis[sym], sym, args[sym], retvals[sym]
-      rescue FFI::NotFoundError => error
-        $stderr.puts("[Warning] Failed to import #{sym} (#{error}).") if output_error
-      end
+    entries.each do |entry|
+      attach_function entry[0], entry[1], entry[2], entry[3]
+    rescue FFI::NotFoundError => e
+      warn "[Warning] Failed to import #{entry[0]} (#{e})." if output_error
     end
   end
 

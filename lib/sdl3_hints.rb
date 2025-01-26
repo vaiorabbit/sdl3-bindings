@@ -264,52 +264,20 @@ module SDL
   # Function
 
   def self.setup_hints_symbols(output_error = false)
-    symbols = [
-      :SDL_SetHintWithPriority,
-      :SDL_SetHint,
-      :SDL_ResetHint,
-      :SDL_ResetHints,
-      :SDL_GetHint,
-      :SDL_GetHintBoolean,
-      :SDL_AddHintCallback,
-      :SDL_RemoveHintCallback,
+    entries = [
+      [:SetHintWithPriority, :SDL_SetHintWithPriority, [:pointer, :pointer, :int], :bool],
+      [:SetHint, :SDL_SetHint, [:pointer, :pointer], :bool],
+      [:ResetHint, :SDL_ResetHint, [:pointer], :bool],
+      [:ResetHints, :SDL_ResetHints, [], :void],
+      [:GetHint, :SDL_GetHint, [:pointer], :pointer],
+      [:GetHintBoolean, :SDL_GetHintBoolean, [:pointer, :bool], :bool],
+      [:AddHintCallback, :SDL_AddHintCallback, [:pointer, :SDL_HintCallback, :pointer], :bool],
+      [:RemoveHintCallback, :SDL_RemoveHintCallback, [:pointer, :SDL_HintCallback, :pointer], :void],
     ]
-    apis = {
-      :SDL_SetHintWithPriority => :SetHintWithPriority,
-      :SDL_SetHint => :SetHint,
-      :SDL_ResetHint => :ResetHint,
-      :SDL_ResetHints => :ResetHints,
-      :SDL_GetHint => :GetHint,
-      :SDL_GetHintBoolean => :GetHintBoolean,
-      :SDL_AddHintCallback => :AddHintCallback,
-      :SDL_RemoveHintCallback => :RemoveHintCallback,
-    }
-    args = {
-      :SDL_SetHintWithPriority => [:pointer, :pointer, :int],
-      :SDL_SetHint => [:pointer, :pointer],
-      :SDL_ResetHint => [:pointer],
-      :SDL_ResetHints => [],
-      :SDL_GetHint => [:pointer],
-      :SDL_GetHintBoolean => [:pointer, :bool],
-      :SDL_AddHintCallback => [:pointer, :SDL_HintCallback, :pointer],
-      :SDL_RemoveHintCallback => [:pointer, :SDL_HintCallback, :pointer],
-    }
-    retvals = {
-      :SDL_SetHintWithPriority => :bool,
-      :SDL_SetHint => :bool,
-      :SDL_ResetHint => :bool,
-      :SDL_ResetHints => :void,
-      :SDL_GetHint => :pointer,
-      :SDL_GetHintBoolean => :bool,
-      :SDL_AddHintCallback => :bool,
-      :SDL_RemoveHintCallback => :void,
-    }
-    symbols.each do |sym|
-      begin
-        attach_function apis[sym], sym, args[sym], retvals[sym]
-      rescue FFI::NotFoundError => error
-        $stderr.puts("[Warning] Failed to import #{sym} (#{error}).") if output_error
-      end
+    entries.each do |entry|
+      attach_function entry[0], entry[1], entry[2], entry[3]
+    rescue FFI::NotFoundError => e
+      warn "[Warning] Failed to import #{entry[0]} (#{e})." if output_error
     end
   end
 

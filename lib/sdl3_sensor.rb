@@ -34,76 +34,26 @@ module SDL
   # Function
 
   def self.setup_sensor_symbols(output_error = false)
-    symbols = [
-      :SDL_GetSensors,
-      :SDL_GetSensorNameForID,
-      :SDL_GetSensorTypeForID,
-      :SDL_GetSensorNonPortableTypeForID,
-      :SDL_OpenSensor,
-      :SDL_GetSensorFromID,
-      :SDL_GetSensorProperties,
-      :SDL_GetSensorName,
-      :SDL_GetSensorType,
-      :SDL_GetSensorNonPortableType,
-      :SDL_GetSensorID,
-      :SDL_GetSensorData,
-      :SDL_CloseSensor,
-      :SDL_UpdateSensors,
+    entries = [
+      [:GetSensors, :SDL_GetSensors, [:pointer], :pointer],
+      [:GetSensorNameForID, :SDL_GetSensorNameForID, [:uint], :pointer],
+      [:GetSensorTypeForID, :SDL_GetSensorTypeForID, [:uint], :int],
+      [:GetSensorNonPortableTypeForID, :SDL_GetSensorNonPortableTypeForID, [:uint], :int],
+      [:OpenSensor, :SDL_OpenSensor, [:uint], :pointer],
+      [:GetSensorFromID, :SDL_GetSensorFromID, [:uint], :pointer],
+      [:GetSensorProperties, :SDL_GetSensorProperties, [:pointer], :uint],
+      [:GetSensorName, :SDL_GetSensorName, [:pointer], :pointer],
+      [:GetSensorType, :SDL_GetSensorType, [:pointer], :int],
+      [:GetSensorNonPortableType, :SDL_GetSensorNonPortableType, [:pointer], :int],
+      [:GetSensorID, :SDL_GetSensorID, [:pointer], :uint],
+      [:GetSensorData, :SDL_GetSensorData, [:pointer, :pointer, :int], :bool],
+      [:CloseSensor, :SDL_CloseSensor, [:pointer], :void],
+      [:UpdateSensors, :SDL_UpdateSensors, [], :void],
     ]
-    apis = {
-      :SDL_GetSensors => :GetSensors,
-      :SDL_GetSensorNameForID => :GetSensorNameForID,
-      :SDL_GetSensorTypeForID => :GetSensorTypeForID,
-      :SDL_GetSensorNonPortableTypeForID => :GetSensorNonPortableTypeForID,
-      :SDL_OpenSensor => :OpenSensor,
-      :SDL_GetSensorFromID => :GetSensorFromID,
-      :SDL_GetSensorProperties => :GetSensorProperties,
-      :SDL_GetSensorName => :GetSensorName,
-      :SDL_GetSensorType => :GetSensorType,
-      :SDL_GetSensorNonPortableType => :GetSensorNonPortableType,
-      :SDL_GetSensorID => :GetSensorID,
-      :SDL_GetSensorData => :GetSensorData,
-      :SDL_CloseSensor => :CloseSensor,
-      :SDL_UpdateSensors => :UpdateSensors,
-    }
-    args = {
-      :SDL_GetSensors => [:pointer],
-      :SDL_GetSensorNameForID => [:uint],
-      :SDL_GetSensorTypeForID => [:uint],
-      :SDL_GetSensorNonPortableTypeForID => [:uint],
-      :SDL_OpenSensor => [:uint],
-      :SDL_GetSensorFromID => [:uint],
-      :SDL_GetSensorProperties => [:pointer],
-      :SDL_GetSensorName => [:pointer],
-      :SDL_GetSensorType => [:pointer],
-      :SDL_GetSensorNonPortableType => [:pointer],
-      :SDL_GetSensorID => [:pointer],
-      :SDL_GetSensorData => [:pointer, :pointer, :int],
-      :SDL_CloseSensor => [:pointer],
-      :SDL_UpdateSensors => [],
-    }
-    retvals = {
-      :SDL_GetSensors => :pointer,
-      :SDL_GetSensorNameForID => :pointer,
-      :SDL_GetSensorTypeForID => :int,
-      :SDL_GetSensorNonPortableTypeForID => :int,
-      :SDL_OpenSensor => :pointer,
-      :SDL_GetSensorFromID => :pointer,
-      :SDL_GetSensorProperties => :uint,
-      :SDL_GetSensorName => :pointer,
-      :SDL_GetSensorType => :int,
-      :SDL_GetSensorNonPortableType => :int,
-      :SDL_GetSensorID => :uint,
-      :SDL_GetSensorData => :bool,
-      :SDL_CloseSensor => :void,
-      :SDL_UpdateSensors => :void,
-    }
-    symbols.each do |sym|
-      begin
-        attach_function apis[sym], sym, args[sym], retvals[sym]
-      rescue FFI::NotFoundError => error
-        $stderr.puts("[Warning] Failed to import #{sym} (#{error}).") if output_error
-      end
+    entries.each do |entry|
+      attach_function entry[0], entry[1], entry[2], entry[3]
+    rescue FFI::NotFoundError => e
+      warn "[Warning] Failed to import #{entry[0]} (#{e})." if output_error
     end
   end
 

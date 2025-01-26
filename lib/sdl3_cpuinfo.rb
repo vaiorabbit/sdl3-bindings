@@ -24,92 +24,30 @@ module SDL
   # Function
 
   def self.setup_cpuinfo_symbols(output_error = false)
-    symbols = [
-      :SDL_GetNumLogicalCPUCores,
-      :SDL_GetCPUCacheLineSize,
-      :SDL_HasAltiVec,
-      :SDL_HasMMX,
-      :SDL_HasSSE,
-      :SDL_HasSSE2,
-      :SDL_HasSSE3,
-      :SDL_HasSSE41,
-      :SDL_HasSSE42,
-      :SDL_HasAVX,
-      :SDL_HasAVX2,
-      :SDL_HasAVX512F,
-      :SDL_HasARMSIMD,
-      :SDL_HasNEON,
-      :SDL_HasLSX,
-      :SDL_HasLASX,
-      :SDL_GetSystemRAM,
-      :SDL_GetSIMDAlignment,
+    entries = [
+      [:GetNumLogicalCPUCores, :SDL_GetNumLogicalCPUCores, [], :int],
+      [:GetCPUCacheLineSize, :SDL_GetCPUCacheLineSize, [], :int],
+      [:HasAltiVec, :SDL_HasAltiVec, [], :bool],
+      [:HasMMX, :SDL_HasMMX, [], :bool],
+      [:HasSSE, :SDL_HasSSE, [], :bool],
+      [:HasSSE2, :SDL_HasSSE2, [], :bool],
+      [:HasSSE3, :SDL_HasSSE3, [], :bool],
+      [:HasSSE41, :SDL_HasSSE41, [], :bool],
+      [:HasSSE42, :SDL_HasSSE42, [], :bool],
+      [:HasAVX, :SDL_HasAVX, [], :bool],
+      [:HasAVX2, :SDL_HasAVX2, [], :bool],
+      [:HasAVX512F, :SDL_HasAVX512F, [], :bool],
+      [:HasARMSIMD, :SDL_HasARMSIMD, [], :bool],
+      [:HasNEON, :SDL_HasNEON, [], :bool],
+      [:HasLSX, :SDL_HasLSX, [], :bool],
+      [:HasLASX, :SDL_HasLASX, [], :bool],
+      [:GetSystemRAM, :SDL_GetSystemRAM, [], :int],
+      [:GetSIMDAlignment, :SDL_GetSIMDAlignment, [], :ulong_long],
     ]
-    apis = {
-      :SDL_GetNumLogicalCPUCores => :GetNumLogicalCPUCores,
-      :SDL_GetCPUCacheLineSize => :GetCPUCacheLineSize,
-      :SDL_HasAltiVec => :HasAltiVec,
-      :SDL_HasMMX => :HasMMX,
-      :SDL_HasSSE => :HasSSE,
-      :SDL_HasSSE2 => :HasSSE2,
-      :SDL_HasSSE3 => :HasSSE3,
-      :SDL_HasSSE41 => :HasSSE41,
-      :SDL_HasSSE42 => :HasSSE42,
-      :SDL_HasAVX => :HasAVX,
-      :SDL_HasAVX2 => :HasAVX2,
-      :SDL_HasAVX512F => :HasAVX512F,
-      :SDL_HasARMSIMD => :HasARMSIMD,
-      :SDL_HasNEON => :HasNEON,
-      :SDL_HasLSX => :HasLSX,
-      :SDL_HasLASX => :HasLASX,
-      :SDL_GetSystemRAM => :GetSystemRAM,
-      :SDL_GetSIMDAlignment => :GetSIMDAlignment,
-    }
-    args = {
-      :SDL_GetNumLogicalCPUCores => [],
-      :SDL_GetCPUCacheLineSize => [],
-      :SDL_HasAltiVec => [],
-      :SDL_HasMMX => [],
-      :SDL_HasSSE => [],
-      :SDL_HasSSE2 => [],
-      :SDL_HasSSE3 => [],
-      :SDL_HasSSE41 => [],
-      :SDL_HasSSE42 => [],
-      :SDL_HasAVX => [],
-      :SDL_HasAVX2 => [],
-      :SDL_HasAVX512F => [],
-      :SDL_HasARMSIMD => [],
-      :SDL_HasNEON => [],
-      :SDL_HasLSX => [],
-      :SDL_HasLASX => [],
-      :SDL_GetSystemRAM => [],
-      :SDL_GetSIMDAlignment => [],
-    }
-    retvals = {
-      :SDL_GetNumLogicalCPUCores => :int,
-      :SDL_GetCPUCacheLineSize => :int,
-      :SDL_HasAltiVec => :bool,
-      :SDL_HasMMX => :bool,
-      :SDL_HasSSE => :bool,
-      :SDL_HasSSE2 => :bool,
-      :SDL_HasSSE3 => :bool,
-      :SDL_HasSSE41 => :bool,
-      :SDL_HasSSE42 => :bool,
-      :SDL_HasAVX => :bool,
-      :SDL_HasAVX2 => :bool,
-      :SDL_HasAVX512F => :bool,
-      :SDL_HasARMSIMD => :bool,
-      :SDL_HasNEON => :bool,
-      :SDL_HasLSX => :bool,
-      :SDL_HasLASX => :bool,
-      :SDL_GetSystemRAM => :int,
-      :SDL_GetSIMDAlignment => :ulong_long,
-    }
-    symbols.each do |sym|
-      begin
-        attach_function apis[sym], sym, args[sym], retvals[sym]
-      rescue FFI::NotFoundError => error
-        $stderr.puts("[Warning] Failed to import #{sym} (#{error}).") if output_error
-      end
+    entries.each do |entry|
+      attach_function entry[0], entry[1], entry[2], entry[3]
+    rescue FFI::NotFoundError => e
+      warn "[Warning] Failed to import #{entry[0]} (#{e})." if output_error
     end
   end
 

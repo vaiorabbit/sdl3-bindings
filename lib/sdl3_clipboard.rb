@@ -25,64 +25,23 @@ module SDL
   # Function
 
   def self.setup_clipboard_symbols(output_error = false)
-    symbols = [
-      :SDL_SetClipboardText,
-      :SDL_GetClipboardText,
-      :SDL_HasClipboardText,
-      :SDL_SetPrimarySelectionText,
-      :SDL_GetPrimarySelectionText,
-      :SDL_HasPrimarySelectionText,
-      :SDL_SetClipboardData,
-      :SDL_ClearClipboardData,
-      :SDL_GetClipboardData,
-      :SDL_HasClipboardData,
-      :SDL_GetClipboardMimeTypes,
+    entries = [
+      [:SetClipboardText, :SDL_SetClipboardText, [:pointer], :bool],
+      [:GetClipboardText, :SDL_GetClipboardText, [], :pointer],
+      [:HasClipboardText, :SDL_HasClipboardText, [], :bool],
+      [:SetPrimarySelectionText, :SDL_SetPrimarySelectionText, [:pointer], :bool],
+      [:GetPrimarySelectionText, :SDL_GetPrimarySelectionText, [], :pointer],
+      [:HasPrimarySelectionText, :SDL_HasPrimarySelectionText, [], :bool],
+      [:SetClipboardData, :SDL_SetClipboardData, [:SDL_ClipboardDataCallback, :SDL_ClipboardCleanupCallback, :pointer, :pointer, :ulong_long], :bool],
+      [:ClearClipboardData, :SDL_ClearClipboardData, [], :bool],
+      [:GetClipboardData, :SDL_GetClipboardData, [:pointer, :pointer], :pointer],
+      [:HasClipboardData, :SDL_HasClipboardData, [:pointer], :bool],
+      [:GetClipboardMimeTypes, :SDL_GetClipboardMimeTypes, [:pointer], :pointer],
     ]
-    apis = {
-      :SDL_SetClipboardText => :SetClipboardText,
-      :SDL_GetClipboardText => :GetClipboardText,
-      :SDL_HasClipboardText => :HasClipboardText,
-      :SDL_SetPrimarySelectionText => :SetPrimarySelectionText,
-      :SDL_GetPrimarySelectionText => :GetPrimarySelectionText,
-      :SDL_HasPrimarySelectionText => :HasPrimarySelectionText,
-      :SDL_SetClipboardData => :SetClipboardData,
-      :SDL_ClearClipboardData => :ClearClipboardData,
-      :SDL_GetClipboardData => :GetClipboardData,
-      :SDL_HasClipboardData => :HasClipboardData,
-      :SDL_GetClipboardMimeTypes => :GetClipboardMimeTypes,
-    }
-    args = {
-      :SDL_SetClipboardText => [:pointer],
-      :SDL_GetClipboardText => [],
-      :SDL_HasClipboardText => [],
-      :SDL_SetPrimarySelectionText => [:pointer],
-      :SDL_GetPrimarySelectionText => [],
-      :SDL_HasPrimarySelectionText => [],
-      :SDL_SetClipboardData => [:SDL_ClipboardDataCallback, :SDL_ClipboardCleanupCallback, :pointer, :pointer, :ulong_long],
-      :SDL_ClearClipboardData => [],
-      :SDL_GetClipboardData => [:pointer, :pointer],
-      :SDL_HasClipboardData => [:pointer],
-      :SDL_GetClipboardMimeTypes => [:pointer],
-    }
-    retvals = {
-      :SDL_SetClipboardText => :bool,
-      :SDL_GetClipboardText => :pointer,
-      :SDL_HasClipboardText => :bool,
-      :SDL_SetPrimarySelectionText => :bool,
-      :SDL_GetPrimarySelectionText => :pointer,
-      :SDL_HasPrimarySelectionText => :bool,
-      :SDL_SetClipboardData => :bool,
-      :SDL_ClearClipboardData => :bool,
-      :SDL_GetClipboardData => :pointer,
-      :SDL_HasClipboardData => :bool,
-      :SDL_GetClipboardMimeTypes => :pointer,
-    }
-    symbols.each do |sym|
-      begin
-        attach_function apis[sym], sym, args[sym], retvals[sym]
-      rescue FFI::NotFoundError => error
-        $stderr.puts("[Warning] Failed to import #{sym} (#{error}).") if output_error
-      end
+    entries.each do |entry|
+      attach_function entry[0], entry[1], entry[2], entry[3]
+    rescue FFI::NotFoundError => e
+      warn "[Warning] Failed to import #{entry[0]} (#{e})." if output_error
     end
   end
 

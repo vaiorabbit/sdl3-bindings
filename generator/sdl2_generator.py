@@ -149,7 +149,67 @@ def generate_structunion(ctx, indent = ""):
         print(indent + "  )", file = sys.stdout)
         print(indent + "end\n", file = sys.stdout)
 
+
+class FunctionEntry:
+    def __init__(self, original_name, explicit_name):
+        self.original_name = original_name
+        self.explicit_name = explicit_name
+        self.retval = None
+        self.arg_types = ""
+        self.arg_names = ""
+        self.description = ""
+        self.ret_description = ""
+        self.arg_descriptions = []
+
 def generate_function(ctx, indent = "", setup_method_name = ""):
+    func_entries = []
+    for func_name, func_info in ctx.decl_functions.items():
+        if func_info == None:
+            continue
+        func_entry = FunctionEntry(func_info.original_name, func_info.api_name)
+
+        # Arguments
+        if len(func_info.args) > 0:
+            # Get Ruby FFI arguments
+            args_ctype_list = list(map((lambda t: str(t.type_kind)), func_info.args))
+
+            # Remove leading 'SDL_' string and add ".by_value" to struct arguments (e.g.: Color -> Color.by_value)
+            arg_is_record = lambda arg: sdl2_parser.query_sdl2_cindex_mapping_entry_exists(arg) and sdl2_parser.get_sdl2_cindex_mapping_value(arg) == "TypeKind.RECORD"
+            args_ctype_list = list(map((lambda arg: re.sub('^SDL_', '', arg) + ".by_value" if arg_is_record(arg) else arg), args_ctype_list))
+            func_entry.arg_types = ', '.join(args_ctype_list)
+
+            # List of argument names
+            args_name_list = list(map((lambda t: str(t.original_name)), func_info.args))
+            func_entry.arg_names = ', '.join(args_name_list)
+
+        # Return value
+        retval_str = str(func_info.retval.type_kind)
+        if re.match(r"^SDL_", retval_str): # For functions that return SDL structs by value
+            retval_str = func_info.retval.type_api_name + ".by_value"
+
+        func_entry.retval =  retval_str
+
+        func_entries.append(func_entry)
+
+    print(indent + "def self.setup_%s_symbols(output_error = false)" % setup_method_name , file = sys.stdout)
+    indent = "  "
+    print(indent + "  entries = [", file = sys.stdout)
+    for func_entry in func_entries:
+        entry_str = f':{func_entry.explicit_name}, :{func_entry.original_name}, [{func_entry.arg_types}], {func_entry.retval}'
+        print(indent + f'    [{entry_str}],', file = sys.stdout)
+    print(indent + "  ]", file = sys.stdout)
+
+    print(indent +
+      r"""  entries.each do |entry|
+      attach_function entry[0], entry[1], entry[2], entry[3]
+    rescue FFI::NotFoundError => e
+      warn "[Warning] Failed to import #{s}." if output_error
+    end""".format(s="{entry[0]} (#{e})"))
+
+    indent = "  "
+    print(indent + "end", file = sys.stdout)
+
+def generate_function0(ctx, indent = "", setup_method_name = ""):
     print(indent + "def self.setup_%s_symbols(output_error = false)" % setup_method_name , file = sys.stdout)
     indent = "  "
     print(indent + "  symbols = [", file = sys.stdout)

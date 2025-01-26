@@ -44,56 +44,21 @@ module SDL
   # Function
 
   def self.setup_time_symbols(output_error = false)
-    symbols = [
-      :SDL_GetDateTimeLocalePreferences,
-      :SDL_GetCurrentTime,
-      :SDL_TimeToDateTime,
-      :SDL_DateTimeToTime,
-      :SDL_TimeToWindows,
-      :SDL_TimeFromWindows,
-      :SDL_GetDaysInMonth,
-      :SDL_GetDayOfYear,
-      :SDL_GetDayOfWeek,
+    entries = [
+      [:GetDateTimeLocalePreferences, :SDL_GetDateTimeLocalePreferences, [:pointer, :pointer], :bool],
+      [:GetCurrentTime, :SDL_GetCurrentTime, [:pointer], :bool],
+      [:TimeToDateTime, :SDL_TimeToDateTime, [:long_long, :pointer, :bool], :bool],
+      [:DateTimeToTime, :SDL_DateTimeToTime, [:pointer, :pointer], :bool],
+      [:TimeToWindows, :SDL_TimeToWindows, [:long_long, :pointer, :pointer], :void],
+      [:TimeFromWindows, :SDL_TimeFromWindows, [:uint, :uint], :long_long],
+      [:GetDaysInMonth, :SDL_GetDaysInMonth, [:int, :int], :int],
+      [:GetDayOfYear, :SDL_GetDayOfYear, [:int, :int, :int], :int],
+      [:GetDayOfWeek, :SDL_GetDayOfWeek, [:int, :int, :int], :int],
     ]
-    apis = {
-      :SDL_GetDateTimeLocalePreferences => :GetDateTimeLocalePreferences,
-      :SDL_GetCurrentTime => :GetCurrentTime,
-      :SDL_TimeToDateTime => :TimeToDateTime,
-      :SDL_DateTimeToTime => :DateTimeToTime,
-      :SDL_TimeToWindows => :TimeToWindows,
-      :SDL_TimeFromWindows => :TimeFromWindows,
-      :SDL_GetDaysInMonth => :GetDaysInMonth,
-      :SDL_GetDayOfYear => :GetDayOfYear,
-      :SDL_GetDayOfWeek => :GetDayOfWeek,
-    }
-    args = {
-      :SDL_GetDateTimeLocalePreferences => [:pointer, :pointer],
-      :SDL_GetCurrentTime => [:pointer],
-      :SDL_TimeToDateTime => [:long_long, :pointer, :bool],
-      :SDL_DateTimeToTime => [:pointer, :pointer],
-      :SDL_TimeToWindows => [:long_long, :pointer, :pointer],
-      :SDL_TimeFromWindows => [:uint, :uint],
-      :SDL_GetDaysInMonth => [:int, :int],
-      :SDL_GetDayOfYear => [:int, :int, :int],
-      :SDL_GetDayOfWeek => [:int, :int, :int],
-    }
-    retvals = {
-      :SDL_GetDateTimeLocalePreferences => :bool,
-      :SDL_GetCurrentTime => :bool,
-      :SDL_TimeToDateTime => :bool,
-      :SDL_DateTimeToTime => :bool,
-      :SDL_TimeToWindows => :void,
-      :SDL_TimeFromWindows => :long_long,
-      :SDL_GetDaysInMonth => :int,
-      :SDL_GetDayOfYear => :int,
-      :SDL_GetDayOfWeek => :int,
-    }
-    symbols.each do |sym|
-      begin
-        attach_function apis[sym], sym, args[sym], retvals[sym]
-      rescue FFI::NotFoundError => error
-        $stderr.puts("[Warning] Failed to import #{sym} (#{error}).") if output_error
-      end
+    entries.each do |entry|
+      attach_function entry[0], entry[1], entry[2], entry[3]
+    rescue FFI::NotFoundError => e
+      warn "[Warning] Failed to import #{entry[0]} (#{e})." if output_error
     end
   end
 

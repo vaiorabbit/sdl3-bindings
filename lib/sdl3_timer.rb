@@ -31,60 +31,22 @@ module SDL
   # Function
 
   def self.setup_timer_symbols(output_error = false)
-    symbols = [
-      :SDL_GetTicks,
-      :SDL_GetTicksNS,
-      :SDL_GetPerformanceCounter,
-      :SDL_GetPerformanceFrequency,
-      :SDL_Delay,
-      :SDL_DelayNS,
-      :SDL_DelayPrecise,
-      :SDL_AddTimer,
-      :SDL_AddTimerNS,
-      :SDL_RemoveTimer,
+    entries = [
+      [:GetTicks, :SDL_GetTicks, [], :ulong_long],
+      [:GetTicksNS, :SDL_GetTicksNS, [], :ulong_long],
+      [:GetPerformanceCounter, :SDL_GetPerformanceCounter, [], :ulong_long],
+      [:GetPerformanceFrequency, :SDL_GetPerformanceFrequency, [], :ulong_long],
+      [:Delay, :SDL_Delay, [:uint], :void],
+      [:DelayNS, :SDL_DelayNS, [:ulong_long], :void],
+      [:DelayPrecise, :SDL_DelayPrecise, [:ulong_long], :void],
+      [:AddTimer, :SDL_AddTimer, [:uint, :SDL_TimerCallback, :pointer], :uint],
+      [:AddTimerNS, :SDL_AddTimerNS, [:ulong_long, :SDL_NSTimerCallback, :pointer], :uint],
+      [:RemoveTimer, :SDL_RemoveTimer, [:uint], :bool],
     ]
-    apis = {
-      :SDL_GetTicks => :GetTicks,
-      :SDL_GetTicksNS => :GetTicksNS,
-      :SDL_GetPerformanceCounter => :GetPerformanceCounter,
-      :SDL_GetPerformanceFrequency => :GetPerformanceFrequency,
-      :SDL_Delay => :Delay,
-      :SDL_DelayNS => :DelayNS,
-      :SDL_DelayPrecise => :DelayPrecise,
-      :SDL_AddTimer => :AddTimer,
-      :SDL_AddTimerNS => :AddTimerNS,
-      :SDL_RemoveTimer => :RemoveTimer,
-    }
-    args = {
-      :SDL_GetTicks => [],
-      :SDL_GetTicksNS => [],
-      :SDL_GetPerformanceCounter => [],
-      :SDL_GetPerformanceFrequency => [],
-      :SDL_Delay => [:uint],
-      :SDL_DelayNS => [:ulong_long],
-      :SDL_DelayPrecise => [:ulong_long],
-      :SDL_AddTimer => [:uint, :SDL_TimerCallback, :pointer],
-      :SDL_AddTimerNS => [:ulong_long, :SDL_NSTimerCallback, :pointer],
-      :SDL_RemoveTimer => [:uint],
-    }
-    retvals = {
-      :SDL_GetTicks => :ulong_long,
-      :SDL_GetTicksNS => :ulong_long,
-      :SDL_GetPerformanceCounter => :ulong_long,
-      :SDL_GetPerformanceFrequency => :ulong_long,
-      :SDL_Delay => :void,
-      :SDL_DelayNS => :void,
-      :SDL_DelayPrecise => :void,
-      :SDL_AddTimer => :uint,
-      :SDL_AddTimerNS => :uint,
-      :SDL_RemoveTimer => :bool,
-    }
-    symbols.each do |sym|
-      begin
-        attach_function apis[sym], sym, args[sym], retvals[sym]
-      rescue FFI::NotFoundError => error
-        $stderr.puts("[Warning] Failed to import #{sym} (#{error}).") if output_error
-      end
+    entries.each do |entry|
+      attach_function entry[0], entry[1], entry[2], entry[3]
+    rescue FFI::NotFoundError => e
+      warn "[Warning] Failed to import #{entry[0]} (#{e})." if output_error
     end
   end
 

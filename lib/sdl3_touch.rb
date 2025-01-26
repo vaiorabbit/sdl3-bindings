@@ -39,36 +39,16 @@ module SDL
   # Function
 
   def self.setup_touch_symbols(output_error = false)
-    symbols = [
-      :SDL_GetTouchDevices,
-      :SDL_GetTouchDeviceName,
-      :SDL_GetTouchDeviceType,
-      :SDL_GetTouchFingers,
+    entries = [
+      [:GetTouchDevices, :SDL_GetTouchDevices, [:pointer], :pointer],
+      [:GetTouchDeviceName, :SDL_GetTouchDeviceName, [:ulong_long], :pointer],
+      [:GetTouchDeviceType, :SDL_GetTouchDeviceType, [:ulong_long], :int],
+      [:GetTouchFingers, :SDL_GetTouchFingers, [:ulong_long, :pointer], :pointer],
     ]
-    apis = {
-      :SDL_GetTouchDevices => :GetTouchDevices,
-      :SDL_GetTouchDeviceName => :GetTouchDeviceName,
-      :SDL_GetTouchDeviceType => :GetTouchDeviceType,
-      :SDL_GetTouchFingers => :GetTouchFingers,
-    }
-    args = {
-      :SDL_GetTouchDevices => [:pointer],
-      :SDL_GetTouchDeviceName => [:ulong_long],
-      :SDL_GetTouchDeviceType => [:ulong_long],
-      :SDL_GetTouchFingers => [:ulong_long, :pointer],
-    }
-    retvals = {
-      :SDL_GetTouchDevices => :pointer,
-      :SDL_GetTouchDeviceName => :pointer,
-      :SDL_GetTouchDeviceType => :int,
-      :SDL_GetTouchFingers => :pointer,
-    }
-    symbols.each do |sym|
-      begin
-        attach_function apis[sym], sym, args[sym], retvals[sym]
-      rescue FFI::NotFoundError => error
-        $stderr.puts("[Warning] Failed to import #{sym} (#{error}).") if output_error
-      end
+    entries.each do |entry|
+      attach_function entry[0], entry[1], entry[2], entry[3]
+    rescue FFI::NotFoundError => e
+      warn "[Warning] Failed to import #{entry[0]} (#{e})." if output_error
     end
   end
 

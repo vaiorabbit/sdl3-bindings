@@ -272,64 +272,23 @@ module SDL
   # Function
 
   def self.setup_pixels_symbols(output_error = false)
-    symbols = [
-      :SDL_GetPixelFormatName,
-      :SDL_GetMasksForPixelFormat,
-      :SDL_GetPixelFormatForMasks,
-      :SDL_GetPixelFormatDetails,
-      :SDL_CreatePalette,
-      :SDL_SetPaletteColors,
-      :SDL_DestroyPalette,
-      :SDL_MapRGB,
-      :SDL_MapRGBA,
-      :SDL_GetRGB,
-      :SDL_GetRGBA,
+    entries = [
+      [:GetPixelFormatName, :SDL_GetPixelFormatName, [:int], :pointer],
+      [:GetMasksForPixelFormat, :SDL_GetMasksForPixelFormat, [:int, :pointer, :pointer, :pointer, :pointer, :pointer], :bool],
+      [:GetPixelFormatForMasks, :SDL_GetPixelFormatForMasks, [:int, :uint, :uint, :uint, :uint], :int],
+      [:GetPixelFormatDetails, :SDL_GetPixelFormatDetails, [:int], :pointer],
+      [:CreatePalette, :SDL_CreatePalette, [:int], :pointer],
+      [:SetPaletteColors, :SDL_SetPaletteColors, [:pointer, :pointer, :int, :int], :bool],
+      [:DestroyPalette, :SDL_DestroyPalette, [:pointer], :void],
+      [:MapRGB, :SDL_MapRGB, [:pointer, :pointer, :uchar, :uchar, :uchar], :uint],
+      [:MapRGBA, :SDL_MapRGBA, [:pointer, :pointer, :uchar, :uchar, :uchar, :uchar], :uint],
+      [:GetRGB, :SDL_GetRGB, [:uint, :pointer, :pointer, :pointer, :pointer, :pointer], :void],
+      [:GetRGBA, :SDL_GetRGBA, [:uint, :pointer, :pointer, :pointer, :pointer, :pointer, :pointer], :void],
     ]
-    apis = {
-      :SDL_GetPixelFormatName => :GetPixelFormatName,
-      :SDL_GetMasksForPixelFormat => :GetMasksForPixelFormat,
-      :SDL_GetPixelFormatForMasks => :GetPixelFormatForMasks,
-      :SDL_GetPixelFormatDetails => :GetPixelFormatDetails,
-      :SDL_CreatePalette => :CreatePalette,
-      :SDL_SetPaletteColors => :SetPaletteColors,
-      :SDL_DestroyPalette => :DestroyPalette,
-      :SDL_MapRGB => :MapRGB,
-      :SDL_MapRGBA => :MapRGBA,
-      :SDL_GetRGB => :GetRGB,
-      :SDL_GetRGBA => :GetRGBA,
-    }
-    args = {
-      :SDL_GetPixelFormatName => [:int],
-      :SDL_GetMasksForPixelFormat => [:int, :pointer, :pointer, :pointer, :pointer, :pointer],
-      :SDL_GetPixelFormatForMasks => [:int, :uint, :uint, :uint, :uint],
-      :SDL_GetPixelFormatDetails => [:int],
-      :SDL_CreatePalette => [:int],
-      :SDL_SetPaletteColors => [:pointer, :pointer, :int, :int],
-      :SDL_DestroyPalette => [:pointer],
-      :SDL_MapRGB => [:pointer, :pointer, :uchar, :uchar, :uchar],
-      :SDL_MapRGBA => [:pointer, :pointer, :uchar, :uchar, :uchar, :uchar],
-      :SDL_GetRGB => [:uint, :pointer, :pointer, :pointer, :pointer, :pointer],
-      :SDL_GetRGBA => [:uint, :pointer, :pointer, :pointer, :pointer, :pointer, :pointer],
-    }
-    retvals = {
-      :SDL_GetPixelFormatName => :pointer,
-      :SDL_GetMasksForPixelFormat => :bool,
-      :SDL_GetPixelFormatForMasks => :int,
-      :SDL_GetPixelFormatDetails => :pointer,
-      :SDL_CreatePalette => :pointer,
-      :SDL_SetPaletteColors => :bool,
-      :SDL_DestroyPalette => :void,
-      :SDL_MapRGB => :uint,
-      :SDL_MapRGBA => :uint,
-      :SDL_GetRGB => :void,
-      :SDL_GetRGBA => :void,
-    }
-    symbols.each do |sym|
-      begin
-        attach_function apis[sym], sym, args[sym], retvals[sym]
-      rescue FFI::NotFoundError => error
-        $stderr.puts("[Warning] Failed to import #{sym} (#{error}).") if output_error
-      end
+    entries.each do |entry|
+      attach_function entry[0], entry[1], entry[2], entry[3]
+    rescue FFI::NotFoundError => e
+      warn "[Warning] Failed to import #{entry[0]} (#{e})." if output_error
     end
   end
 

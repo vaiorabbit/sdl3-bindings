@@ -25,24 +25,13 @@ module SDL
   # Function
 
   def self.setup_endian_symbols(output_error = false)
-    symbols = [
-      :SDL_SwapFloat,
+    entries = [
+      [:SwapFloat, :SDL_SwapFloat, [:float], :float],
     ]
-    apis = {
-      :SDL_SwapFloat => :SwapFloat,
-    }
-    args = {
-      :SDL_SwapFloat => [:float],
-    }
-    retvals = {
-      :SDL_SwapFloat => :float,
-    }
-    symbols.each do |sym|
-      begin
-        attach_function apis[sym], sym, args[sym], retvals[sym]
-      rescue FFI::NotFoundError => error
-        $stderr.puts("[Warning] Failed to import #{sym} (#{error}).") if output_error
-      end
+    entries.each do |entry|
+      attach_function entry[0], entry[1], entry[2], entry[3]
+    rescue FFI::NotFoundError => e
+      warn "[Warning] Failed to import #{entry[0]} (#{e})." if output_error
     end
   end
 

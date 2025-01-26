@@ -33,104 +33,33 @@ module SDL
   # Function
 
   def self.setup_properties_symbols(output_error = false)
-    symbols = [
-      :SDL_GetGlobalProperties,
-      :SDL_CreateProperties,
-      :SDL_CopyProperties,
-      :SDL_LockProperties,
-      :SDL_UnlockProperties,
-      :SDL_SetPointerPropertyWithCleanup,
-      :SDL_SetPointerProperty,
-      :SDL_SetStringProperty,
-      :SDL_SetNumberProperty,
-      :SDL_SetFloatProperty,
-      :SDL_SetBooleanProperty,
-      :SDL_HasProperty,
-      :SDL_GetPropertyType,
-      :SDL_GetPointerProperty,
-      :SDL_GetStringProperty,
-      :SDL_GetNumberProperty,
-      :SDL_GetFloatProperty,
-      :SDL_GetBooleanProperty,
-      :SDL_ClearProperty,
-      :SDL_EnumerateProperties,
-      :SDL_DestroyProperties,
+    entries = [
+      [:GetGlobalProperties, :SDL_GetGlobalProperties, [], :uint],
+      [:CreateProperties, :SDL_CreateProperties, [], :uint],
+      [:CopyProperties, :SDL_CopyProperties, [:uint, :uint], :bool],
+      [:LockProperties, :SDL_LockProperties, [:uint], :bool],
+      [:UnlockProperties, :SDL_UnlockProperties, [:uint], :void],
+      [:SetPointerPropertyWithCleanup, :SDL_SetPointerPropertyWithCleanup, [:uint, :pointer, :pointer, :SDL_CleanupPropertyCallback, :pointer], :bool],
+      [:SetPointerProperty, :SDL_SetPointerProperty, [:uint, :pointer, :pointer], :bool],
+      [:SetStringProperty, :SDL_SetStringProperty, [:uint, :pointer, :pointer], :bool],
+      [:SetNumberProperty, :SDL_SetNumberProperty, [:uint, :pointer, :long_long], :bool],
+      [:SetFloatProperty, :SDL_SetFloatProperty, [:uint, :pointer, :float], :bool],
+      [:SetBooleanProperty, :SDL_SetBooleanProperty, [:uint, :pointer, :bool], :bool],
+      [:HasProperty, :SDL_HasProperty, [:uint, :pointer], :bool],
+      [:GetPropertyType, :SDL_GetPropertyType, [:uint, :pointer], :int],
+      [:GetPointerProperty, :SDL_GetPointerProperty, [:uint, :pointer, :pointer], :pointer],
+      [:GetStringProperty, :SDL_GetStringProperty, [:uint, :pointer, :pointer], :pointer],
+      [:GetNumberProperty, :SDL_GetNumberProperty, [:uint, :pointer, :long_long], :long_long],
+      [:GetFloatProperty, :SDL_GetFloatProperty, [:uint, :pointer, :float], :float],
+      [:GetBooleanProperty, :SDL_GetBooleanProperty, [:uint, :pointer, :bool], :bool],
+      [:ClearProperty, :SDL_ClearProperty, [:uint, :pointer], :bool],
+      [:EnumerateProperties, :SDL_EnumerateProperties, [:uint, :SDL_EnumeratePropertiesCallback, :pointer], :bool],
+      [:DestroyProperties, :SDL_DestroyProperties, [:uint], :void],
     ]
-    apis = {
-      :SDL_GetGlobalProperties => :GetGlobalProperties,
-      :SDL_CreateProperties => :CreateProperties,
-      :SDL_CopyProperties => :CopyProperties,
-      :SDL_LockProperties => :LockProperties,
-      :SDL_UnlockProperties => :UnlockProperties,
-      :SDL_SetPointerPropertyWithCleanup => :SetPointerPropertyWithCleanup,
-      :SDL_SetPointerProperty => :SetPointerProperty,
-      :SDL_SetStringProperty => :SetStringProperty,
-      :SDL_SetNumberProperty => :SetNumberProperty,
-      :SDL_SetFloatProperty => :SetFloatProperty,
-      :SDL_SetBooleanProperty => :SetBooleanProperty,
-      :SDL_HasProperty => :HasProperty,
-      :SDL_GetPropertyType => :GetPropertyType,
-      :SDL_GetPointerProperty => :GetPointerProperty,
-      :SDL_GetStringProperty => :GetStringProperty,
-      :SDL_GetNumberProperty => :GetNumberProperty,
-      :SDL_GetFloatProperty => :GetFloatProperty,
-      :SDL_GetBooleanProperty => :GetBooleanProperty,
-      :SDL_ClearProperty => :ClearProperty,
-      :SDL_EnumerateProperties => :EnumerateProperties,
-      :SDL_DestroyProperties => :DestroyProperties,
-    }
-    args = {
-      :SDL_GetGlobalProperties => [],
-      :SDL_CreateProperties => [],
-      :SDL_CopyProperties => [:uint, :uint],
-      :SDL_LockProperties => [:uint],
-      :SDL_UnlockProperties => [:uint],
-      :SDL_SetPointerPropertyWithCleanup => [:uint, :pointer, :pointer, :SDL_CleanupPropertyCallback, :pointer],
-      :SDL_SetPointerProperty => [:uint, :pointer, :pointer],
-      :SDL_SetStringProperty => [:uint, :pointer, :pointer],
-      :SDL_SetNumberProperty => [:uint, :pointer, :long_long],
-      :SDL_SetFloatProperty => [:uint, :pointer, :float],
-      :SDL_SetBooleanProperty => [:uint, :pointer, :bool],
-      :SDL_HasProperty => [:uint, :pointer],
-      :SDL_GetPropertyType => [:uint, :pointer],
-      :SDL_GetPointerProperty => [:uint, :pointer, :pointer],
-      :SDL_GetStringProperty => [:uint, :pointer, :pointer],
-      :SDL_GetNumberProperty => [:uint, :pointer, :long_long],
-      :SDL_GetFloatProperty => [:uint, :pointer, :float],
-      :SDL_GetBooleanProperty => [:uint, :pointer, :bool],
-      :SDL_ClearProperty => [:uint, :pointer],
-      :SDL_EnumerateProperties => [:uint, :SDL_EnumeratePropertiesCallback, :pointer],
-      :SDL_DestroyProperties => [:uint],
-    }
-    retvals = {
-      :SDL_GetGlobalProperties => :uint,
-      :SDL_CreateProperties => :uint,
-      :SDL_CopyProperties => :bool,
-      :SDL_LockProperties => :bool,
-      :SDL_UnlockProperties => :void,
-      :SDL_SetPointerPropertyWithCleanup => :bool,
-      :SDL_SetPointerProperty => :bool,
-      :SDL_SetStringProperty => :bool,
-      :SDL_SetNumberProperty => :bool,
-      :SDL_SetFloatProperty => :bool,
-      :SDL_SetBooleanProperty => :bool,
-      :SDL_HasProperty => :bool,
-      :SDL_GetPropertyType => :int,
-      :SDL_GetPointerProperty => :pointer,
-      :SDL_GetStringProperty => :pointer,
-      :SDL_GetNumberProperty => :long_long,
-      :SDL_GetFloatProperty => :float,
-      :SDL_GetBooleanProperty => :bool,
-      :SDL_ClearProperty => :bool,
-      :SDL_EnumerateProperties => :bool,
-      :SDL_DestroyProperties => :void,
-    }
-    symbols.each do |sym|
-      begin
-        attach_function apis[sym], sym, args[sym], retvals[sym]
-      rescue FFI::NotFoundError => error
-        $stderr.puts("[Warning] Failed to import #{sym} (#{error}).") if output_error
-      end
+    entries.each do |entry|
+      attach_function entry[0], entry[1], entry[2], entry[3]
+    rescue FFI::NotFoundError => e
+      warn "[Warning] Failed to import #{entry[0]} (#{e})." if output_error
     end
   end
 

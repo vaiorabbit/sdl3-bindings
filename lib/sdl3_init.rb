@@ -48,60 +48,22 @@ module SDL
   # Function
 
   def self.setup_init_symbols(output_error = false)
-    symbols = [
-      :SDL_Init,
-      :SDL_InitSubSystem,
-      :SDL_QuitSubSystem,
-      :SDL_WasInit,
-      :SDL_Quit,
-      :SDL_IsMainThread,
-      :SDL_RunOnMainThread,
-      :SDL_SetAppMetadata,
-      :SDL_SetAppMetadataProperty,
-      :SDL_GetAppMetadataProperty,
+    entries = [
+      [:Init, :SDL_Init, [:uint], :bool],
+      [:InitSubSystem, :SDL_InitSubSystem, [:uint], :bool],
+      [:QuitSubSystem, :SDL_QuitSubSystem, [:uint], :void],
+      [:WasInit, :SDL_WasInit, [:uint], :uint],
+      [:Quit, :SDL_Quit, [], :void],
+      [:IsMainThread, :SDL_IsMainThread, [], :bool],
+      [:RunOnMainThread, :SDL_RunOnMainThread, [:SDL_MainThreadCallback, :pointer, :bool], :bool],
+      [:SetAppMetadata, :SDL_SetAppMetadata, [:pointer, :pointer, :pointer], :bool],
+      [:SetAppMetadataProperty, :SDL_SetAppMetadataProperty, [:pointer, :pointer], :bool],
+      [:GetAppMetadataProperty, :SDL_GetAppMetadataProperty, [:pointer], :pointer],
     ]
-    apis = {
-      :SDL_Init => :Init,
-      :SDL_InitSubSystem => :InitSubSystem,
-      :SDL_QuitSubSystem => :QuitSubSystem,
-      :SDL_WasInit => :WasInit,
-      :SDL_Quit => :Quit,
-      :SDL_IsMainThread => :IsMainThread,
-      :SDL_RunOnMainThread => :RunOnMainThread,
-      :SDL_SetAppMetadata => :SetAppMetadata,
-      :SDL_SetAppMetadataProperty => :SetAppMetadataProperty,
-      :SDL_GetAppMetadataProperty => :GetAppMetadataProperty,
-    }
-    args = {
-      :SDL_Init => [:uint],
-      :SDL_InitSubSystem => [:uint],
-      :SDL_QuitSubSystem => [:uint],
-      :SDL_WasInit => [:uint],
-      :SDL_Quit => [],
-      :SDL_IsMainThread => [],
-      :SDL_RunOnMainThread => [:SDL_MainThreadCallback, :pointer, :bool],
-      :SDL_SetAppMetadata => [:pointer, :pointer, :pointer],
-      :SDL_SetAppMetadataProperty => [:pointer, :pointer],
-      :SDL_GetAppMetadataProperty => [:pointer],
-    }
-    retvals = {
-      :SDL_Init => :bool,
-      :SDL_InitSubSystem => :bool,
-      :SDL_QuitSubSystem => :void,
-      :SDL_WasInit => :uint,
-      :SDL_Quit => :void,
-      :SDL_IsMainThread => :bool,
-      :SDL_RunOnMainThread => :bool,
-      :SDL_SetAppMetadata => :bool,
-      :SDL_SetAppMetadataProperty => :bool,
-      :SDL_GetAppMetadataProperty => :pointer,
-    }
-    symbols.each do |sym|
-      begin
-        attach_function apis[sym], sym, args[sym], retvals[sym]
-      rescue FFI::NotFoundError => error
-        $stderr.puts("[Warning] Failed to import #{sym} (#{error}).") if output_error
-      end
+    entries.each do |entry|
+      attach_function entry[0], entry[1], entry[2], entry[3]
+    rescue FFI::NotFoundError => e
+      warn "[Warning] Failed to import #{entry[0]} (#{e})." if output_error
     end
   end
 
