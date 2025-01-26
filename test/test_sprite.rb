@@ -63,7 +63,7 @@ if __FILE__ == $PROGRAM_NAME
   load_sdl2_lib()
 
   window = SDL.CreateWindow("Minimal Sprite Test via sdl3-bindings", WINDOW_W, WINDOW_H, SDL::WINDOW_RESIZABLE)
-  SDL.SetWindowPosition(window, 32, 32)
+  SDL.SetWindowPosition(window, 64, 64)
 
   SDL.SetHint(SDL::HINT_RENDER_VSYNC, "1")
   renderer = SDL.CreateRenderer(window, nil)
@@ -92,6 +92,8 @@ if __FILE__ == $PROGRAM_NAME
       case event_type
       when SDL::EVENT_KEY_DOWN
         done = true if event[:key][:key] == SDL::SDLK_ESCAPE
+      when SDL::EVENT_WINDOW_CLOSE_REQUESTED
+        done = true
       end
     end
     move_sprite(renderer)
