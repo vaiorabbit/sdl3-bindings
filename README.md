@@ -120,7 +120,7 @@ See the project below to learn how to use this library:
 
 The zlib/libpng License ( http://opensource.org/licenses/Zlib ).
 
-    sdl2-bindings : Yet another SDL2 wrapper for Ruby
+    sdl3-bindings : SDL3 wrapper for Ruby
     Copyright (c) 2015-2025 vaiorabbit <http://twitter.com/vaiorabbit>
 
     This software is provided 'as-is', without any express or implied
