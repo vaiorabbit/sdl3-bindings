@@ -1,5 +1,5 @@
 import ctypes, re, sys
-import sdl2_parser
+import sdl_parser
 
 PREFIX = """# Ruby-SDL3 : SDL3 wrapper for Ruby
 #
@@ -31,7 +31,7 @@ def sanitize_macro(ctx):
 
     # refer mapping
     for macro_name, macro_value in ctx.decl_macros.items():
-        define_mapping = sdl2_parser.get_define_mapping(macro_name)
+        define_mapping = sdl_parser.get_define_mapping(macro_name)
         if define_mapping:
             ctx.decl_macros[macro_name] = define_mapping
         else:
@@ -50,7 +50,7 @@ def sanitize_struct(ctx):
         underlying_ctypes_type = "FFI::Union" if str(struct_info.kind) == "CursorKind.UNION_DECL" else "FFI::Struct"
         struct_info.kind = underlying_ctypes_type
         for field in struct_info.fields:
-            field.type_kind = sdl2_parser.get_cindex_ctypes_mapping(str(field.type_kind), field.type_api_name)
+            field.type_kind = sdl_parser.get_cindex_ctypes_mapping(str(field.type_kind), field.type_api_name)
 
 def sanitize_typedef(ctx):
     # refer mapping
@@ -59,24 +59,24 @@ def sanitize_typedef(ctx):
             continue
         if typedef_info.func_proto != None:
             for arg in typedef_info.func_proto.args:
-                arg.type_kind = sdl2_parser.get_cindex_ctypes_mapping(str(arg.type_kind), arg.type_name)
-            typedef_info.func_proto.retval.type_kind = sdl2_parser.get_cindex_ctypes_mapping(str(typedef_info.func_proto.retval.type_kind), typedef_info.func_proto.retval.type_original_name)
+                arg.type_kind = sdl_parser.get_cindex_ctypes_mapping(str(arg.type_kind), arg.type_name)
+            typedef_info.func_proto.retval.type_kind = sdl_parser.get_cindex_ctypes_mapping(str(typedef_info.func_proto.retval.type_kind), typedef_info.func_proto.retval.type_original_name)
         else:
             if str(typedef_info.type_kind) == "TypeKind.RECORD":
                 typedef_info.type_kind = None
             else:
-                typedef_info.type_kind = sdl2_parser.get_cindex_ctypes_mapping(str(typedef_info.type_kind), typedef_info.original_name)
+                typedef_info.type_kind = sdl_parser.get_cindex_ctypes_mapping(str(typedef_info.type_kind), typedef_info.original_name)
 
 def sanitize_function(ctx):
     for func_name, func_info in ctx.decl_functions.items():
         if func_info == None:
             continue
         for arg in func_info.args:
-            if sdl2_parser.is_sdl2_callback_type(arg.type_kind, arg.type_name):
+            if sdl_parser.is_sdl_callback_type(arg.type_kind, arg.type_name):
                 arg.type_kind = ":" + arg.type_name
             else:
-                arg.type_kind = sdl2_parser.get_cindex_ctypes_mapping(str(arg.type_kind), arg.type_name)
-        func_info.retval.type_kind = sdl2_parser.get_cindex_ctypes_mapping(str(func_info.retval.type_kind), func_info.retval.type_original_name)
+                arg.type_kind = sdl_parser.get_cindex_ctypes_mapping(str(arg.type_kind), arg.type_name)
+        func_info.retval.type_kind = sdl_parser.get_cindex_ctypes_mapping(str(func_info.retval.type_kind), func_info.retval.type_original_name)
 
 def sanitize(ctx):
     sanitize_enum(ctx)
@@ -174,7 +174,7 @@ def generate_function(ctx, indent = "", setup_method_name = ""):
             args_ctype_list = list(map((lambda t: str(t.type_kind)), func_info.args))
 
             # Remove leading 'SDL_' string and add ".by_value" to struct arguments (e.g.: Color -> Color.by_value)
-            arg_is_record = lambda arg: sdl2_parser.query_sdl2_cindex_mapping_entry_exists(arg) and sdl2_parser.get_sdl2_cindex_mapping_value(arg) == "TypeKind.RECORD"
+            arg_is_record = lambda arg: sdl_parser.query_sdl_cindex_mapping_entry_exists(arg) and sdl_parser.get_sdl_cindex_mapping_value(arg) == "TypeKind.RECORD"
             args_ctype_list = list(map((lambda arg: re.sub('^SDL_', '', arg) + ".by_value" if arg_is_record(arg) else arg), args_ctype_list))
             func_entry.arg_types = ', '.join(args_ctype_list)
 
@@ -236,7 +236,7 @@ def generate_function0(ctx, indent = "", setup_method_name = ""):
             args_ctype_list = list(map((lambda t: str(t.type_kind)), func_info.args))
 
             # Remove leading 'SDL_' string and add ".by_value" to struct arguments (e.g.: Color -> Color.by_value)
-            arg_is_record = lambda arg: sdl2_parser.query_sdl2_cindex_mapping_entry_exists(arg) and sdl2_parser.get_sdl2_cindex_mapping_value(arg) == "TypeKind.RECORD"
+            arg_is_record = lambda arg: sdl_parser.query_sdl_cindex_mapping_entry_exists(arg) and sdl_parser.get_sdl_cindex_mapping_value(arg) == "TypeKind.RECORD"
             args_ctype_list = list(map((lambda arg: re.sub('^SDL_', '', arg) + ".by_value" if arg_is_record(arg) else arg), args_ctype_list))
 
             print(', '.join(args_ctype_list), file = sys.stdout, end='')

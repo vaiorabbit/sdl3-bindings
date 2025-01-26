@@ -1,4 +1,4 @@
-import sdl2_parser, sdl2_generator
+import sdl_parser, sdl_generator
 
 TYPEDEF_PREFIX_GAMEPAD = """
   class GamepadBinding_value_axis < FFI::Struct
@@ -43,8 +43,8 @@ TYPEDEF_PREFIX_GAMEPAD = """
 
 if __name__ == "__main__":
 
-    ctx = sdl2_parser.ParseContext('./SDL3/SDL_gamepad.h')
-    sdl2_parser.execute(ctx)
+    ctx = sdl_parser.ParseContext('./SDL3/SDL_gamepad.h')
+    sdl_parser.execute(ctx)
 
     # TODO : Merge anonymous structs into one union (e.g. SDL_RWops)
     #
@@ -52,9 +52,9 @@ if __name__ == "__main__":
     # substitute the parsed definition with my handwritten one.
     ctx.decl_structs['SDL_GamepadBinding'] = None
 
-    sdl2_generator.sanitize(ctx)
-    sdl2_generator.generate(ctx,
-                            prefix = sdl2_generator.PREFIX + "require_relative 'sdl3_joystick'\n",
+    sdl_generator.sanitize(ctx)
+    sdl_generator.generate(ctx,
+                            prefix = sdl_generator.PREFIX + "require_relative 'sdl3_joystick'\n",
                             typedef_prefix = TYPEDEF_PREFIX_GAMEPAD,
                             setup_method_name = 'gamepad'
     )

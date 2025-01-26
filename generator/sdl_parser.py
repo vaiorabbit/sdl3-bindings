@@ -13,7 +13,7 @@ else:
 
 ####################################################################################################
 
-def generate_type_mapping(headers_list_filename = './sdl2_headers_list.json', headers_dir = './SDL3'):
+def generate_type_mapping(headers_list_filename = './sdl_headers_list.json', headers_dir = './SDL3'):
     headers_list_file = Path(headers_list_filename)
 
     if not headers_list_file.exists():
@@ -47,7 +47,7 @@ def generate_type_mapping(headers_list_filename = './sdl2_headers_list.json', he
     print("}", file = sys.stdout)
 
 
-def generate_define_list(headers_list_filename = './sdl2_headers_list.json', headers_dir = './SDL3', concatenate = True):
+def generate_define_list(headers_list_filename = './sdl_headers_list.json', headers_dir = './SDL3', concatenate = True):
     headers_list_file = Path(headers_list_filename)
 
     if not headers_list_file.exists():
@@ -86,7 +86,7 @@ def generate_define_list(headers_list_filename = './sdl2_headers_list.json', hea
 
 define_mapping = None
 
-def _init_define_mapping(mapping_filename = './sdl2_define_mapping.json'):
+def _init_define_mapping(mapping_filename = './sdl_define_mapping.json'):
     mapping_file = Path(mapping_filename)
 
     if not mapping_file.exists():
@@ -108,7 +108,7 @@ def get_define_mapping(strDefineName):
 
 cindex_mapping = None
 
-def _init_type_mapping(mapping_filename = './sdl2_cindex_mapping.json'):
+def _init_type_mapping(mapping_filename = './sdl_cindex_mapping.json'):
     mapping_file = Path(mapping_filename)
 
     if not mapping_file.exists():
@@ -119,18 +119,18 @@ def _init_type_mapping(mapping_filename = './sdl2_cindex_mapping.json'):
 
     return True
 
-def register_sdl2_cindex_mapping(strTypeKind, strSDL2Typedef):
+def register_sdl_cindex_mapping(strTypeKind, strSDL2Typedef):
     if cindex_mapping == None:
         _init_type_mapping()
     if strSDL2Typedef not in cindex_mapping:
         cindex_mapping[strSDL2Typedef] = strTypeKind
 
-def query_sdl2_cindex_mapping_entry_exists(strSDL2Typedef):
+def query_sdl_cindex_mapping_entry_exists(strSDL2Typedef):
     if cindex_mapping == None:
         _init_type_mapping()
     return strSDL2Typedef in cindex_mapping
 
-def get_sdl2_cindex_mapping_value(strSDL2Typedef):
+def get_sdl_cindex_mapping_value(strSDL2Typedef):
     if cindex_mapping == None:
         _init_type_mapping()
     return cindex_mapping[strSDL2Typedef]
@@ -196,15 +196,15 @@ def get_cindex_ctypes_mapping(strTypeKind, strSDL2Typedef):
         if strTypeKind != 'TypeKind.TYPEDEF':
             mapping_key = strTypeKind
         else:
-            mapping_key = get_sdl2_cindex_mapping_value(strSDL2Typedef)
+            mapping_key = get_sdl_cindex_mapping_value(strSDL2Typedef)
 
         if mapping_key == "TypeKind.RECORD":
             return str(strSDL2Typedef)
         else:
             return ctypes_mapping[mapping_key]
 
-def is_sdl2_callback_type(strTypeKind, strSDL2Typedef):
-    return query_sdl2_cindex_mapping_entry_exists(strSDL2Typedef) and (get_sdl2_cindex_mapping_value(strSDL2Typedef) == "TypeKind.FUNCTIONPROTO")
+def is_sdl_callback_type(strTypeKind, strSDL2Typedef):
+    return query_sdl_cindex_mapping_entry_exists(strSDL2Typedef) and (get_sdl_cindex_mapping_value(strSDL2Typedef) == "TypeKind.FUNCTIONPROTO")
 
 ####################################################################################################
 
@@ -693,7 +693,7 @@ def execute(ctx):
         collect_decl(ctx, tu.cursor)
 
         for typedef_name, typedef_info in ctx.decl_typedefs.items():
-            register_sdl2_cindex_mapping(str(typedef_info.type_kind), typedef_info.api_name)
+            register_sdl_cindex_mapping(str(typedef_info.type_kind), typedef_info.api_name)
 
     except TranslationUnitLoadError as err:
         print(err)

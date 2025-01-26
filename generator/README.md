@@ -33,10 +33,10 @@ These instructions are tested only on macOS environment.
     *   By including 'inttypes.h' or 'stdint.h', all SDL integer types (Sint8, etc.) are interpreted as 'TypeKind.INT'. Since macOS Catalina and CIndex of LLVM 9.0.0, my script cannot resolve integer types into CIndex type kinds (e.g. TypeKind.SCHAR) correctly.
 
 *   Generate mapping tables with ./generate_initial_mapping.sh to get
-    *   sdl2_cindex_mapping.json
-    *   sdl2_define_mapping.json
+    *   sdl_cindex_mapping.json
+    *   sdl_define_mapping.json
 
-*   Edit sdl2_define_mapping.json
+*   Edit sdl_define_mapping.json
     *   This mapping table contains '#define' macros collected from headers in ./SDL2/ folder.
     *   Each lines represent key-value pair that will be used for generated Python codes.
         *   ex.) The line collected from './SDL2/SDL.h":

@@ -1,4 +1,4 @@
-import sdl2_parser, sdl2_generator
+import sdl_parser, sdl_generator
 
 TYPEDEF_POSTFIX_SYSWM = """
   class SysWMmsg_def_win < FFI::Struct
@@ -171,15 +171,15 @@ TYPEDEF_POSTFIX_SYSWM = """
 
 if __name__ == "__main__":
 
-    ctx = sdl2_parser.ParseContext('./SDL3/SDL_syswm.h')
-    sdl2_parser.execute(ctx)
+    ctx = sdl_parser.ParseContext('./SDL3/SDL_syswm.h')
+    sdl_parser.execute(ctx)
 
     # TODO : generate union automatically
     ctx.decl_structs['SDL_SysWMmsg'] = None
     ctx.decl_structs['SDL_SysWMinfo'] = None
 
-    sdl2_generator.sanitize(ctx)
-    sdl2_generator.generate(ctx,
-                            prefix = sdl2_generator.PREFIX + "require_relative 'sdl2_version'\n",
+    sdl_generator.sanitize(ctx)
+    sdl_generator.generate(ctx,
+                            prefix = sdl_generator.PREFIX + "require_relative 'sdl3_version'\n",
                             typedef_postfix = TYPEDEF_POSTFIX_SYSWM,
                             setup_method_name = 'syswm')

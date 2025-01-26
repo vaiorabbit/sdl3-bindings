@@ -1,4 +1,4 @@
-import sdl2_parser, sdl2_generator
+import sdl_parser, sdl_generator
 
 TYPEDEF_PREFIX_RWOPS = """
   class RWops_mem < FFI::Struct
@@ -79,8 +79,8 @@ TYPEDEF_PREFIX_RWOPS = """
 
 if __name__ == "__main__":
 
-    ctx = sdl2_parser.ParseContext('./SDL3/SDL_rwops.h')
-    sdl2_parser.execute(ctx)
+    ctx = sdl_parser.ParseContext('./SDL3/SDL_rwops.h')
+    sdl_parser.execute(ctx)
 
     # TODO : Merge anonymous structs into one union (e.g. SDL_RWops)
     #
@@ -88,8 +88,8 @@ if __name__ == "__main__":
     # substitute the parsed definition with my handwritten one.
     ctx.decl_structs['SDL_RWops'] = None
 
-    sdl2_generator.sanitize(ctx)
-    sdl2_generator.generate(ctx,
+    sdl_generator.sanitize(ctx)
+    sdl_generator.generate(ctx,
                             typedef_prefix = TYPEDEF_PREFIX_RWOPS,
                             setup_method_name = 'rwops'
     )

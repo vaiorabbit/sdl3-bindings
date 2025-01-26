@@ -1,4 +1,4 @@
-import sdl2_parser, sdl2_generator
+import sdl_parser, sdl_generator
 
 TYPEDEF_PREFIX_RECT = """
   def self.RectToFRect(rect, frect)
@@ -23,8 +23,8 @@ TYPEDEF_PREFIX_RECT = """
 
 if __name__ == "__main__":
 
-    ctx = sdl2_parser.ParseContext('./SDL3/SDL_rect.h')
-    sdl2_parser.execute(ctx)
+    ctx = sdl_parser.ParseContext('./SDL3/SDL_rect.h')
+    sdl_parser.execute(ctx)
 
     ctx.decl_functions['SDL_RectToFRect'] = None
     ctx.decl_functions['SDL_PointInRect'] = None
@@ -35,7 +35,7 @@ if __name__ == "__main__":
     ctx.decl_functions['SDL_RectsEqualEpsilon'] = None
     ctx.decl_functions['SDL_RectsEqualFloat'] = None
 
-    sdl2_generator.sanitize(ctx)
-    sdl2_generator.generate(ctx,
+    sdl_generator.sanitize(ctx)
+    sdl_generator.generate(ctx,
                             typedef_prefix = TYPEDEF_PREFIX_RECT,
                             setup_method_name = 'rect')

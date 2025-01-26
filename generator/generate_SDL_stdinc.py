@@ -1,9 +1,9 @@
-import sdl2_parser, sdl2_generator
+import sdl_parser, sdl_generator
 
 if __name__ == "__main__":
 
-    ctx = sdl2_parser.ParseContext('./SDL3/SDL_stdinc.h')
-    sdl2_parser.execute(ctx)
+    ctx = sdl_parser.ParseContext('./SDL3/SDL_stdinc.h')
+    sdl_parser.execute(ctx)
 
     ctx.decl_functions['SDL_memset4'] = None
     ctx.decl_functions['SDL_memcpy4'] = None
@@ -26,5 +26,5 @@ if __name__ == "__main__":
 
     ctx.decl_enums = {k:v for k, v in ctx.decl_enums.items() if v[0][0] != 'DUMMY_ENUM_VALUE'} # Omit 'DUMMY_ENUM_VALUE' from enum declarations
 
-    sdl2_generator.sanitize(ctx)
-    sdl2_generator.generate(ctx, setup_method_name = 'stdinc')
+    sdl_generator.sanitize(ctx)
+    sdl_generator.generate(ctx, setup_method_name = 'stdinc')
