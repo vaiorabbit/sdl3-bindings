@@ -11,6 +11,8 @@ module SDL
   # Define/Macro
 
   AUDIO_MASK_BITSIZE = 0xFF
+  AUDIO_MASK_FLOAT = 1 << 8
+  AUDIO_MASK_BIG_ENDIAN = 1 << 12
   AUDIO_MASK_SIGNED = 1 << 15
 
   # Enum

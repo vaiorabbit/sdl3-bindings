@@ -10,6 +10,7 @@ module SDL
   extend FFI::Library
   # Define/Macro
 
+  INVALID_UNICODE_CODEPOINT = 0xFFFD
 
   # Enum
 

@@ -340,6 +340,7 @@
     , "TTF_HintingFlags" : "TypeKind.ENUM"
     , "TTF_HorizontalAlignment" : "TypeKind.ENUM"
     , "TTF_Direction" : "TypeKind.ENUM"
+    , "TTF_ImageType" : "TypeKind.ENUM"
     , "TTF_TextEngine" : "TypeKind.RECORD"
     , "TTF_TextData" : "TypeKind.RECORD"
     , "TTF_Text" : "TypeKind.RECORD"

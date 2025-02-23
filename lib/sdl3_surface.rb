@@ -101,6 +101,7 @@ module SDL
       [:BlitSurfaceUnchecked, :SDL_BlitSurfaceUnchecked, [:pointer, :pointer, :pointer, :pointer], :bool],
       [:BlitSurfaceScaled, :SDL_BlitSurfaceScaled, [:pointer, :pointer, :pointer, :pointer, :int], :bool],
       [:BlitSurfaceUncheckedScaled, :SDL_BlitSurfaceUncheckedScaled, [:pointer, :pointer, :pointer, :pointer, :int], :bool],
+      [:StretchSurface, :SDL_StretchSurface, [:pointer, :pointer, :pointer, :pointer, :int], :bool],
       [:BlitSurfaceTiled, :SDL_BlitSurfaceTiled, [:pointer, :pointer, :pointer, :pointer], :bool],
       [:BlitSurfaceTiledWithScale, :SDL_BlitSurfaceTiledWithScale, [:pointer, :pointer, :float, :int, :pointer, :pointer], :bool],
       [:BlitSurface9Grid, :SDL_BlitSurface9Grid, [:pointer, :pointer, :int, :int, :int, :int, :float, :int, :pointer, :pointer], :bool],

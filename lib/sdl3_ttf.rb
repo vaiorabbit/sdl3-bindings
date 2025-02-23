@@ -13,7 +13,7 @@ module SDL
 
   TTF_MAJOR_VERSION = 3
   TTF_MINOR_VERSION = 1
-  TTF_MICRO_VERSION = 0
+  TTF_MICRO_VERSION = 2
   TTF_PROP_FONT_CREATE_FILENAME_STRING = "SDL_ttf.font.create.filename"
   TTF_PROP_FONT_CREATE_IOSTREAM_POINTER = "SDL_ttf.font.create.iostream"
   TTF_PROP_FONT_CREATE_IOSTREAM_OFFSET_NUMBER = "SDL_ttf.font.create.iostream.offset"
@@ -22,6 +22,7 @@ module SDL
   TTF_PROP_FONT_CREATE_FACE_NUMBER = "SDL_ttf.font.create.face"
   TTF_PROP_FONT_CREATE_HORIZONTAL_DPI_NUMBER = "SDL_ttf.font.create.hdpi"
   TTF_PROP_FONT_CREATE_VERTICAL_DPI_NUMBER = "SDL_ttf.font.create.vdpi"
+  TTF_PROP_FONT_CREATE_EXISTING_FONT = "SDL_ttf.font.create.existing_font"
   TTF_PROP_FONT_OUTLINE_LINE_CAP_NUMBER = "SDL_ttf.font.outline.line_cap"
   TTF_PROP_FONT_OUTLINE_LINE_JOIN_NUMBER = "SDL_ttf.font.outline.line_join"
   TTF_PROP_FONT_OUTLINE_MITER_LIMIT_NUMBER = "SDL_ttf.font.outline.miter_limit"
@@ -30,10 +31,15 @@ module SDL
   TTF_STYLE_ITALIC = 0x02
   TTF_STYLE_UNDERLINE = 0x04
   TTF_STYLE_STRIKETHROUGH = 0x08
-  TTF_SUBSTRING_TEXT_START = 0x00000001
-  TTF_SUBSTRING_LINE_START = 0x00000002
-  TTF_SUBSTRING_LINE_END = 0x00000004
-  TTF_SUBSTRING_TEXT_END = 0x00000008
+  TTF_PROP_RENDERER_TEXT_ENGINE_RENDERER = "SDL_ttf.renderer_text_engine.create.renderer"
+  TTF_PROP_RENDERER_TEXT_ENGINE_ATLAS_TEXTURE_SIZE = "SDL_ttf.renderer_text_engine.create.atlas_texture_size"
+  TTF_PROP_GPU_TEXT_ENGINE_DEVICE = "SDL_ttf.gpu_text_engine.create.device"
+  TTF_PROP_GPU_TEXT_ENGINE_ATLAS_TEXTURE_SIZE = "SDL_ttf.gpu_text_engine.create.atlas_texture_size"
+  TTF_SUBSTRING_DIRECTION_MASK = 0x000000FF
+  TTF_SUBSTRING_TEXT_START = 0x00000100
+  TTF_SUBSTRING_LINE_START = 0x00000200
+  TTF_SUBSTRING_LINE_END = 0x00000400
+  TTF_SUBSTRING_TEXT_END = 0x00000800
 
   # Enum
 
@@ -46,10 +52,15 @@ module SDL
   TTF_HORIZONTAL_ALIGN_LEFT = 0
   TTF_HORIZONTAL_ALIGN_CENTER = 1
   TTF_HORIZONTAL_ALIGN_RIGHT = 2
-  TTF_DIRECTION_LTR = 0
-  TTF_DIRECTION_RTL = 1
-  TTF_DIRECTION_TTB = 2
-  TTF_DIRECTION_BTT = 3
+  TTF_DIRECTION_INVALID = 0
+  TTF_DIRECTION_LTR = 4
+  TTF_DIRECTION_RTL = 5
+  TTF_DIRECTION_TTB = 6
+  TTF_DIRECTION_BTT = 7
+  TTF_IMAGE_INVALID = 0
+  TTF_IMAGE_ALPHA = 1
+  TTF_IMAGE_COLOR = 2
+  TTF_IMAGE_SDF = 3
   TTF_GPU_TEXTENGINE_WINDING_INVALID = -1
   TTF_GPU_TEXTENGINE_WINDING_CLOCKWISE = 0
   TTF_GPU_TEXTENGINE_WINDING_COUNTER_CLOCKWISE = 1
@@ -60,6 +71,7 @@ module SDL
   typedef :int, :TTF_HintingFlags
   typedef :int, :TTF_HorizontalAlignment
   typedef :int, :TTF_Direction
+  typedef :int, :TTF_ImageType
   typedef :int, :TTF_GPUTextEngineWinding
   typedef :uint, :TTF_SubStringFlags
 
@@ -82,6 +94,7 @@ module SDL
       :num_vertices, :int,
       :indices, :pointer,
       :num_indices, :int,
+      :image_type, :int,
       :next, :pointer,
     )
   end
@@ -109,8 +122,12 @@ module SDL
       [:TTF_OpenFont, :TTF_OpenFont, [:pointer, :float], :pointer],
       [:TTF_OpenFontIO, :TTF_OpenFontIO, [:pointer, :bool, :float], :pointer],
       [:TTF_OpenFontWithProperties, :TTF_OpenFontWithProperties, [:uint], :pointer],
+      [:TTF_CopyFont, :TTF_CopyFont, [:pointer], :pointer],
       [:TTF_GetFontProperties, :TTF_GetFontProperties, [:pointer], :uint],
       [:TTF_GetFontGeneration, :TTF_GetFontGeneration, [:pointer], :uint],
+      [:TTF_AddFallbackFont, :TTF_AddFallbackFont, [:pointer, :pointer], :bool],
+      [:TTF_RemoveFallbackFont, :TTF_RemoveFallbackFont, [:pointer, :pointer], :void],
+      [:TTF_ClearFallbackFonts, :TTF_ClearFallbackFonts, [:pointer], :void],
       [:TTF_SetFontSize, :TTF_SetFontSize, [:pointer, :float], :bool],
       [:TTF_SetFontSizeDPI, :TTF_SetFontSizeDPI, [:pointer, :float, :int, :int], :bool],
       [:TTF_GetFontSize, :TTF_GetFontSize, [:pointer], :float],
@@ -120,6 +137,7 @@ module SDL
       [:TTF_SetFontOutline, :TTF_SetFontOutline, [:pointer, :int], :bool],
       [:TTF_GetFontOutline, :TTF_GetFontOutline, [:pointer], :int],
       [:TTF_SetFontHinting, :TTF_SetFontHinting, [:pointer, :int], :void],
+      [:TTF_GetNumFontFaces, :TTF_GetNumFontFaces, [:pointer], :int],
       [:TTF_GetFontHinting, :TTF_GetFontHinting, [:pointer], :int],
       [:TTF_SetFontSDF, :TTF_SetFontSDF, [:pointer, :bool], :bool],
       [:TTF_GetFontSDF, :TTF_GetFontSDF, [:pointer], :bool],
@@ -136,22 +154,25 @@ module SDL
       [:TTF_FontIsScalable, :TTF_FontIsScalable, [:pointer], :bool],
       [:TTF_GetFontFamilyName, :TTF_GetFontFamilyName, [:pointer], :pointer],
       [:TTF_GetFontStyleName, :TTF_GetFontStyleName, [:pointer], :pointer],
-      [:TTF_RenderText_Solid, :TTF_RenderText_Solid, [:pointer, :pointer, :ulong_long, Color.by_value], :pointer],
-      [:TTF_RenderText_Solid_Wrapped, :TTF_RenderText_Solid_Wrapped, [:pointer, :pointer, :ulong_long, Color.by_value, :int], :pointer],
-      [:TTF_RenderGlyph_Solid, :TTF_RenderGlyph_Solid, [:pointer, :uint, Color.by_value], :pointer],
       [:TTF_SetFontDirection, :TTF_SetFontDirection, [:pointer, :int], :bool],
       [:TTF_GetFontDirection, :TTF_GetFontDirection, [:pointer], :int],
-      [:TTF_SetFontScript, :TTF_SetFontScript, [:pointer, :pointer], :bool],
-      [:TTF_GetGlyphScript, :TTF_GetGlyphScript, [:uint, :pointer, :ulong_long], :bool],
+      [:TTF_StringToTag, :TTF_StringToTag, [:pointer], :uint],
+      [:TTF_TagToString, :TTF_TagToString, [:uint, :pointer, :ulong_long], :void],
+      [:TTF_SetFontScript, :TTF_SetFontScript, [:pointer, :uint], :bool],
+      [:TTF_GetFontScript, :TTF_GetFontScript, [:pointer], :uint],
+      [:TTF_GetGlyphScript, :TTF_GetGlyphScript, [:uint], :uint],
       [:TTF_SetFontLanguage, :TTF_SetFontLanguage, [:pointer, :pointer], :bool],
       [:TTF_FontHasGlyph, :TTF_FontHasGlyph, [:pointer, :uint], :bool],
-      [:TTF_GetGlyphImage, :TTF_GetGlyphImage, [:pointer, :uint], :pointer],
-      [:TTF_GetGlyphImageForIndex, :TTF_GetGlyphImageForIndex, [:pointer, :uint], :pointer],
+      [:TTF_GetGlyphImage, :TTF_GetGlyphImage, [:pointer, :uint, :pointer], :pointer],
+      [:TTF_GetGlyphImageForIndex, :TTF_GetGlyphImageForIndex, [:pointer, :uint, :pointer], :pointer],
       [:TTF_GetGlyphMetrics, :TTF_GetGlyphMetrics, [:pointer, :uint, :pointer, :pointer, :pointer, :pointer, :pointer], :bool],
       [:TTF_GetGlyphKerning, :TTF_GetGlyphKerning, [:pointer, :uint, :uint, :pointer], :bool],
       [:TTF_GetStringSize, :TTF_GetStringSize, [:pointer, :pointer, :ulong_long, :pointer, :pointer], :bool],
       [:TTF_GetStringSizeWrapped, :TTF_GetStringSizeWrapped, [:pointer, :pointer, :ulong_long, :int, :pointer, :pointer], :bool],
       [:TTF_MeasureString, :TTF_MeasureString, [:pointer, :pointer, :ulong_long, :int, :pointer, :pointer], :bool],
+      [:TTF_RenderText_Solid, :TTF_RenderText_Solid, [:pointer, :pointer, :ulong_long, Color.by_value], :pointer],
+      [:TTF_RenderText_Solid_Wrapped, :TTF_RenderText_Solid_Wrapped, [:pointer, :pointer, :ulong_long, Color.by_value, :int], :pointer],
+      [:TTF_RenderGlyph_Solid, :TTF_RenderGlyph_Solid, [:pointer, :uint, Color.by_value], :pointer],
       [:TTF_RenderText_Shaded, :TTF_RenderText_Shaded, [:pointer, :pointer, :ulong_long, Color.by_value, Color.by_value], :pointer],
       [:TTF_RenderText_Shaded_Wrapped, :TTF_RenderText_Shaded_Wrapped, [:pointer, :pointer, :ulong_long, Color.by_value, Color.by_value, :int], :pointer],
       [:TTF_RenderGlyph_Shaded, :TTF_RenderGlyph_Shaded, [:pointer, :uint, Color.by_value, Color.by_value], :pointer],
@@ -165,9 +186,11 @@ module SDL
       [:TTF_DrawSurfaceText, :TTF_DrawSurfaceText, [:pointer, :int, :int, :pointer], :bool],
       [:TTF_DestroySurfaceTextEngine, :TTF_DestroySurfaceTextEngine, [:pointer], :void],
       [:TTF_CreateRendererTextEngine, :TTF_CreateRendererTextEngine, [:pointer], :pointer],
+      [:TTF_CreateRendererTextEngineWithProperties, :TTF_CreateRendererTextEngineWithProperties, [:uint], :pointer],
       [:TTF_DrawRendererText, :TTF_DrawRendererText, [:pointer, :float, :float], :bool],
       [:TTF_DestroyRendererTextEngine, :TTF_DestroyRendererTextEngine, [:pointer], :void],
       [:TTF_CreateGPUTextEngine, :TTF_CreateGPUTextEngine, [:pointer], :pointer],
+      [:TTF_CreateGPUTextEngineWithProperties, :TTF_CreateGPUTextEngineWithProperties, [:uint], :pointer],
       [:TTF_GetGPUTextDrawData, :TTF_GetGPUTextDrawData, [:pointer], :pointer],
       [:TTF_DestroyGPUTextEngine, :TTF_DestroyGPUTextEngine, [:pointer], :void],
       [:TTF_SetGPUTextEngineWinding, :TTF_SetGPUTextEngineWinding, [:pointer, :int], :void],
@@ -178,6 +201,10 @@ module SDL
       [:TTF_GetTextEngine, :TTF_GetTextEngine, [:pointer], :pointer],
       [:TTF_SetTextFont, :TTF_SetTextFont, [:pointer, :pointer], :bool],
       [:TTF_GetTextFont, :TTF_GetTextFont, [:pointer], :pointer],
+      [:TTF_SetTextDirection, :TTF_SetTextDirection, [:pointer, :int], :bool],
+      [:TTF_GetTextDirection, :TTF_GetTextDirection, [:pointer], :int],
+      [:TTF_SetTextScript, :TTF_SetTextScript, [:pointer, :uint], :bool],
+      [:TTF_GetTextScript, :TTF_GetTextScript, [:pointer], :uint],
       [:TTF_SetTextColor, :TTF_SetTextColor, [:pointer, :uchar, :uchar, :uchar, :uchar], :bool],
       [:TTF_SetTextColorFloat, :TTF_SetTextColorFloat, [:pointer, :float, :float, :float, :float], :bool],
       [:TTF_GetTextColor, :TTF_GetTextColor, [:pointer, :pointer, :pointer, :pointer, :pointer], :bool],

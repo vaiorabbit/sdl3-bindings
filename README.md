@@ -3,7 +3,7 @@
 # sdl3-bindings : SDL3 wrapper for Ruby #
 
 *   Created : 2015-09-19
-*   Last modified : 2025-01-26
+*   Last modified : 2025-02-23
 
 ## Features ##
 
@@ -24,10 +24,10 @@ See the project below to learn how to use this library:
 ## Target version ##
 
 *   [2025-01-26]
-    *   SDL : 3.2.0
-    *   SDL_image : 3.1.1
+    *   SDL : 3.2.4
+    *   SDL_image : 3.2.0
     *   SDL_mixer : 3.0.0
-    *   SDL_ttf : 3.1.0
+    *   SDL_ttf : 3.1.2
     *   SDL_sound : 3.0.0
 
 <details>

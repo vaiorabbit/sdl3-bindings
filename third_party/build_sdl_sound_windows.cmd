@@ -1,6 +1,8 @@
 set PROJECT=SDL_sound
-set VERSION=9000c2b27a6aa210c5ceb5821deae396d67aa4cd
+set VERSION=f6a186bb5b2f6543b052afdace769f84322ea151
 set PREFIX=%PROJECT%-%VERSION%
+
+pushd .
 
 if not exist intermediate (
     mkdir intermediate
@@ -17,3 +19,5 @@ set SDL3_DIR=../../../SDL/lib/cmake/SDL3
 cmake -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=Release -D BUILD_SHARED_LIBS=ON -D CMAKE_C_COMPILER=gcc ../
 cmake --build .
 cmake --install . --prefix ../../../SDL
+
+popd

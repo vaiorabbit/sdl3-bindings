@@ -23,8 +23,8 @@
     , "SDL_AtomicDecRef" : null
     , "SDL_audio_h_" : null
     , "SDL_AUDIO_MASK_BITSIZE" : "0xFF"
-    , "SDL_AUDIO_MASK_DATATYPE" : "1 << 8"
-    , "SDL_AUDIO_MASK_ENDIAN" : "1 << 12"
+    , "SDL_AUDIO_MASK_FLOAT" : "1 << 8"
+    , "SDL_AUDIO_MASK_BIG_ENDIAN" : "1 << 12"
     , "SDL_AUDIO_MASK_SIGNED" : "1 << 15"
     , "SDL_DEFINE_AUDIO_FORMAT" : null
     , "SDL_AUDIO_BITSIZE" : null
@@ -926,7 +926,7 @@
     , "SDL_RENDERER_VSYNC_ADAPTIVE" : "-1"
     , "SDL_DEBUG_TEXT_FONT_CHARACTER_SIZE" : "8"
     , "SDL_revision_h_" : null
-    , "SDL_REVISION" : "\"release-3.2.0-0-g535d80bad\""
+    , "SDL_REVISION" : "\"release-3.2.4-0-gb5c3eab6b\""
     , "SDL_scancode_h_" : null
     , "SDL_sensor_h_" : null
     , "SDL_STANDARD_GRAVITY" : "9.80665"
@@ -1001,7 +1001,7 @@
     , "SDL_zero" : null
     , "SDL_zerop" : null
     , "SDL_zeroa" : null
-    , "SDL_INVALID_UNICODE_CODEPOINT" : null
+    , "SDL_INVALID_UNICODE_CODEPOINT" : "0xFFFD"
     , "SDL_PI_D" : null
     , "SDL_PI_F" : null
     , "SDL_ICONV_ERROR" : null
@@ -1024,7 +1024,6 @@
     , "SDL_PROP_SURFACE_SDR_WHITE_POINT_FLOAT" : "\"SDL.surface.SDR_white_point\""
     , "SDL_PROP_SURFACE_HDR_HEADROOM_FLOAT" : "\"SDL.surface.HDR_headroom\""
     , "SDL_PROP_SURFACE_TONEMAP_OPERATOR_STRING" : "\"SDL.surface.tonemap\""
-    , "SDL_system_h_" : null
     , "SDL_thread_h_" : null
     , "SDL_BeginThreadFunction" : null
     , "SDL_EndThreadFunction" : null
@@ -1059,7 +1058,7 @@
     , "SDL_version_h_" : null
     , "SDL_MAJOR_VERSION" : "3"
     , "SDL_MINOR_VERSION" : "2"
-    , "SDL_MICRO_VERSION" : "0"
+    , "SDL_MICRO_VERSION" : "4"
     , "SDL_VERSIONNUM" : null
     , "SDL_VERSIONNUM_MAJOR" : null
     , "SDL_VERSIONNUM_MINOR" : null
@@ -1189,7 +1188,7 @@
     , "SDL_TTF_H_" : null
     , "SDL_TTF_MAJOR_VERSION" : "3"
     , "SDL_TTF_MINOR_VERSION" : "1"
-    , "SDL_TTF_MICRO_VERSION" : "0"
+    , "SDL_TTF_MICRO_VERSION" : "2"
     , "SDL_TTF_VERSION" : null
     , "SDL_TTF_VERSION_ATLEAST" : null
     , "TTF_PROP_FONT_CREATE_FILENAME_STRING" : "\"SDL_ttf.font.create.filename\""
@@ -1200,6 +1199,7 @@
     , "TTF_PROP_FONT_CREATE_FACE_NUMBER" : "\"SDL_ttf.font.create.face\""
     , "TTF_PROP_FONT_CREATE_HORIZONTAL_DPI_NUMBER" : "\"SDL_ttf.font.create.hdpi\""
     , "TTF_PROP_FONT_CREATE_VERTICAL_DPI_NUMBER" : "\"SDL_ttf.font.create.vdpi\""
+    , "TTF_PROP_FONT_CREATE_EXISTING_FONT" : "\"SDL_ttf.font.create.existing_font\""
     , "TTF_PROP_FONT_OUTLINE_LINE_CAP_NUMBER" : "\"SDL_ttf.font.outline.line_cap\""
     , "TTF_PROP_FONT_OUTLINE_LINE_JOIN_NUMBER" : "\"SDL_ttf.font.outline.line_join\""
     , "TTF_PROP_FONT_OUTLINE_MITER_LIMIT_NUMBER" : "\"SDL_ttf.font.outline.miter_limit\""
@@ -1208,14 +1208,19 @@
     , "TTF_STYLE_ITALIC" : "0x02"
     , "TTF_STYLE_UNDERLINE" : "0x04"
     , "TTF_STYLE_STRIKETHROUGH" : "0x08"
-    , "TTF_SUBSTRING_TEXT_START" : "0x00000001"
-    , "TTF_SUBSTRING_LINE_START" : "0x00000002"
-    , "TTF_SUBSTRING_LINE_END" : "0x00000004"
-    , "TTF_SUBSTRING_TEXT_END" : "0x00000008"
+    , "TTF_PROP_RENDERER_TEXT_ENGINE_RENDERER" : "\"SDL_ttf.renderer_text_engine.create.renderer\""
+    , "TTF_PROP_RENDERER_TEXT_ENGINE_ATLAS_TEXTURE_SIZE" : "\"SDL_ttf.renderer_text_engine.create.atlas_texture_size\""
+    , "TTF_PROP_GPU_TEXT_ENGINE_DEVICE" : "\"SDL_ttf.gpu_text_engine.create.device\""
+    , "TTF_PROP_GPU_TEXT_ENGINE_ATLAS_TEXTURE_SIZE" : "\"SDL_ttf.gpu_text_engine.create.atlas_texture_size\""
+    , "TTF_SUBSTRING_DIRECTION_MASK" : "0x000000FF"
+    , "TTF_SUBSTRING_TEXT_START" : "0x00000100"
+    , "TTF_SUBSTRING_LINE_START" : "0x00000200"
+    , "TTF_SUBSTRING_LINE_END" : "0x00000400"
+    , "TTF_SUBSTRING_TEXT_END" : "0x00000800"
     , "SDL_IMAGE_H_" : null
     , "SDL_IMAGE_MAJOR_VERSION" : "3"
-    , "SDL_IMAGE_MINOR_VERSION" : "1"
-    , "SDL_IMAGE_MICRO_VERSION" : "1"
+    , "SDL_IMAGE_MINOR_VERSION" : "2"
+    , "SDL_IMAGE_MICRO_VERSION" : "0"
     , "SDL_IMAGE_VERSION" : null
     , "SDL_IMAGE_VERSION_ATLEAST" : null
     , "SDL_MIXER_H_" : null
@@ -1228,6 +1233,7 @@
     , "MIX_INIT_MOD" : "0x00000002"
     , "MIX_INIT_MP3" : "0x00000008"
     , "MIX_INIT_OGG" : "0x00000010"
+    , "MIX_INIT_MID" : "0x00000020"
     , "MIX_INIT_OPUS" : "0x00000040"
     , "MIX_INIT_WAVPACK" : "0x00000080"
     , "MIX_CHANNELS" : "8"
