@@ -38,12 +38,10 @@ module SDL
   MUS_MID = 3
   MUS_OGG = 4
   MUS_MP3 = 5
-  MUS_MP3_MAD_UNUSED = 6
-  MUS_FLAC = 7
-  MUS_MODPLUG_UNUSED = 8
-  MUS_OPUS = 9
-  MUS_WAVPACK = 10
-  MUS_GME = 11
+  MUS_FLAC = 6
+  MUS_OPUS = 7
+  MUS_WAVPACK = 8
+  MUS_GME = 9
 
   # Typedef
 

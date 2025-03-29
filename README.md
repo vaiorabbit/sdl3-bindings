@@ -3,7 +3,7 @@
 # sdl3-bindings : SDL3 wrapper for Ruby #
 
 *   Created : 2015-09-19
-*   Last modified : 2025-02-23
+*   Last modified : 2025-03-29
 
 ## Features ##
 
@@ -23,12 +23,12 @@ See the project below to learn how to use this library:
 
 ## Target version ##
 
-*   [2025-01-26]
-    *   SDL : 3.2.4
-    *   SDL_image : 3.2.0
-    *   SDL_mixer : 3.0.0
-    *   SDL_ttf : 3.1.2
-    *   SDL_sound : 3.0.0
+*   [2025-03-29]
+    *   SDL : 3.2.8
+    *   SDL_image : 3.2.4
+    *   SDL_mixer : 698aaa2e2fd18900f0e28132a8de9b48538d4857
+    *   SDL_ttf : 3.2.0
+    *   SDL_sound : f2705793331771fc584c34c3b26581462a3e95f4
 
 <details>
 <summary>Older versions</summary>
@@ -89,16 +89,23 @@ See the project below to learn how to use this library:
     *   SDL_ttf : 2.20.1
     *   SDL2_gfx : 1.0.4
     *   SDL_sound : 2.0.1
+*   [2025-01-26]
+    *   SDL : 3.2.4
+    *   SDL_image : 3.2.0
+    *   SDL_mixer : 3.0.0
+    *   SDL_ttf : 3.1.2
+    *   SDL_sound : 3.0.0
 
 </details>
 
 ## Tested Environments ##
 
-*   [2025-01-26] Windows 11 (24H2), ruby 3.4.1 (2024-12-25 revision 48d4efcb85) +PRISM [x64-mingw-ucrt]
+*   [2025-03-29] Windows 11 (24H2), ruby 3.4.2 (2025-02-15 revision d2930f8e7a) +PRISM [x64-mingw-ucrt]
 
 <details>
 <summary>Older Environments</summary>
 
+*   [2025-01-26] Windows 11 (24H2), ruby 3.4.1 (2024-12-25 revision 48d4efcb85) +PRISM [x64-mingw-ucrt]
 *   [2023-02-05] Ubuntu Linux 22.04 LTS (jammy) on WSL/Windows 11, ruby 3.2.0 (2022-12-25 revision a528908271) [x86_64-linux]
 *   [2023-01-07] Windows 11 (22H2), ruby 3.2.0 (2022-12-25 revision a528908271) [x64-mingw-ucrt]
 *   [2023-01-07] macOS Ventura (13.1) ruby 3.2.0 (2022-12-25 revision a528908271) [arm64-darwin21]

@@ -1,5 +1,5 @@
 set PROJECT=SDL_mixer
-set VERSION=863f8c0c0a1f3d8efe9b9cdb7f474efdfac54b76
+set VERSION=698aaa2e2fd18900f0e28132a8de9b48538d4857
 set PREFIX=%PROJECT%-%VERSION%
 
 pushd .

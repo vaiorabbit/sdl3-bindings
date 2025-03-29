@@ -287,6 +287,7 @@
     , "SDL_HINT_JOYSTICK_WHEEL_DEVICES" : "\"SDL_JOYSTICK_WHEEL_DEVICES\""
     , "SDL_HINT_JOYSTICK_WHEEL_DEVICES_EXCLUDED" : "\"SDL_JOYSTICK_WHEEL_DEVICES_EXCLUDED\""
     , "SDL_HINT_JOYSTICK_ZERO_CENTERED_DEVICES" : "\"SDL_JOYSTICK_ZERO_CENTERED_DEVICES\""
+    , "SDL_HINT_JOYSTICK_HAPTIC_AXES" : "\"SDL_JOYSTICK_HAPTIC_AXES\""
     , "SDL_HINT_KEYCODE_OPTIONS" : "\"SDL_KEYCODE_OPTIONS\""
     , "SDL_HINT_KMSDRM_DEVICE_INDEX" : "\"SDL_KMSDRM_DEVICE_INDEX\""
     , "SDL_HINT_KMSDRM_REQUIRE_DRM_MASTER" : "\"SDL_KMSDRM_REQUIRE_DRM_MASTER\""
@@ -724,10 +725,10 @@
     , "SDL_KMOD_CAPS" : "0x2000"
     , "SDL_KMOD_MODE" : "0x4000"
     , "SDL_KMOD_SCROLL" : "0x8000"
-    , "SDL_KMOD_CTRL" : null
-    , "SDL_KMOD_SHIFT" : null
-    , "SDL_KMOD_ALT" : null
-    , "SDL_KMOD_GUI" : null
+    , "SDL_KMOD_CTRL" : "(KMOD_LCTRL | KMOD_RCTRL)"
+    , "SDL_KMOD_SHIFT" : "(KMOD_LSHIFT | KMOD_RSHIFT)"
+    , "SDL_KMOD_ALT" : "(KMOD_LALT | KMOD_RALT)"
+    , "SDL_KMOD_GUI" : "(KMOD_LGUI | KMOD_RGUI)"
     , "SDL_loadso_h_" : null
     , "SDL_locale_h" : null
     , "SDL_log_h_" : null
@@ -926,7 +927,7 @@
     , "SDL_RENDERER_VSYNC_ADAPTIVE" : "-1"
     , "SDL_DEBUG_TEXT_FONT_CHARACTER_SIZE" : "8"
     , "SDL_revision_h_" : null
-    , "SDL_REVISION" : "\"release-3.2.4-0-gb5c3eab6b\""
+    , "SDL_REVISION" : "\"release-3.2.8-0-gf6864924f\""
     , "SDL_scancode_h_" : null
     , "SDL_sensor_h_" : null
     , "SDL_STANDARD_GRAVITY" : "9.80665"
@@ -1024,6 +1025,8 @@
     , "SDL_PROP_SURFACE_SDR_WHITE_POINT_FLOAT" : "\"SDL.surface.SDR_white_point\""
     , "SDL_PROP_SURFACE_HDR_HEADROOM_FLOAT" : "\"SDL.surface.HDR_headroom\""
     , "SDL_PROP_SURFACE_TONEMAP_OPERATOR_STRING" : "\"SDL.surface.tonemap\""
+    , "SDL_PROP_SURFACE_HOTSPOT_X_NUMBER" : "\"SDL.surface.hotspot.x\""
+    , "SDL_PROP_SURFACE_HOTSPOT_Y_NUMBER" : "\"SDL.surface.hotspot.y\""
     , "SDL_thread_h_" : null
     , "SDL_BeginThreadFunction" : null
     , "SDL_EndThreadFunction" : null
@@ -1047,8 +1050,8 @@
     , "SDL_US_TO_NS" : null
     , "SDL_NS_TO_US" : null
     , "SDL_touch_h_" : null
-    , "SDL_TOUCH_MOUSEID" : null
-    , "SDL_MOUSE_TOUCHID" : null
+    , "SDL_TOUCH_MOUSEID" : "-1"
+    , "SDL_MOUSE_TOUCHID" : "-1"
     , "SDL_tray_h_" : null
     , "SDL_TRAYENTRY_BUTTON" : "0x00000001"
     , "SDL_TRAYENTRY_CHECKBOX" : "0x00000002"
@@ -1058,7 +1061,7 @@
     , "SDL_version_h_" : null
     , "SDL_MAJOR_VERSION" : "3"
     , "SDL_MINOR_VERSION" : "2"
-    , "SDL_MICRO_VERSION" : "4"
+    , "SDL_MICRO_VERSION" : "8"
     , "SDL_VERSIONNUM" : null
     , "SDL_VERSIONNUM_MAJOR" : null
     , "SDL_VERSIONNUM_MINOR" : null
@@ -1187,8 +1190,8 @@
     , "SDL_vulkan_h_" : null
     , "SDL_TTF_H_" : null
     , "SDL_TTF_MAJOR_VERSION" : "3"
-    , "SDL_TTF_MINOR_VERSION" : "1"
-    , "SDL_TTF_MICRO_VERSION" : "2"
+    , "SDL_TTF_MINOR_VERSION" : "2"
+    , "SDL_TTF_MICRO_VERSION" : "0"
     , "SDL_TTF_VERSION" : null
     , "SDL_TTF_VERSION_ATLEAST" : null
     , "TTF_PROP_FONT_CREATE_FILENAME_STRING" : "\"SDL_ttf.font.create.filename\""
@@ -1220,7 +1223,7 @@
     , "SDL_IMAGE_H_" : null
     , "SDL_IMAGE_MAJOR_VERSION" : "3"
     , "SDL_IMAGE_MINOR_VERSION" : "2"
-    , "SDL_IMAGE_MICRO_VERSION" : "0"
+    , "SDL_IMAGE_MICRO_VERSION" : "4"
     , "SDL_IMAGE_VERSION" : null
     , "SDL_IMAGE_VERSION_ATLEAST" : null
     , "SDL_MIXER_H_" : null

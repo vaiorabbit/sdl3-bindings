@@ -12,8 +12,8 @@ module SDL
   # Define/Macro
 
   TTF_MAJOR_VERSION = 3
-  TTF_MINOR_VERSION = 1
-  TTF_MICRO_VERSION = 2
+  TTF_MINOR_VERSION = 2
+  TTF_MICRO_VERSION = 0
   TTF_PROP_FONT_CREATE_FILENAME_STRING = "SDL_ttf.font.create.filename"
   TTF_PROP_FONT_CREATE_IOSTREAM_POINTER = "SDL_ttf.font.create.iostream"
   TTF_PROP_FONT_CREATE_IOSTREAM_OFFSET_NUMBER = "SDL_ttf.font.create.iostream.offset"

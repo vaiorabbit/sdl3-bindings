@@ -10,7 +10,7 @@ module SDL
   extend FFI::Library
   # Define/Macro
 
-  REVISION = "release-3.2.4-0-gb5c3eab6b"
+  REVISION = "release-3.2.8-0-gf6864924f"
 
   # Enum
 
