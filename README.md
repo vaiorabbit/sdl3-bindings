@@ -3,7 +3,7 @@
 # sdl3-bindings : SDL3 wrapper for Ruby #
 
 *   Created : 2015-09-19
-*   Last modified : 2025-03-29
+*   Last modified : 2025-05-10
 
 ## Features ##
 
@@ -23,12 +23,13 @@ See the project below to learn how to use this library:
 
 ## Target version ##
 
-*   [2025-03-29]
-    *   SDL : 3.2.8
-    *   SDL_image : 3.2.4
-    *   SDL_mixer : 698aaa2e2fd18900f0e28132a8de9b48538d4857
-    *   SDL_ttf : 3.2.0
-    *   SDL_sound : f2705793331771fc584c34c3b26581462a3e95f4
+*   [2025-05-10]
+    * SDL : 3.2.12
+    * SDL_image : 3.2.4
+    * SDL_mixer : b3a6fa8b5ad183f0a1bad02527d89a00c3c90106
+    * SDL_sound : 68d18fe0a1105d1043b9f62d5e37fca19c0cd2c1
+    * SDL_ttf : 3.2.2
+
 
 <details>
 <summary>Older versions</summary>
@@ -95,6 +96,12 @@ See the project below to learn how to use this library:
     *   SDL_mixer : 3.0.0
     *   SDL_ttf : 3.1.2
     *   SDL_sound : 3.0.0
+*   [2025-03-29]
+    *   SDL : 3.2.8
+    *   SDL_image : 3.2.4
+    *   SDL_mixer : 698aaa2e2fd18900f0e28132a8de9b48538d4857
+    *   SDL_ttf : 3.2.0
+    *   SDL_sound : f2705793331771fc584c34c3b26581462a3e95f4
 
 </details>
 

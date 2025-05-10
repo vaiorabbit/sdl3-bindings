@@ -288,6 +288,8 @@ module SDL
       :direction, :int,
       :mouse_x, :float,
       :mouse_y, :float,
+      :integer_x, :int,
+      :integer_y, :int,
     )
   end
 

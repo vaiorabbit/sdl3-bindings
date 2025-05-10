@@ -133,7 +133,7 @@
     , "SDL_PROP_GPU_TEXTURE_CREATE_D3D12_CLEAR_B_FLOAT" : "\"SDL.gpu.texture.create.d3d12.clear.b\""
     , "SDL_PROP_GPU_TEXTURE_CREATE_D3D12_CLEAR_A_FLOAT" : "\"SDL.gpu.texture.create.d3d12.clear.a\""
     , "SDL_PROP_GPU_TEXTURE_CREATE_D3D12_CLEAR_DEPTH_FLOAT" : "\"SDL.gpu.texture.create.d3d12.clear.depth\""
-    , "SDL_PROP_GPU_TEXTURE_CREATE_D3D12_CLEAR_STENCIL_UINT8" : "\"SDL.gpu.texture.create.d3d12.clear.stencil\""
+    , "SDL_PROP_GPU_TEXTURE_CREATE_D3D12_CLEAR_STENCIL_NUMBER" : "\"SDL.gpu.texture.create.d3d12.clear.stencil\""
     , "SDL_PROP_GPU_TEXTURE_CREATE_NAME_STRING" : "\"SDL.gpu.texture.create.name\""
     , "SDL_PROP_GPU_BUFFER_CREATE_NAME_STRING" : "\"SDL.gpu.buffer.create.name\""
     , "SDL_PROP_GPU_TRANSFERBUFFER_CREATE_NAME_STRING" : "\"SDL.gpu.transferbuffer.create.name\""
@@ -362,6 +362,7 @@
     , "SDL_HINT_VIDEO_WAYLAND_PREFER_LIBDECOR" : "\"SDL_VIDEO_WAYLAND_PREFER_LIBDECOR\""
     , "SDL_HINT_VIDEO_WAYLAND_SCALE_TO_DISPLAY" : "\"SDL_VIDEO_WAYLAND_SCALE_TO_DISPLAY\""
     , "SDL_HINT_VIDEO_WIN_D3DCOMPILER" : "\"SDL_VIDEO_WIN_D3DCOMPILER\""
+    , "SDL_HINT_VIDEO_X11_EXTERNAL_WINDOW_INPUT" : "\"SDL_VIDEO_X11_EXTERNAL_WINDOW_INPUT\""
     , "SDL_HINT_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR" : "\"SDL_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR\""
     , "SDL_HINT_VIDEO_X11_NET_WM_PING" : "\"SDL_VIDEO_X11_NET_WM_PING\""
     , "SDL_HINT_VIDEO_X11_NODIRECTCOLOR" : "\"SDL_VIDEO_X11_NODIRECTCOLOR\""
@@ -927,7 +928,7 @@
     , "SDL_RENDERER_VSYNC_ADAPTIVE" : "-1"
     , "SDL_DEBUG_TEXT_FONT_CHARACTER_SIZE" : "8"
     , "SDL_revision_h_" : null
-    , "SDL_REVISION" : "\"release-3.2.8-0-gf6864924f\""
+    , "SDL_REVISION" : "\"release-3.2.12-0-g5ac37a8ff\""
     , "SDL_scancode_h_" : null
     , "SDL_sensor_h_" : null
     , "SDL_STANDARD_GRAVITY" : "9.80665"
@@ -1061,7 +1062,7 @@
     , "SDL_version_h_" : null
     , "SDL_MAJOR_VERSION" : "3"
     , "SDL_MINOR_VERSION" : "2"
-    , "SDL_MICRO_VERSION" : "8"
+    , "SDL_MICRO_VERSION" : "12"
     , "SDL_VERSIONNUM" : null
     , "SDL_VERSIONNUM_MAJOR" : null
     , "SDL_VERSIONNUM_MINOR" : null
@@ -1191,7 +1192,7 @@
     , "SDL_TTF_H_" : null
     , "SDL_TTF_MAJOR_VERSION" : "3"
     , "SDL_TTF_MINOR_VERSION" : "2"
-    , "SDL_TTF_MICRO_VERSION" : "0"
+    , "SDL_TTF_MICRO_VERSION" : "2"
     , "SDL_TTF_VERSION" : null
     , "SDL_TTF_VERSION_ATLEAST" : null
     , "TTF_PROP_FONT_CREATE_FILENAME_STRING" : "\"SDL_ttf.font.create.filename\""
@@ -1211,6 +1212,16 @@
     , "TTF_STYLE_ITALIC" : "0x02"
     , "TTF_STYLE_UNDERLINE" : "0x04"
     , "TTF_STYLE_STRIKETHROUGH" : "0x08"
+    , "TTF_FONT_WEIGHT_THIN" : "100"
+    , "TTF_FONT_WEIGHT_EXTRA_LIGHT" : "200"
+    , "TTF_FONT_WEIGHT_LIGHT" : "300"
+    , "TTF_FONT_WEIGHT_NORMAL" : "400"
+    , "TTF_FONT_WEIGHT_MEDIUM" : "500"
+    , "TTF_FONT_WEIGHT_SEMI_BOLD" : "600"
+    , "TTF_FONT_WEIGHT_BOLD" : "700"
+    , "TTF_FONT_WEIGHT_EXTRA_BOLD" : "800"
+    , "TTF_FONT_WEIGHT_BLACK" : "900"
+    , "TTF_FONT_WEIGHT_EXTRA_BLACK" : "950"
     , "TTF_PROP_RENDERER_TEXT_ENGINE_RENDERER" : "\"SDL_ttf.renderer_text_engine.create.renderer\""
     , "TTF_PROP_RENDERER_TEXT_ENGINE_ATLAS_TEXTURE_SIZE" : "\"SDL_ttf.renderer_text_engine.create.atlas_texture_size\""
     , "TTF_PROP_GPU_TEXT_ENGINE_DEVICE" : "\"SDL_ttf.gpu_text_engine.create.device\""

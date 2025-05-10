@@ -1,3 +1,11 @@
+2025-05-10  vaiorabbit  <http://twitter.com/vaiorabbit>
+
+	* SDL 3.2.12 ( https://github.com/libsdl-org/SDL/releases/tag/release-3.2.12 )
+	* SDL_image 3.2.4 ( https://github.com/libsdl-org/SDL_image/releases/tag/release-3.2.4 )
+	* SDL_mixer b3a6fa8b5ad183f0a1bad02527d89a00c3c90106 ( https://github.com/libsdl-org/SDL_mixer/commit/b3a6fa8b5ad183f0a1bad02527d89a00c3c90106 )
+	* SDL_sound 68d18fe0a1105d1043b9f62d5e37fca19c0cd2c1 ( https://github.com/icculus/SDL_sound/commit/68d18fe0a1105d1043b9f62d5e37fca19c0cd2c1 )
+	* SDL_ttf 3.2.2 ( https://github.com/libsdl-org/SDL_ttf/releases/tag/release-3.2.2 )
+
 2025-03-29  vaiorabbit  <http://twitter.com/vaiorabbit>
 
 	* SDL 3.2.8 ( https://github.com/libsdl-org/SDL/releases/tag/release-3.2.8 )

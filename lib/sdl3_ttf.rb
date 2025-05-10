@@ -13,7 +13,7 @@ module SDL
 
   TTF_MAJOR_VERSION = 3
   TTF_MINOR_VERSION = 2
-  TTF_MICRO_VERSION = 0
+  TTF_MICRO_VERSION = 2
   TTF_PROP_FONT_CREATE_FILENAME_STRING = "SDL_ttf.font.create.filename"
   TTF_PROP_FONT_CREATE_IOSTREAM_POINTER = "SDL_ttf.font.create.iostream"
   TTF_PROP_FONT_CREATE_IOSTREAM_OFFSET_NUMBER = "SDL_ttf.font.create.iostream.offset"
@@ -31,6 +31,16 @@ module SDL
   TTF_STYLE_ITALIC = 0x02
   TTF_STYLE_UNDERLINE = 0x04
   TTF_STYLE_STRIKETHROUGH = 0x08
+  TTF_FONT_WEIGHT_THIN = 100
+  TTF_FONT_WEIGHT_EXTRA_LIGHT = 200
+  TTF_FONT_WEIGHT_LIGHT = 300
+  TTF_FONT_WEIGHT_NORMAL = 400
+  TTF_FONT_WEIGHT_MEDIUM = 500
+  TTF_FONT_WEIGHT_SEMI_BOLD = 600
+  TTF_FONT_WEIGHT_BOLD = 700
+  TTF_FONT_WEIGHT_EXTRA_BOLD = 800
+  TTF_FONT_WEIGHT_BLACK = 900
+  TTF_FONT_WEIGHT_EXTRA_BLACK = 950
   TTF_PROP_RENDERER_TEXT_ENGINE_RENDERER = "SDL_ttf.renderer_text_engine.create.renderer"
   TTF_PROP_RENDERER_TEXT_ENGINE_ATLAS_TEXTURE_SIZE = "SDL_ttf.renderer_text_engine.create.atlas_texture_size"
   TTF_PROP_GPU_TEXT_ENGINE_DEVICE = "SDL_ttf.gpu_text_engine.create.device"
@@ -43,6 +53,7 @@ module SDL
 
   # Enum
 
+  TTF_HINTING_INVALID = -1
   TTF_HINTING_NORMAL = 0
   TTF_HINTING_LIGHT = 1
   TTF_HINTING_MONO = 2
@@ -141,6 +152,7 @@ module SDL
       [:TTF_GetFontHinting, :TTF_GetFontHinting, [:pointer], :int],
       [:TTF_SetFontSDF, :TTF_SetFontSDF, [:pointer, :bool], :bool],
       [:TTF_GetFontSDF, :TTF_GetFontSDF, [:pointer], :bool],
+      [:TTF_GetFontWeight, :TTF_GetFontWeight, [:pointer], :int],
       [:TTF_SetFontWrapAlignment, :TTF_SetFontWrapAlignment, [:pointer, :int], :void],
       [:TTF_GetFontWrapAlignment, :TTF_GetFontWrapAlignment, [:pointer], :int],
       [:TTF_GetFontHeight, :TTF_GetFontHeight, [:pointer], :int],
