@@ -928,7 +928,7 @@
     , "SDL_RENDERER_VSYNC_ADAPTIVE" : "-1"
     , "SDL_DEBUG_TEXT_FONT_CHARACTER_SIZE" : "8"
     , "SDL_revision_h_" : null
-    , "SDL_REVISION" : "\"release-3.2.12-0-g5ac37a8ff\""
+    , "SDL_REVISION" : "\"release-3.2.18-0-g68bfcb6c5\""
     , "SDL_scancode_h_" : null
     , "SDL_sensor_h_" : null
     , "SDL_STANDARD_GRAVITY" : "9.80665"
@@ -1062,7 +1062,7 @@
     , "SDL_version_h_" : null
     , "SDL_MAJOR_VERSION" : "3"
     , "SDL_MINOR_VERSION" : "2"
-    , "SDL_MICRO_VERSION" : "12"
+    , "SDL_MICRO_VERSION" : "18"
     , "SDL_VERSIONNUM" : null
     , "SDL_VERSIONNUM_MAJOR" : null
     , "SDL_VERSIONNUM_MINOR" : null
@@ -1119,6 +1119,7 @@
     , "SDL_PROP_DISPLAY_KMSDRM_PANEL_ORIENTATION_NUMBER" : "\"SDL.display.KMSDRM.panel_orientation\""
     , "SDL_PROP_WINDOW_CREATE_ALWAYS_ON_TOP_BOOLEAN" : "\"SDL.window.create.always_on_top\""
     , "SDL_PROP_WINDOW_CREATE_BORDERLESS_BOOLEAN" : "\"SDL.window.create.borderless\""
+    , "SDL_PROP_WINDOW_CREATE_CONSTRAIN_POPUP_BOOLEAN" : "\"SDL.window.create.constrain_popup\""
     , "SDL_PROP_WINDOW_CREATE_FOCUSABLE_BOOLEAN" : "\"SDL.window.create.focusable\""
     , "SDL_PROP_WINDOW_CREATE_EXTERNAL_GRAPHICS_CONTEXT_BOOLEAN" : "\"SDL.window.create.external_graphics_context\""
     , "SDL_PROP_WINDOW_CREATE_FLAGS_NUMBER" : "\"SDL.window.create.flags\""

@@ -1,3 +1,8 @@
+2025-07-19  vaiorabbit  <http://twitter.com/vaiorabbit>
+
+	* SDL 3.2.18 ( https://github.com/libsdl-org/SDL/releases/tag/release-3.2.18 )
+	* SDL_mixer b3a6fa8b5ad183f0a1bad02527d89a00c3c90106 ( https://github.com/libsdl-org/SDL_mixer/commit/dd801fdd9af752c99c32a2356d2ebdf1ebb7ebaa )
+
 2025-05-10  vaiorabbit  <http://twitter.com/vaiorabbit>
 
 	* SDL 3.2.12 ( https://github.com/libsdl-org/SDL/releases/tag/release-3.2.12 )
