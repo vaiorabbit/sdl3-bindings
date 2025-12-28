@@ -11,6 +11,10 @@ module SDL
   # Define/Macro
 
   INVALID_UNICODE_CODEPOINT = 0xFFFD
+  ICONV_ERROR = -1
+  ICONV_E2BIG = -2
+  ICONV_EILSEQ = -3
+  ICONV_EINVAL = -4
 
   # Enum
 

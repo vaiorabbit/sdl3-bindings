@@ -22,6 +22,7 @@ module SDL
   SENSOR_GYRO_L = 4
   SENSOR_ACCEL_R = 5
   SENSOR_GYRO_R = 6
+  SENSOR_COUNT = 7
 
   # Typedef
 

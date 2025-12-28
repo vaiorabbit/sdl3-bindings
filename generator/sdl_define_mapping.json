@@ -928,7 +928,7 @@
     , "SDL_RENDERER_VSYNC_ADAPTIVE" : "-1"
     , "SDL_DEBUG_TEXT_FONT_CHARACTER_SIZE" : "8"
     , "SDL_revision_h_" : null
-    , "SDL_REVISION" : "\"release-3.2.18-0-g68bfcb6c5\""
+    , "SDL_REVISION" : "\"release-3.2.28-0-g7f3ae3d57\""
     , "SDL_scancode_h_" : null
     , "SDL_sensor_h_" : null
     , "SDL_STANDARD_GRAVITY" : "9.80665"
@@ -1006,10 +1006,10 @@
     , "SDL_INVALID_UNICODE_CODEPOINT" : "0xFFFD"
     , "SDL_PI_D" : null
     , "SDL_PI_F" : null
-    , "SDL_ICONV_ERROR" : null
-    , "SDL_ICONV_E2BIG" : null
-    , "SDL_ICONV_EILSEQ" : null
-    , "SDL_ICONV_EINVAL" : null
+    , "SDL_ICONV_ERROR" : "-1"
+    , "SDL_ICONV_E2BIG" : "-2"
+    , "SDL_ICONV_EILSEQ" : "-3"
+    , "SDL_ICONV_EINVAL" : "-4"
     , "SDL_iconv_utf8_locale" : null
     , "SDL_iconv_utf8_ucs2" : null
     , "SDL_iconv_utf8_ucs4" : null
@@ -1062,7 +1062,7 @@
     , "SDL_version_h_" : null
     , "SDL_MAJOR_VERSION" : "3"
     , "SDL_MINOR_VERSION" : "2"
-    , "SDL_MICRO_VERSION" : "18"
+    , "SDL_MICRO_VERSION" : "28"
     , "SDL_VERSIONNUM" : null
     , "SDL_VERSIONNUM_MAJOR" : null
     , "SDL_VERSIONNUM_MINOR" : null
