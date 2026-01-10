@@ -35,8 +35,8 @@
     , "SDL_AUDIO_ISSIGNED" : null
     , "SDL_AUDIO_ISINT" : null
     , "SDL_AUDIO_ISUNSIGNED" : null
-    , "SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK" : null
-    , "SDL_AUDIO_DEVICE_DEFAULT_RECORDING" : null
+    , "SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK" : "0xFFFFFFFF"
+    , "SDL_AUDIO_DEVICE_DEFAULT_RECORDING" : "0xFFFFFFFE"
     , "SDL_AUDIO_FRAMESIZE" : null
     , "SDL_bits_h_" : null
     , "SDL_blendmode_h_" : null
