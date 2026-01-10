@@ -3,7 +3,7 @@
 # sdl3-bindings : SDL3 wrapper for Ruby #
 
 *   Created : 2015-09-19
-*   Last modified : 2025-12-28
+*   Last modified : 2026-01-10
 
 ## Features ##
 
@@ -23,12 +23,12 @@ See the project below to learn how to use this library:
 
 ## Target version ##
 
-*   [2025-12-28]
-    * SDL : 3.2.28
-    * SDL_image : 3.2.4
-    * SDL_mixer : dd801fdd9af752c99c32a2356d2ebdf1ebb7ebaa
-    * SDL_sound : 68d18fe0a1105d1043b9f62d5e37fca19c0cd2c1
-    * SDL_ttf : 3.2.2
+*   [2026-01-20]
+    * SDL : [3.4.0](https://github.com/libsdl-org/SDL/releases/tag/release-3.4.0)
+    * SDL_image : [3.2.6](https://github.com/libsdl-org/SDL_image/releases/tag/release-3.2.6)
+    * SDL_mixer : [63f2c5a21760e3f1ad406ec8a8b18c6346f204b3](https://github.com/libsdl-org/SDL_mixer/commit/63f2c5a21760e3f1ad406ec8a8b18c6346f204b3)
+    * SDL_sound : [0d55b53a78f2c82683b8723c4c8cecdc20396f7d](https://github.com/icculus/SDL_sound/commit/0d55b53a78f2c82683b8723c4c8cecdc20396f7d)
+    * SDL_ttf : [24990fdfd68936022d9b9f6158f80a48ad3c30ab](https://github.com/libsdl-org/SDL_ttf/commit/24990fdfd68936022d9b9f6158f80a48ad3c30ab)
 
 
 <details>
@@ -114,16 +114,23 @@ See the project below to learn how to use this library:
     * SDL_mixer : dd801fdd9af752c99c32a2356d2ebdf1ebb7ebaa
     * SDL_sound : 68d18fe0a1105d1043b9f62d5e37fca19c0cd2c1
     * SDL_ttf : 3.2.2
+*   [2025-12-28]
+    * SDL : 3.2.28
+    * SDL_image : 3.2.4
+    * SDL_mixer : dd801fdd9af752c99c32a2356d2ebdf1ebb7ebaa
+    * SDL_sound : 68d18fe0a1105d1043b9f62d5e37fca19c0cd2c1
+    * SDL_ttf : 3.2.2
 
 </details>
 
 ## Tested Environments ##
 
-*   [2025-12-28] Windows 11 (25H2), ruby 4.0.0 (2025-12-25 revision 553f1675f3) +PRISM [x64-mingw-ucrt]
+*   [2026-01-10] Windows 11 (25H2), ruby 4.0.0 (2025-12-25 revision 553f1675f3) +PRISM [x64-mingw-ucrt]
 
 <details>
 <summary>Older Environments</summary>
 
+*   [2025-12-28] Windows 11 (25H2), ruby 4.0.0 (2025-12-25 revision 553f1675f3) +PRISM [x64-mingw-ucrt]
 *   [2025-03-29] Windows 11 (24H2), ruby 3.4.2 (2025-02-15 revision d2930f8e7a) +PRISM [x64-mingw-ucrt]
 *   [2025-01-26] Windows 11 (24H2), ruby 3.4.1 (2024-12-25 revision 48d4efcb85) +PRISM [x64-mingw-ucrt]
 *   [2023-02-05] Ubuntu Linux 22.04 LTS (jammy) on WSL/Windows 11, ruby 3.2.0 (2022-12-25 revision a528908271) [x86_64-linux]
