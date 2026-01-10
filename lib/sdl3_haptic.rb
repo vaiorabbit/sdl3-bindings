@@ -10,6 +10,7 @@ module SDL
   extend FFI::Library
   # Define/Macro
 
+  HAPTIC_INFINITY = 4294967295
   HAPTIC_CONSTANT = 1 << 0
   HAPTIC_SINE = 1 << 1
   HAPTIC_SQUARE = 1 << 2
@@ -34,13 +35,15 @@ module SDL
   HAPTIC_CARTESIAN = 1
   HAPTIC_SPHERICAL = 2
   HAPTIC_STEERING_AXIS = 3
-  HAPTIC_INFINITY = 4294967295
 
   # Enum
 
 
   # Typedef
 
+  typedef :ushort, :SDL_HapticEffectType
+  typedef :uchar, :SDL_HapticDirectionType
+  typedef :int, :SDL_HapticEffectID
   typedef :uint, :SDL_HapticID
 
   # Struct

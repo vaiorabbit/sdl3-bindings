@@ -20,15 +20,18 @@ module SDL
   PROP_SURFACE_TONEMAP_OPERATOR_STRING = "SDL.surface.tonemap"
   PROP_SURFACE_HOTSPOT_X_NUMBER = "SDL.surface.hotspot.x"
   PROP_SURFACE_HOTSPOT_Y_NUMBER = "SDL.surface.hotspot.y"
+  PROP_SURFACE_ROTATION_FLOAT = "SDL.surface.rotation"
 
   # Enum
 
   SCALEMODE_INVALID = -1
   SCALEMODE_NEAREST = 0
   SCALEMODE_LINEAR = 1
+  SCALEMODE_PIXELART = 2
   FLIP_NONE = 0
   FLIP_HORIZONTAL = 1
   FLIP_VERTICAL = 2
+  FLIP_HORIZONTAL_AND_VERTICAL = 3
 
   # Typedef
 
@@ -71,10 +74,16 @@ module SDL
       [:RemoveSurfaceAlternateImages, :SDL_RemoveSurfaceAlternateImages, [:pointer], :void],
       [:LockSurface, :SDL_LockSurface, [:pointer], :bool],
       [:UnlockSurface, :SDL_UnlockSurface, [:pointer], :void],
+      [:LoadSurface_IO, :SDL_LoadSurface_IO, [:pointer, :bool], :pointer],
+      [:LoadSurface, :SDL_LoadSurface, [:pointer], :pointer],
       [:LoadBMP_IO, :SDL_LoadBMP_IO, [:pointer, :bool], :pointer],
       [:LoadBMP, :SDL_LoadBMP, [:pointer], :pointer],
       [:SaveBMP_IO, :SDL_SaveBMP_IO, [:pointer, :pointer, :bool], :bool],
       [:SaveBMP, :SDL_SaveBMP, [:pointer, :pointer], :bool],
+      [:LoadPNG_IO, :SDL_LoadPNG_IO, [:pointer, :bool], :pointer],
+      [:LoadPNG, :SDL_LoadPNG, [:pointer], :pointer],
+      [:SavePNG_IO, :SDL_SavePNG_IO, [:pointer, :pointer, :bool], :bool],
+      [:SavePNG, :SDL_SavePNG, [:pointer, :pointer], :bool],
       [:SetSurfaceRLE, :SDL_SetSurfaceRLE, [:pointer, :bool], :bool],
       [:SurfaceHasRLE, :SDL_SurfaceHasRLE, [:pointer], :bool],
       [:SetSurfaceColorKey, :SDL_SetSurfaceColorKey, [:pointer, :bool, :uint], :bool],
@@ -89,6 +98,7 @@ module SDL
       [:SetSurfaceClipRect, :SDL_SetSurfaceClipRect, [:pointer, :pointer], :bool],
       [:GetSurfaceClipRect, :SDL_GetSurfaceClipRect, [:pointer, :pointer], :bool],
       [:FlipSurface, :SDL_FlipSurface, [:pointer, :int], :bool],
+      [:RotateSurface, :SDL_RotateSurface, [:pointer, :float], :pointer],
       [:DuplicateSurface, :SDL_DuplicateSurface, [:pointer], :pointer],
       [:ScaleSurface, :SDL_ScaleSurface, [:pointer, :int, :int, :int], :pointer],
       [:ConvertSurface, :SDL_ConvertSurface, [:pointer, :int], :pointer],

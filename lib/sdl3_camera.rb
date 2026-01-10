@@ -16,11 +16,15 @@ module SDL
   CAMERA_POSITION_UNKNOWN = 0
   CAMERA_POSITION_FRONT_FACING = 1
   CAMERA_POSITION_BACK_FACING = 2
+  CAMERA_PERMISSION_STATE_DENIED = -1
+  CAMERA_PERMISSION_STATE_PENDING = 0
+  CAMERA_PERMISSION_STATE_APPROVED = 1
 
   # Typedef
 
   typedef :uint, :SDL_CameraID
   typedef :int, :SDL_CameraPosition
+  typedef :int, :SDL_CameraPermissionState
 
   # Struct
 

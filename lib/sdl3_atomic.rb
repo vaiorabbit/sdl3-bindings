@@ -49,6 +49,7 @@ module SDL
       [:CompareAndSwapAtomicU32, :SDL_CompareAndSwapAtomicU32, [:pointer, :uint, :uint], :bool],
       [:SetAtomicU32, :SDL_SetAtomicU32, [:pointer, :uint], :uint],
       [:GetAtomicU32, :SDL_GetAtomicU32, [:pointer], :uint],
+      [:AddAtomicU32, :SDL_AddAtomicU32, [:pointer, :int], :uint],
       [:CompareAndSwapAtomicPointer, :SDL_CompareAndSwapAtomicPointer, [:pointer, :pointer, :pointer], :bool],
       [:SetAtomicPointer, :SDL_SetAtomicPointer, [:pointer, :pointer], :pointer],
       [:GetAtomicPointer, :SDL_GetAtomicPointer, [:pointer], :pointer],

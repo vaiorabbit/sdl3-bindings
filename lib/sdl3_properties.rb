@@ -10,6 +10,7 @@ module SDL
   extend FFI::Library
   # Define/Macro
 
+  PROP_NAME_STRING = "SDL.name"
 
   # Enum
 

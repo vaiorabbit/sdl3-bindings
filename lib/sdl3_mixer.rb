@@ -11,58 +11,62 @@ module SDL
   # Define/Macro
 
   MIXER_MAJOR_VERSION = 3
-  MIXER_MINOR_VERSION = 0
+  MIXER_MINOR_VERSION = 1
   MIXER_MICRO_VERSION = 0
-  MIX_INIT_FLAC = 0x00000001
-  MIX_INIT_MOD = 0x00000002
-  MIX_INIT_MP3 = 0x00000008
-  MIX_INIT_OGG = 0x00000010
-  MIX_INIT_MID = 0x00000020
-  MIX_INIT_OPUS = 0x00000040
-  MIX_INIT_WAVPACK = 0x00000080
-  MIX_CHANNELS = 8
-  MIX_DEFAULT_FREQUENCY = 44100
-  MIX_DEFAULT_CHANNELS = 2
-  MIX_MAX_VOLUME = 128
-  MIX_CHANNEL_POST = -2
-  MIX_EFFECTSMAXSPEED = "MIX_EFFECTSMAXSPEED"
+  MIX_PROP_MIXER_DEVICE_NUMBER = "SDL_mixer.mixer.device"
+  MIX_PROP_AUDIO_LOAD_IOSTREAM_POINTER = "SDL_mixer.audio.load.iostream"
+  MIX_PROP_AUDIO_LOAD_CLOSEIO_BOOLEAN = "SDL_mixer.audio.load.closeio"
+  MIX_PROP_AUDIO_LOAD_PREDECODE_BOOLEAN = "SDL_mixer.audio.load.predecode"
+  MIX_PROP_AUDIO_LOAD_PREFERRED_MIXER_POINTER = "SDL_mixer.audio.load.preferred_mixer"
+  MIX_PROP_AUDIO_LOAD_SKIP_METADATA_TAGS_BOOLEAN = "SDL_mixer.audio.load.skip_metadata_tags"
+  MIX_PROP_AUDIO_DECODER_STRING = "SDL_mixer.audio.decoder"
+  MIX_PROP_METADATA_TITLE_STRING = "SDL_mixer.metadata.title"
+  MIX_PROP_METADATA_ARTIST_STRING = "SDL_mixer.metadata.artist"
+  MIX_PROP_METADATA_ALBUM_STRING = "SDL_mixer.metadata.album"
+  MIX_PROP_METADATA_COPYRIGHT_STRING = "SDL_mixer.metadata.copyright"
+  MIX_PROP_METADATA_TRACK_NUMBER = "SDL_mixer.metadata.track"
+  MIX_PROP_METADATA_TOTAL_TRACKS_NUMBER = "SDL_mixer.metadata.total_tracks"
+  MIX_PROP_METADATA_YEAR_NUMBER = "SDL_mixer.metadata.year"
+  MIX_PROP_METADATA_DURATION_FRAMES_NUMBER = "SDL_mixer.metadata.duration_frames"
+  MIX_PROP_METADATA_DURATION_INFINITE_BOOLEAN = "SDL_mixer.metadata.duration_infinite"
+  MIX_DURATION_UNKNOWN = -1
+  MIX_DURATION_INFINITE = -2
+  MIX_PROP_PLAY_LOOPS_NUMBER = "SDL_mixer.play.loops"
+  MIX_PROP_PLAY_MAX_FRAME_NUMBER = "SDL_mixer.play.max_frame"
+  MIX_PROP_PLAY_MAX_MILLISECONDS_NUMBER = "SDL_mixer.play.max_milliseconds"
+  MIX_PROP_PLAY_START_FRAME_NUMBER = "SDL_mixer.play.start_frame"
+  MIX_PROP_PLAY_START_MILLISECOND_NUMBER = "SDL_mixer.play.start_millisecond"
+  MIX_PROP_PLAY_LOOP_START_FRAME_NUMBER = "SDL_mixer.play.loop_start_frame"
+  MIX_PROP_PLAY_LOOP_START_MILLISECOND_NUMBER = "SDL_mixer.play.loop_start_millisecond"
+  MIX_PROP_PLAY_FADE_IN_FRAMES_NUMBER = "SDL_mixer.play.fade_in_frames"
+  MIX_PROP_PLAY_FADE_IN_MILLISECONDS_NUMBER = "SDL_mixer.play.fade_in_milliseconds"
+  MIX_PROP_PLAY_APPEND_SILENCE_FRAMES_NUMBER = "SDL_mixer.play.append_silence_frames"
+  MIX_PROP_PLAY_APPEND_SILENCE_MILLISECONDS_NUMBER = "SDL_mixer.play.append_silence_milliseconds"
 
   # Enum
 
-  MIX_NO_FADING = 0
-  MIX_FADING_OUT = 1
-  MIX_FADING_IN = 2
-  MUS_NONE = 0
-  MUS_WAV = 1
-  MUS_MOD = 2
-  MUS_MID = 3
-  MUS_OGG = 4
-  MUS_MP3 = 5
-  MUS_FLAC = 6
-  MUS_OPUS = 7
-  MUS_WAVPACK = 8
-  MUS_GME = 9
 
   # Typedef
 
-  typedef :uint, :MIX_InitFlags
-  typedef :int, :Mix_Fading
-  typedef :int, :Mix_MusicType
-  callback :Mix_MixCallback, [:pointer, :pointer, :int], :void
-  callback :Mix_MusicFinishedCallback, [], :void
-  callback :Mix_ChannelFinishedCallback, [:int], :void
-  callback :Mix_EffectFunc_t, [:int, :pointer, :int, :pointer], :void
-  callback :Mix_EffectDone_t, [:int, :pointer], :void
-  callback :Mix_EachSoundFontCallback, [:pointer, :pointer], :bool
+  callback :MIX_TrackStoppedCallback, [:pointer, :pointer], :void
+  callback :MIX_TrackMixCallback, [:pointer, :pointer, :pointer, :pointer, :int], :void
+  callback :MIX_GroupMixCallback, [:pointer, :pointer, :pointer, :pointer, :int], :void
+  callback :MIX_PostMixCallback, [:pointer, :pointer, :pointer, :pointer, :int], :void
 
   # Struct
 
-  class Mix_Chunk < FFI::Struct
+  class MIX_StereoGains < FFI::Struct
     layout(
-      :allocated, :int,
-      :abuf, :pointer,
-      :alen, :uint,
-      :volume, :uchar,
+      :left, :float,
+      :right, :float,
+    )
+  end
+
+  class MIX_Point3D < FFI::Struct
+    layout(
+      :x, :float,
+      :y, :float,
+      :z, :float,
     )
   end
 
@@ -71,101 +75,95 @@ module SDL
 
   def self.setup_mixer_symbols(output_error = false)
     entries = [
-      [:Mix_Version, :Mix_Version, [], :int],
-      [:Mix_Init, :Mix_Init, [:uint], :uint],
-      [:Mix_Quit, :Mix_Quit, [], :void],
-      [:Mix_OpenAudio, :Mix_OpenAudio, [:uint, :pointer], :bool],
-      [:Mix_PauseAudio, :Mix_PauseAudio, [:int], :void],
-      [:Mix_QuerySpec, :Mix_QuerySpec, [:pointer, :pointer, :pointer], :bool],
-      [:Mix_AllocateChannels, :Mix_AllocateChannels, [:int], :int],
-      [:Mix_LoadWAV_IO, :Mix_LoadWAV_IO, [:pointer, :bool], :pointer],
-      [:Mix_LoadWAV, :Mix_LoadWAV, [:pointer], :pointer],
-      [:Mix_LoadMUS, :Mix_LoadMUS, [:pointer], :pointer],
-      [:Mix_LoadMUS_IO, :Mix_LoadMUS_IO, [:pointer, :bool], :pointer],
-      [:Mix_LoadMUSType_IO, :Mix_LoadMUSType_IO, [:pointer, :int, :bool], :pointer],
-      [:Mix_QuickLoad_WAV, :Mix_QuickLoad_WAV, [:pointer], :pointer],
-      [:Mix_QuickLoad_RAW, :Mix_QuickLoad_RAW, [:pointer, :uint], :pointer],
-      [:Mix_FreeChunk, :Mix_FreeChunk, [:pointer], :void],
-      [:Mix_FreeMusic, :Mix_FreeMusic, [:pointer], :void],
-      [:Mix_GetNumChunkDecoders, :Mix_GetNumChunkDecoders, [], :int],
-      [:Mix_GetChunkDecoder, :Mix_GetChunkDecoder, [:int], :pointer],
-      [:Mix_HasChunkDecoder, :Mix_HasChunkDecoder, [:pointer], :bool],
-      [:Mix_GetNumMusicDecoders, :Mix_GetNumMusicDecoders, [], :int],
-      [:Mix_GetMusicDecoder, :Mix_GetMusicDecoder, [:int], :pointer],
-      [:Mix_HasMusicDecoder, :Mix_HasMusicDecoder, [:pointer], :bool],
-      [:Mix_GetMusicType, :Mix_GetMusicType, [:pointer], :int],
-      [:Mix_GetMusicTitle, :Mix_GetMusicTitle, [:pointer], :pointer],
-      [:Mix_GetMusicTitleTag, :Mix_GetMusicTitleTag, [:pointer], :pointer],
-      [:Mix_GetMusicArtistTag, :Mix_GetMusicArtistTag, [:pointer], :pointer],
-      [:Mix_GetMusicAlbumTag, :Mix_GetMusicAlbumTag, [:pointer], :pointer],
-      [:Mix_GetMusicCopyrightTag, :Mix_GetMusicCopyrightTag, [:pointer], :pointer],
-      [:Mix_SetPostMix, :Mix_SetPostMix, [:Mix_MixCallback, :pointer], :void],
-      [:Mix_HookMusic, :Mix_HookMusic, [:Mix_MixCallback, :pointer], :void],
-      [:Mix_HookMusicFinished, :Mix_HookMusicFinished, [:Mix_MusicFinishedCallback], :void],
-      [:Mix_GetMusicHookData, :Mix_GetMusicHookData, [], :pointer],
-      [:Mix_ChannelFinished, :Mix_ChannelFinished, [:Mix_ChannelFinishedCallback], :void],
-      [:Mix_RegisterEffect, :Mix_RegisterEffect, [:int, :Mix_EffectFunc_t, :Mix_EffectDone_t, :pointer], :bool],
-      [:Mix_UnregisterEffect, :Mix_UnregisterEffect, [:int, :Mix_EffectFunc_t], :bool],
-      [:Mix_UnregisterAllEffects, :Mix_UnregisterAllEffects, [:int], :bool],
-      [:Mix_SetPanning, :Mix_SetPanning, [:int, :uchar, :uchar], :bool],
-      [:Mix_SetPosition, :Mix_SetPosition, [:int, :short, :uchar], :bool],
-      [:Mix_SetDistance, :Mix_SetDistance, [:int, :uchar], :bool],
-      [:Mix_SetReverseStereo, :Mix_SetReverseStereo, [:int, :int], :bool],
-      [:Mix_ReserveChannels, :Mix_ReserveChannels, [:int], :int],
-      [:Mix_GroupChannel, :Mix_GroupChannel, [:int, :int], :bool],
-      [:Mix_GroupChannels, :Mix_GroupChannels, [:int, :int, :int], :bool],
-      [:Mix_GroupAvailable, :Mix_GroupAvailable, [:int], :int],
-      [:Mix_GroupCount, :Mix_GroupCount, [:int], :int],
-      [:Mix_GroupOldest, :Mix_GroupOldest, [:int], :int],
-      [:Mix_GroupNewer, :Mix_GroupNewer, [:int], :int],
-      [:Mix_PlayChannel, :Mix_PlayChannel, [:int, :pointer, :int], :int],
-      [:Mix_PlayChannelTimed, :Mix_PlayChannelTimed, [:int, :pointer, :int, :int], :int],
-      [:Mix_PlayMusic, :Mix_PlayMusic, [:pointer, :int], :bool],
-      [:Mix_FadeInMusic, :Mix_FadeInMusic, [:pointer, :int, :int], :bool],
-      [:Mix_FadeInMusicPos, :Mix_FadeInMusicPos, [:pointer, :int, :int, :double], :bool],
-      [:Mix_FadeInChannel, :Mix_FadeInChannel, [:int, :pointer, :int, :int], :int],
-      [:Mix_FadeInChannelTimed, :Mix_FadeInChannelTimed, [:int, :pointer, :int, :int, :int], :int],
-      [:Mix_Volume, :Mix_Volume, [:int, :int], :int],
-      [:Mix_VolumeChunk, :Mix_VolumeChunk, [:pointer, :int], :int],
-      [:Mix_VolumeMusic, :Mix_VolumeMusic, [:int], :int],
-      [:Mix_GetMusicVolume, :Mix_GetMusicVolume, [:pointer], :int],
-      [:Mix_MasterVolume, :Mix_MasterVolume, [:int], :int],
-      [:Mix_HaltChannel, :Mix_HaltChannel, [:int], :void],
-      [:Mix_HaltGroup, :Mix_HaltGroup, [:int], :void],
-      [:Mix_HaltMusic, :Mix_HaltMusic, [], :void],
-      [:Mix_ExpireChannel, :Mix_ExpireChannel, [:int, :int], :int],
-      [:Mix_FadeOutChannel, :Mix_FadeOutChannel, [:int, :int], :int],
-      [:Mix_FadeOutGroup, :Mix_FadeOutGroup, [:int, :int], :int],
-      [:Mix_FadeOutMusic, :Mix_FadeOutMusic, [:int], :bool],
-      [:Mix_FadingMusic, :Mix_FadingMusic, [], :int],
-      [:Mix_FadingChannel, :Mix_FadingChannel, [:int], :int],
-      [:Mix_Pause, :Mix_Pause, [:int], :void],
-      [:Mix_PauseGroup, :Mix_PauseGroup, [:int], :void],
-      [:Mix_Resume, :Mix_Resume, [:int], :void],
-      [:Mix_ResumeGroup, :Mix_ResumeGroup, [:int], :void],
-      [:Mix_Paused, :Mix_Paused, [:int], :int],
-      [:Mix_PauseMusic, :Mix_PauseMusic, [], :void],
-      [:Mix_ResumeMusic, :Mix_ResumeMusic, [], :void],
-      [:Mix_RewindMusic, :Mix_RewindMusic, [], :void],
-      [:Mix_PausedMusic, :Mix_PausedMusic, [], :bool],
-      [:Mix_ModMusicJumpToOrder, :Mix_ModMusicJumpToOrder, [:int], :bool],
-      [:Mix_StartTrack, :Mix_StartTrack, [:pointer, :int], :bool],
-      [:Mix_GetNumTracks, :Mix_GetNumTracks, [:pointer], :int],
-      [:Mix_SetMusicPosition, :Mix_SetMusicPosition, [:double], :bool],
-      [:Mix_GetMusicPosition, :Mix_GetMusicPosition, [:pointer], :double],
-      [:Mix_MusicDuration, :Mix_MusicDuration, [:pointer], :double],
-      [:Mix_GetMusicLoopStartTime, :Mix_GetMusicLoopStartTime, [:pointer], :double],
-      [:Mix_GetMusicLoopEndTime, :Mix_GetMusicLoopEndTime, [:pointer], :double],
-      [:Mix_GetMusicLoopLengthTime, :Mix_GetMusicLoopLengthTime, [:pointer], :double],
-      [:Mix_Playing, :Mix_Playing, [:int], :int],
-      [:Mix_PlayingMusic, :Mix_PlayingMusic, [], :bool],
-      [:Mix_SetSoundFonts, :Mix_SetSoundFonts, [:pointer], :bool],
-      [:Mix_GetSoundFonts, :Mix_GetSoundFonts, [], :pointer],
-      [:Mix_EachSoundFont, :Mix_EachSoundFont, [:Mix_EachSoundFontCallback, :pointer], :bool],
-      [:Mix_SetTimidityCfg, :Mix_SetTimidityCfg, [:pointer], :bool],
-      [:Mix_GetTimidityCfg, :Mix_GetTimidityCfg, [], :pointer],
-      [:Mix_GetChunk, :Mix_GetChunk, [:int], :pointer],
-      [:Mix_CloseAudio, :Mix_CloseAudio, [], :void],
+      [:MIX_Version, :MIX_Version, [], :int],
+      [:MIX_Init, :MIX_Init, [], :bool],
+      [:MIX_Quit, :MIX_Quit, [], :void],
+      [:MIX_GetNumAudioDecoders, :MIX_GetNumAudioDecoders, [], :int],
+      [:MIX_GetAudioDecoder, :MIX_GetAudioDecoder, [:int], :pointer],
+      [:MIX_CreateMixerDevice, :MIX_CreateMixerDevice, [:uint, :pointer], :pointer],
+      [:MIX_CreateMixer, :MIX_CreateMixer, [:pointer], :pointer],
+      [:MIX_DestroyMixer, :MIX_DestroyMixer, [:pointer], :void],
+      [:MIX_GetMixerProperties, :MIX_GetMixerProperties, [:pointer], :uint],
+      [:MIX_GetMixerFormat, :MIX_GetMixerFormat, [:pointer, :pointer], :bool],
+      [:MIX_LoadAudio_IO, :MIX_LoadAudio_IO, [:pointer, :pointer, :bool, :bool], :pointer],
+      [:MIX_LoadAudio, :MIX_LoadAudio, [:pointer, :pointer, :bool], :pointer],
+      [:MIX_LoadAudioWithProperties, :MIX_LoadAudioWithProperties, [:uint], :pointer],
+      [:MIX_LoadRawAudio_IO, :MIX_LoadRawAudio_IO, [:pointer, :pointer, :pointer, :bool], :pointer],
+      [:MIX_LoadRawAudio, :MIX_LoadRawAudio, [:pointer, :pointer, :ulong_long, :pointer], :pointer],
+      [:MIX_LoadRawAudioNoCopy, :MIX_LoadRawAudioNoCopy, [:pointer, :pointer, :ulong_long, :pointer, :bool], :pointer],
+      [:MIX_CreateSineWaveAudio, :MIX_CreateSineWaveAudio, [:pointer, :int, :float], :pointer],
+      [:MIX_GetAudioProperties, :MIX_GetAudioProperties, [:pointer], :uint],
+      [:MIX_GetAudioDuration, :MIX_GetAudioDuration, [:pointer], :long_long],
+      [:MIX_GetAudioFormat, :MIX_GetAudioFormat, [:pointer, :pointer], :bool],
+      [:MIX_DestroyAudio, :MIX_DestroyAudio, [:pointer], :void],
+      [:MIX_CreateTrack, :MIX_CreateTrack, [:pointer], :pointer],
+      [:MIX_DestroyTrack, :MIX_DestroyTrack, [:pointer], :void],
+      [:MIX_GetTrackProperties, :MIX_GetTrackProperties, [:pointer], :uint],
+      [:MIX_GetTrackMixer, :MIX_GetTrackMixer, [:pointer], :pointer],
+      [:MIX_SetTrackAudio, :MIX_SetTrackAudio, [:pointer, :pointer], :bool],
+      [:MIX_SetTrackAudioStream, :MIX_SetTrackAudioStream, [:pointer, :pointer], :bool],
+      [:MIX_SetTrackIOStream, :MIX_SetTrackIOStream, [:pointer, :pointer, :bool], :bool],
+      [:MIX_SetTrackRawIOStream, :MIX_SetTrackRawIOStream, [:pointer, :pointer, :pointer, :bool], :bool],
+      [:MIX_TagTrack, :MIX_TagTrack, [:pointer, :pointer], :bool],
+      [:MIX_UntagTrack, :MIX_UntagTrack, [:pointer, :pointer], :void],
+      [:MIX_GetTrackTags, :MIX_GetTrackTags, [:pointer, :pointer], :pointer],
+      [:MIX_GetTaggedTracks, :MIX_GetTaggedTracks, [:pointer, :pointer, :pointer], :pointer],
+      [:MIX_SetTrackPlaybackPosition, :MIX_SetTrackPlaybackPosition, [:pointer, :long_long], :bool],
+      [:MIX_GetTrackPlaybackPosition, :MIX_GetTrackPlaybackPosition, [:pointer], :long_long],
+      [:MIX_GetTrackFadeFrames, :MIX_GetTrackFadeFrames, [:pointer], :long_long],
+      [:MIX_TrackLooping, :MIX_TrackLooping, [:pointer], :bool],
+      [:MIX_SetTrackLoops, :MIX_SetTrackLoops, [:pointer, :int], :bool],
+      [:MIX_GetTrackAudio, :MIX_GetTrackAudio, [:pointer], :pointer],
+      [:MIX_GetTrackAudioStream, :MIX_GetTrackAudioStream, [:pointer], :pointer],
+      [:MIX_GetTrackRemaining, :MIX_GetTrackRemaining, [:pointer], :long_long],
+      [:MIX_TrackMSToFrames, :MIX_TrackMSToFrames, [:pointer, :long_long], :long_long],
+      [:MIX_TrackFramesToMS, :MIX_TrackFramesToMS, [:pointer, :long_long], :long_long],
+      [:MIX_AudioMSToFrames, :MIX_AudioMSToFrames, [:pointer, :long_long], :long_long],
+      [:MIX_AudioFramesToMS, :MIX_AudioFramesToMS, [:pointer, :long_long], :long_long],
+      [:MIX_MSToFrames, :MIX_MSToFrames, [:int, :long_long], :long_long],
+      [:MIX_FramesToMS, :MIX_FramesToMS, [:int, :long_long], :long_long],
+      [:MIX_PlayTrack, :MIX_PlayTrack, [:pointer, :uint], :bool],
+      [:MIX_PlayTag, :MIX_PlayTag, [:pointer, :pointer, :uint], :bool],
+      [:MIX_PlayAudio, :MIX_PlayAudio, [:pointer, :pointer], :bool],
+      [:MIX_StopTrack, :MIX_StopTrack, [:pointer, :long_long], :bool],
+      [:MIX_StopAllTracks, :MIX_StopAllTracks, [:pointer, :long_long], :bool],
+      [:MIX_StopTag, :MIX_StopTag, [:pointer, :pointer, :long_long], :bool],
+      [:MIX_PauseTrack, :MIX_PauseTrack, [:pointer], :bool],
+      [:MIX_PauseAllTracks, :MIX_PauseAllTracks, [:pointer], :bool],
+      [:MIX_PauseTag, :MIX_PauseTag, [:pointer, :pointer], :bool],
+      [:MIX_ResumeTrack, :MIX_ResumeTrack, [:pointer], :bool],
+      [:MIX_ResumeAllTracks, :MIX_ResumeAllTracks, [:pointer], :bool],
+      [:MIX_ResumeTag, :MIX_ResumeTag, [:pointer, :pointer], :bool],
+      [:MIX_TrackPlaying, :MIX_TrackPlaying, [:pointer], :bool],
+      [:MIX_TrackPaused, :MIX_TrackPaused, [:pointer], :bool],
+      [:MIX_SetMasterGain, :MIX_SetMasterGain, [:pointer, :float], :bool],
+      [:MIX_GetMasterGain, :MIX_GetMasterGain, [:pointer], :float],
+      [:MIX_SetTrackGain, :MIX_SetTrackGain, [:pointer, :float], :bool],
+      [:MIX_GetTrackGain, :MIX_GetTrackGain, [:pointer], :float],
+      [:MIX_SetTagGain, :MIX_SetTagGain, [:pointer, :pointer, :float], :bool],
+      [:MIX_SetTrackFrequencyRatio, :MIX_SetTrackFrequencyRatio, [:pointer, :float], :bool],
+      [:MIX_GetTrackFrequencyRatio, :MIX_GetTrackFrequencyRatio, [:pointer], :float],
+      [:MIX_SetTrackOutputChannelMap, :MIX_SetTrackOutputChannelMap, [:pointer, :pointer, :int], :bool],
+      [:MIX_SetTrackStereo, :MIX_SetTrackStereo, [:pointer, :pointer], :bool],
+      [:MIX_SetTrack3DPosition, :MIX_SetTrack3DPosition, [:pointer, :pointer], :bool],
+      [:MIX_GetTrack3DPosition, :MIX_GetTrack3DPosition, [:pointer, :pointer], :bool],
+      [:MIX_CreateGroup, :MIX_CreateGroup, [:pointer], :pointer],
+      [:MIX_DestroyGroup, :MIX_DestroyGroup, [:pointer], :void],
+      [:MIX_GetGroupProperties, :MIX_GetGroupProperties, [:pointer], :uint],
+      [:MIX_GetGroupMixer, :MIX_GetGroupMixer, [:pointer], :pointer],
+      [:MIX_SetTrackGroup, :MIX_SetTrackGroup, [:pointer, :pointer], :bool],
+      [:MIX_SetTrackStoppedCallback, :MIX_SetTrackStoppedCallback, [:pointer, :MIX_TrackStoppedCallback, :pointer], :bool],
+      [:MIX_SetTrackRawCallback, :MIX_SetTrackRawCallback, [:pointer, :MIX_TrackMixCallback, :pointer], :bool],
+      [:MIX_SetTrackCookedCallback, :MIX_SetTrackCookedCallback, [:pointer, :MIX_TrackMixCallback, :pointer], :bool],
+      [:MIX_SetGroupPostMixCallback, :MIX_SetGroupPostMixCallback, [:pointer, :MIX_GroupMixCallback, :pointer], :bool],
+      [:MIX_SetPostMixCallback, :MIX_SetPostMixCallback, [:pointer, :MIX_PostMixCallback, :pointer], :bool],
+      [:MIX_Generate, :MIX_Generate, [:pointer, :pointer, :int], :bool],
+      [:MIX_CreateAudioDecoder, :MIX_CreateAudioDecoder, [:pointer, :uint], :pointer],
+      [:MIX_CreateAudioDecoder_IO, :MIX_CreateAudioDecoder_IO, [:pointer, :bool, :uint], :pointer],
+      [:MIX_DestroyAudioDecoder, :MIX_DestroyAudioDecoder, [:pointer], :void],
+      [:MIX_GetAudioDecoderProperties, :MIX_GetAudioDecoderProperties, [:pointer], :uint],
+      [:MIX_GetAudioDecoderFormat, :MIX_GetAudioDecoderFormat, [:pointer, :pointer], :bool],
+      [:MIX_DecodeAudio, :MIX_DecodeAudio, [:pointer, :pointer, :int, :pointer], :int],
     ]
     entries.each do |entry|
       attach_function entry[0], entry[1], entry[2], entry[3]

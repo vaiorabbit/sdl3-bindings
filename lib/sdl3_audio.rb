@@ -34,6 +34,7 @@ module SDL
 
   typedef :int, :SDL_AudioFormat
   typedef :uint, :SDL_AudioDeviceID
+  callback :SDL_AudioStreamDataCompleteCallback, [:pointer, :pointer, :int], :void
   callback :SDL_AudioStreamCallback, [:pointer, :pointer, :int, :int], :void
   callback :SDL_AudioPostmixCallback, [:pointer, :pointer, :pointer, :int], :void
 
@@ -87,6 +88,8 @@ module SDL
       [:SetAudioStreamInputChannelMap, :SDL_SetAudioStreamInputChannelMap, [:pointer, :pointer, :int], :bool],
       [:SetAudioStreamOutputChannelMap, :SDL_SetAudioStreamOutputChannelMap, [:pointer, :pointer, :int], :bool],
       [:PutAudioStreamData, :SDL_PutAudioStreamData, [:pointer, :pointer, :int], :bool],
+      [:PutAudioStreamDataNoCopy, :SDL_PutAudioStreamDataNoCopy, [:pointer, :pointer, :int, :SDL_AudioStreamDataCompleteCallback, :pointer], :bool],
+      [:PutAudioStreamPlanarData, :SDL_PutAudioStreamPlanarData, [:pointer, :pointer, :int, :int], :bool],
       [:GetAudioStreamData, :SDL_GetAudioStreamData, [:pointer, :pointer, :int], :int],
       [:GetAudioStreamAvailable, :SDL_GetAudioStreamAvailable, [:pointer], :int],
       [:GetAudioStreamQueued, :SDL_GetAudioStreamQueued, [:pointer], :int],

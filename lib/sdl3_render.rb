@@ -11,11 +11,16 @@ module SDL
   # Define/Macro
 
   SOFTWARE_RENDERER = "software"
+  GPU_RENDERER = "gpu"
   PROP_RENDERER_CREATE_NAME_STRING = "SDL.renderer.create.name"
   PROP_RENDERER_CREATE_WINDOW_POINTER = "SDL.renderer.create.window"
   PROP_RENDERER_CREATE_SURFACE_POINTER = "SDL.renderer.create.surface"
   PROP_RENDERER_CREATE_OUTPUT_COLORSPACE_NUMBER = "SDL.renderer.create.output_colorspace"
   PROP_RENDERER_CREATE_PRESENT_VSYNC_NUMBER = "SDL.renderer.create.present_vsync"
+  PROP_RENDERER_CREATE_GPU_DEVICE_POINTER = "SDL.renderer.create.gpu.device"
+  PROP_RENDERER_CREATE_GPU_SHADERS_SPIRV_BOOLEAN = "SDL.renderer.create.gpu.shaders_spirv"
+  PROP_RENDERER_CREATE_GPU_SHADERS_DXIL_BOOLEAN = "SDL.renderer.create.gpu.shaders_dxil"
+  PROP_RENDERER_CREATE_GPU_SHADERS_MSL_BOOLEAN = "SDL.renderer.create.gpu.shaders_msl"
   PROP_RENDERER_CREATE_VULKAN_INSTANCE_POINTER = "SDL.renderer.create.vulkan.instance"
   PROP_RENDERER_CREATE_VULKAN_SURFACE_NUMBER = "SDL.renderer.create.vulkan.surface"
   PROP_RENDERER_CREATE_VULKAN_PHYSICAL_DEVICE_POINTER = "SDL.renderer.create.vulkan.physical_device"
@@ -28,6 +33,7 @@ module SDL
   PROP_RENDERER_VSYNC_NUMBER = "SDL.renderer.vsync"
   PROP_RENDERER_MAX_TEXTURE_SIZE_NUMBER = "SDL.renderer.max_texture_size"
   PROP_RENDERER_TEXTURE_FORMATS_POINTER = "SDL.renderer.texture_formats"
+  PROP_RENDERER_TEXTURE_WRAPPING_BOOLEAN = "SDL.renderer.texture_wrapping"
   PROP_RENDERER_OUTPUT_COLORSPACE_NUMBER = "SDL.renderer.output_colorspace"
   PROP_RENDERER_HDR_ENABLED_BOOLEAN = "SDL.renderer.HDR_enabled"
   PROP_RENDERER_SDR_WHITE_POINT_FLOAT = "SDL.renderer.SDR_white_point"
@@ -51,6 +57,7 @@ module SDL
   PROP_TEXTURE_CREATE_ACCESS_NUMBER = "SDL.texture.create.access"
   PROP_TEXTURE_CREATE_WIDTH_NUMBER = "SDL.texture.create.width"
   PROP_TEXTURE_CREATE_HEIGHT_NUMBER = "SDL.texture.create.height"
+  PROP_TEXTURE_CREATE_PALETTE_POINTER = "SDL.texture.create.palette"
   PROP_TEXTURE_CREATE_SDR_WHITE_POINT_FLOAT = "SDL.texture.create.SDR_white_point"
   PROP_TEXTURE_CREATE_HDR_HEADROOM_FLOAT = "SDL.texture.create.HDR_headroom"
   PROP_TEXTURE_CREATE_D3D11_TEXTURE_POINTER = "SDL.texture.create.d3d11.texture"
@@ -69,6 +76,11 @@ module SDL
   PROP_TEXTURE_CREATE_OPENGLES2_TEXTURE_U_NUMBER = "SDL.texture.create.opengles2.texture_u"
   PROP_TEXTURE_CREATE_OPENGLES2_TEXTURE_V_NUMBER = "SDL.texture.create.opengles2.texture_v"
   PROP_TEXTURE_CREATE_VULKAN_TEXTURE_NUMBER = "SDL.texture.create.vulkan.texture"
+  PROP_TEXTURE_CREATE_VULKAN_LAYOUT_NUMBER = "SDL.texture.create.vulkan.layout"
+  PROP_TEXTURE_CREATE_GPU_TEXTURE_POINTER = "SDL.texture.create.gpu.texture"
+  PROP_TEXTURE_CREATE_GPU_TEXTURE_UV_POINTER = "SDL.texture.create.gpu.texture_uv"
+  PROP_TEXTURE_CREATE_GPU_TEXTURE_U_POINTER = "SDL.texture.create.gpu.texture_u"
+  PROP_TEXTURE_CREATE_GPU_TEXTURE_V_POINTER = "SDL.texture.create.gpu.texture_v"
   PROP_TEXTURE_COLORSPACE_NUMBER = "SDL.texture.colorspace"
   PROP_TEXTURE_FORMAT_NUMBER = "SDL.texture.format"
   PROP_TEXTURE_ACCESS_NUMBER = "SDL.texture.access"
@@ -95,6 +107,10 @@ module SDL
   PROP_TEXTURE_OPENGLES2_TEXTURE_V_NUMBER = "SDL.texture.opengles2.texture_v"
   PROP_TEXTURE_OPENGLES2_TEXTURE_TARGET_NUMBER = "SDL.texture.opengles2.target"
   PROP_TEXTURE_VULKAN_TEXTURE_NUMBER = "SDL.texture.vulkan.texture"
+  PROP_TEXTURE_GPU_TEXTURE_POINTER = "SDL.texture.gpu.texture"
+  PROP_TEXTURE_GPU_TEXTURE_UV_POINTER = "SDL.texture.gpu.texture_uv"
+  PROP_TEXTURE_GPU_TEXTURE_U_POINTER = "SDL.texture.gpu.texture_u"
+  PROP_TEXTURE_GPU_TEXTURE_V_POINTER = "SDL.texture.gpu.texture_v"
   RENDERER_VSYNC_DISABLED = 0
   RENDERER_VSYNC_ADAPTIVE = -1
   DEBUG_TEXT_FONT_CHARACTER_SIZE = 8
@@ -104,6 +120,10 @@ module SDL
   TEXTUREACCESS_STATIC = 0
   TEXTUREACCESS_STREAMING = 1
   TEXTUREACCESS_TARGET = 2
+  TEXTURE_ADDRESS_INVALID = -1
+  TEXTURE_ADDRESS_AUTO = 0
+  TEXTURE_ADDRESS_CLAMP = 1
+  TEXTURE_ADDRESS_WRAP = 2
   LOGICAL_PRESENTATION_DISABLED = 0
   LOGICAL_PRESENTATION_STRETCH = 1
   LOGICAL_PRESENTATION_LETTERBOX = 2
@@ -113,6 +133,7 @@ module SDL
   # Typedef
 
   typedef :int, :SDL_TextureAccess
+  typedef :int, :SDL_TextureAddressMode
   typedef :int, :SDL_RendererLogicalPresentation
 
   # Struct
@@ -134,6 +155,19 @@ module SDL
     )
   end
 
+  class GPURenderStateCreateInfo < FFI::Struct
+    layout(
+      :fragment_shader, :pointer,
+      :num_sampler_bindings, :int,
+      :sampler_bindings, :pointer,
+      :num_storage_textures, :int,
+      :storage_textures, :pointer,
+      :num_storage_buffers, :int,
+      :storage_buffers, :pointer,
+      :props, :uint,
+    )
+  end
+
 
   # Function
 
@@ -144,6 +178,8 @@ module SDL
       [:CreateWindowAndRenderer, :SDL_CreateWindowAndRenderer, [:pointer, :int, :int, :ulong_long, :pointer, :pointer], :bool],
       [:CreateRenderer, :SDL_CreateRenderer, [:pointer, :pointer], :pointer],
       [:CreateRendererWithProperties, :SDL_CreateRendererWithProperties, [:uint], :pointer],
+      [:CreateGPURenderer, :SDL_CreateGPURenderer, [:pointer, :pointer], :pointer],
+      [:GetGPURendererDevice, :SDL_GetGPURendererDevice, [:pointer], :pointer],
       [:CreateSoftwareRenderer, :SDL_CreateSoftwareRenderer, [:pointer], :pointer],
       [:GetRenderer, :SDL_GetRenderer, [:pointer], :pointer],
       [:GetRenderWindow, :SDL_GetRenderWindow, [:pointer], :pointer],
@@ -157,6 +193,8 @@ module SDL
       [:GetTextureProperties, :SDL_GetTextureProperties, [:pointer], :uint],
       [:GetRendererFromTexture, :SDL_GetRendererFromTexture, [:pointer], :pointer],
       [:GetTextureSize, :SDL_GetTextureSize, [:pointer, :pointer, :pointer], :bool],
+      [:SetTexturePalette, :SDL_SetTexturePalette, [:pointer, :pointer], :bool],
+      [:GetTexturePalette, :SDL_GetTexturePalette, [:pointer], :pointer],
       [:SetTextureColorMod, :SDL_SetTextureColorMod, [:pointer, :uchar, :uchar, :uchar], :bool],
       [:SetTextureColorModFloat, :SDL_SetTextureColorModFloat, [:pointer, :float, :float, :float], :bool],
       [:GetTextureColorMod, :SDL_GetTextureColorMod, [:pointer, :pointer, :pointer, :pointer], :bool],
@@ -214,8 +252,11 @@ module SDL
       [:RenderTextureAffine, :SDL_RenderTextureAffine, [:pointer, :pointer, :pointer, :pointer, :pointer, :pointer], :bool],
       [:RenderTextureTiled, :SDL_RenderTextureTiled, [:pointer, :pointer, :pointer, :float, :pointer], :bool],
       [:RenderTexture9Grid, :SDL_RenderTexture9Grid, [:pointer, :pointer, :pointer, :float, :float, :float, :float, :float, :pointer], :bool],
+      [:RenderTexture9GridTiled, :SDL_RenderTexture9GridTiled, [:pointer, :pointer, :pointer, :float, :float, :float, :float, :float, :pointer, :float], :bool],
       [:RenderGeometry, :SDL_RenderGeometry, [:pointer, :pointer, :pointer, :int, :pointer, :int], :bool],
       [:RenderGeometryRaw, :SDL_RenderGeometryRaw, [:pointer, :pointer, :pointer, :int, :pointer, :int, :pointer, :int, :int, :pointer, :int, :int], :bool],
+      [:SetRenderTextureAddressMode, :SDL_SetRenderTextureAddressMode, [:pointer, :int, :int], :bool],
+      [:GetRenderTextureAddressMode, :SDL_GetRenderTextureAddressMode, [:pointer, :pointer, :pointer], :bool],
       [:RenderReadPixels, :SDL_RenderReadPixels, [:pointer, :pointer], :pointer],
       [:RenderPresent, :SDL_RenderPresent, [:pointer], :bool],
       [:DestroyTexture, :SDL_DestroyTexture, [:pointer], :void],
@@ -228,6 +269,12 @@ module SDL
       [:GetRenderVSync, :SDL_GetRenderVSync, [:pointer, :pointer], :bool],
       [:RenderDebugText, :SDL_RenderDebugText, [:pointer, :float, :float, :pointer], :bool],
       [:RenderDebugTextFormat, :SDL_RenderDebugTextFormat, [:pointer, :float, :float, :pointer], :bool],
+      [:SetDefaultTextureScaleMode, :SDL_SetDefaultTextureScaleMode, [:pointer, :int], :bool],
+      [:GetDefaultTextureScaleMode, :SDL_GetDefaultTextureScaleMode, [:pointer, :pointer], :bool],
+      [:CreateGPURenderState, :SDL_CreateGPURenderState, [:pointer, :pointer], :pointer],
+      [:SetGPURenderStateFragmentUniforms, :SDL_SetGPURenderStateFragmentUniforms, [:pointer, :uint, :pointer, :uint], :bool],
+      [:SetGPURenderState, :SDL_SetGPURenderState, [:pointer, :pointer], :bool],
+      [:DestroyGPURenderState, :SDL_DestroyGPURenderState, [:pointer], :void],
     ]
     entries.each do |entry|
       attach_function entry[0], entry[1], entry[2], entry[3]

@@ -19,6 +19,7 @@ module SDL
   PEN_INPUT_BUTTON_4 = 1 << 4
   PEN_INPUT_BUTTON_5 = 1 << 5
   PEN_INPUT_ERASER_TIP = 1 << 30
+  PEN_INPUT_IN_PROXIMITY = 1 << 31
 
   # Enum
 
@@ -30,12 +31,17 @@ module SDL
   PEN_AXIS_SLIDER = 5
   PEN_AXIS_TANGENTIAL_PRESSURE = 6
   PEN_AXIS_COUNT = 7
+  PEN_DEVICE_TYPE_INVALID = -1
+  PEN_DEVICE_TYPE_UNKNOWN = 0
+  PEN_DEVICE_TYPE_DIRECT = 1
+  PEN_DEVICE_TYPE_INDIRECT = 2
 
   # Typedef
 
   typedef :uint, :SDL_PenID
   typedef :uint, :SDL_PenInputFlags
   typedef :int, :SDL_PenAxis
+  typedef :int, :SDL_PenDeviceType
 
   # Struct
 
@@ -44,6 +50,7 @@ module SDL
 
   def self.setup_pen_symbols(output_error = false)
     entries = [
+      [:GetPenDeviceType, :SDL_GetPenDeviceType, [:uint], :int],
     ]
     entries.each do |entry|
       attach_function entry[0], entry[1], entry[2], entry[3]

@@ -57,6 +57,7 @@ module SDL
       [:hid_free_enumeration, :SDL_hid_free_enumeration, [:pointer], :void],
       [:hid_open, :SDL_hid_open, [:ushort, :ushort, :pointer], :pointer],
       [:hid_open_path, :SDL_hid_open_path, [:pointer], :pointer],
+      [:hid_get_properties, :SDL_hid_get_properties, [:pointer], :uint],
       [:hid_write, :SDL_hid_write, [:pointer, :pointer, :ulong_long], :int],
       [:hid_read_timeout, :SDL_hid_read_timeout, [:pointer, :pointer, :ulong_long, :int], :int],
       [:hid_read, :SDL_hid_read, [:pointer, :pointer, :ulong_long], :int],

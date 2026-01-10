@@ -12,8 +12,8 @@ module SDL
   # Define/Macro
 
   TTF_MAJOR_VERSION = 3
-  TTF_MINOR_VERSION = 2
-  TTF_MICRO_VERSION = 2
+  TTF_MINOR_VERSION = 3
+  TTF_MICRO_VERSION = 0
   TTF_PROP_FONT_CREATE_FILENAME_STRING = "SDL_ttf.font.create.filename"
   TTF_PROP_FONT_CREATE_IOSTREAM_POINTER = "SDL_ttf.font.create.iostream"
   TTF_PROP_FONT_CREATE_IOSTREAM_OFFSET_NUMBER = "SDL_ttf.font.create.iostream.offset"
@@ -22,7 +22,7 @@ module SDL
   TTF_PROP_FONT_CREATE_FACE_NUMBER = "SDL_ttf.font.create.face"
   TTF_PROP_FONT_CREATE_HORIZONTAL_DPI_NUMBER = "SDL_ttf.font.create.hdpi"
   TTF_PROP_FONT_CREATE_VERTICAL_DPI_NUMBER = "SDL_ttf.font.create.vdpi"
-  TTF_PROP_FONT_CREATE_EXISTING_FONT = "SDL_ttf.font.create.existing_font"
+  TTF_PROP_FONT_CREATE_EXISTING_FONT_POINTER = "SDL_ttf.font.create.existing_font"
   TTF_PROP_FONT_OUTLINE_LINE_CAP_NUMBER = "SDL_ttf.font.outline.line_cap"
   TTF_PROP_FONT_OUTLINE_LINE_JOIN_NUMBER = "SDL_ttf.font.outline.line_join"
   TTF_PROP_FONT_OUTLINE_MITER_LIMIT_NUMBER = "SDL_ttf.font.outline.miter_limit"
@@ -41,10 +41,10 @@ module SDL
   TTF_FONT_WEIGHT_EXTRA_BOLD = 800
   TTF_FONT_WEIGHT_BLACK = 900
   TTF_FONT_WEIGHT_EXTRA_BLACK = 950
-  TTF_PROP_RENDERER_TEXT_ENGINE_RENDERER = "SDL_ttf.renderer_text_engine.create.renderer"
-  TTF_PROP_RENDERER_TEXT_ENGINE_ATLAS_TEXTURE_SIZE = "SDL_ttf.renderer_text_engine.create.atlas_texture_size"
-  TTF_PROP_GPU_TEXT_ENGINE_DEVICE = "SDL_ttf.gpu_text_engine.create.device"
-  TTF_PROP_GPU_TEXT_ENGINE_ATLAS_TEXTURE_SIZE = "SDL_ttf.gpu_text_engine.create.atlas_texture_size"
+  TTF_PROP_RENDERER_TEXT_ENGINE_RENDERER_POINTER = "SDL_ttf.renderer_text_engine.create.renderer"
+  TTF_PROP_RENDERER_TEXT_ENGINE_ATLAS_TEXTURE_SIZE_NUMBER = "SDL_ttf.renderer_text_engine.create.atlas_texture_size"
+  TTF_PROP_GPU_TEXT_ENGINE_DEVICE_POINTER = "SDL_ttf.gpu_text_engine.create.device"
+  TTF_PROP_GPU_TEXT_ENGINE_ATLAS_TEXTURE_SIZE_NUMBER = "SDL_ttf.gpu_text_engine.create.atlas_texture_size"
   TTF_SUBSTRING_DIRECTION_MASK = 0x000000FF
   TTF_SUBSTRING_TEXT_START = 0x00000100
   TTF_SUBSTRING_LINE_START = 0x00000200
@@ -168,6 +168,8 @@ module SDL
       [:TTF_GetFontStyleName, :TTF_GetFontStyleName, [:pointer], :pointer],
       [:TTF_SetFontDirection, :TTF_SetFontDirection, [:pointer, :int], :bool],
       [:TTF_GetFontDirection, :TTF_GetFontDirection, [:pointer], :int],
+      [:TTF_SetFontCharSpacing, :TTF_SetFontCharSpacing, [:pointer, :int], :bool],
+      [:TTF_GetFontCharSpacing, :TTF_GetFontCharSpacing, [:pointer], :int],
       [:TTF_StringToTag, :TTF_StringToTag, [:pointer], :uint],
       [:TTF_TagToString, :TTF_TagToString, [:uint, :pointer, :ulong_long], :void],
       [:TTF_SetFontScript, :TTF_SetFontScript, [:pointer, :uint], :bool],

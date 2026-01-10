@@ -37,14 +37,26 @@ module SDL
   GPU_COLORCOMPONENT_A = 1 << 3
   PROP_GPU_DEVICE_CREATE_DEBUGMODE_BOOLEAN = "SDL.gpu.device.create.debugmode"
   PROP_GPU_DEVICE_CREATE_PREFERLOWPOWER_BOOLEAN = "SDL.gpu.device.create.preferlowpower"
+  PROP_GPU_DEVICE_CREATE_VERBOSE_BOOLEAN = "SDL.gpu.device.create.verbose"
   PROP_GPU_DEVICE_CREATE_NAME_STRING = "SDL.gpu.device.create.name"
+  PROP_GPU_DEVICE_CREATE_FEATURE_CLIP_DISTANCE_BOOLEAN = "SDL.gpu.device.create.feature.clip_distance"
+  PROP_GPU_DEVICE_CREATE_FEATURE_DEPTH_CLAMPING_BOOLEAN = "SDL.gpu.device.create.feature.depth_clamping"
+  PROP_GPU_DEVICE_CREATE_FEATURE_INDIRECT_DRAW_FIRST_INSTANCE_BOOLEAN = "SDL.gpu.device.create.feature.indirect_draw_first_instance"
+  PROP_GPU_DEVICE_CREATE_FEATURE_ANISOTROPY_BOOLEAN = "SDL.gpu.device.create.feature.anisotropy"
   PROP_GPU_DEVICE_CREATE_SHADERS_PRIVATE_BOOLEAN = "SDL.gpu.device.create.shaders.private"
   PROP_GPU_DEVICE_CREATE_SHADERS_SPIRV_BOOLEAN = "SDL.gpu.device.create.shaders.spirv"
   PROP_GPU_DEVICE_CREATE_SHADERS_DXBC_BOOLEAN = "SDL.gpu.device.create.shaders.dxbc"
   PROP_GPU_DEVICE_CREATE_SHADERS_DXIL_BOOLEAN = "SDL.gpu.device.create.shaders.dxil"
   PROP_GPU_DEVICE_CREATE_SHADERS_MSL_BOOLEAN = "SDL.gpu.device.create.shaders.msl"
   PROP_GPU_DEVICE_CREATE_SHADERS_METALLIB_BOOLEAN = "SDL.gpu.device.create.shaders.metallib"
+  PROP_GPU_DEVICE_CREATE_D3D12_ALLOW_FEWER_RESOURCE_SLOTS_BOOLEAN = "SDL.gpu.device.create.d3d12.allowtier1resourcebinding"
   PROP_GPU_DEVICE_CREATE_D3D12_SEMANTIC_NAME_STRING = "SDL.gpu.device.create.d3d12.semantic"
+  PROP_GPU_DEVICE_CREATE_VULKAN_REQUIRE_HARDWARE_ACCELERATION_BOOLEAN = "SDL.gpu.device.create.vulkan.requirehardwareacceleration"
+  PROP_GPU_DEVICE_CREATE_VULKAN_OPTIONS_POINTER = "SDL.gpu.device.create.vulkan.options"
+  PROP_GPU_DEVICE_NAME_STRING = "SDL.gpu.device.name"
+  PROP_GPU_DEVICE_DRIVER_NAME_STRING = "SDL.gpu.device.driver_name"
+  PROP_GPU_DEVICE_DRIVER_VERSION_STRING = "SDL.gpu.device.driver_version"
+  PROP_GPU_DEVICE_DRIVER_INFO_STRING = "SDL.gpu.device.driver_info"
   PROP_GPU_COMPUTEPIPELINE_CREATE_NAME_STRING = "SDL.gpu.computepipeline.create.name"
   PROP_GPU_GRAPHICSPIPELINE_CREATE_NAME_STRING = "SDL.gpu.graphicspipeline.create.name"
   PROP_GPU_SAMPLER_CREATE_NAME_STRING = "SDL.gpu.sampler.create.name"
@@ -569,7 +581,7 @@ module SDL
       :sample_count, :int,
       :sample_mask, :uint,
       :enable_mask, :bool,
-      :padding1, :uchar,
+      :enable_alpha_to_coverage, :bool,
       :padding2, :uchar,
       :padding3, :uchar,
     )
@@ -671,8 +683,8 @@ module SDL
       :stencil_store_op, :int,
       :cycle, :bool,
       :clear_stencil, :uchar,
-      :padding1, :uchar,
-      :padding2, :uchar,
+      :mip_level, :uchar,
+      :layer, :uchar,
     )
   end
 
@@ -727,6 +739,18 @@ module SDL
     )
   end
 
+  class GPUVulkanOptions < FFI::Struct
+    layout(
+      :vulkan_api_version, :uint,
+      :feature_list, :pointer,
+      :vulkan_10_physical_device_features, :pointer,
+      :device_extension_count, :uint,
+      :device_extension_names, :pointer,
+      :instance_extension_count, :uint,
+      :instance_extension_names, :pointer,
+    )
+  end
+
 
   # Function
 
@@ -741,6 +765,7 @@ module SDL
       [:GetGPUDriver, :SDL_GetGPUDriver, [:int], :pointer],
       [:GetGPUDeviceDriver, :SDL_GetGPUDeviceDriver, [:pointer], :pointer],
       [:GetGPUShaderFormats, :SDL_GetGPUShaderFormats, [:pointer], :uint],
+      [:GetGPUDeviceProperties, :SDL_GetGPUDeviceProperties, [:pointer], :uint],
       [:CreateGPUComputePipeline, :SDL_CreateGPUComputePipeline, [:pointer, :pointer], :pointer],
       [:CreateGPUGraphicsPipeline, :SDL_CreateGPUGraphicsPipeline, [:pointer, :pointer], :pointer],
       [:CreateGPUSampler, :SDL_CreateGPUSampler, [:pointer, :pointer], :pointer],
@@ -824,6 +849,8 @@ module SDL
       [:GPUTextureSupportsFormat, :SDL_GPUTextureSupportsFormat, [:pointer, :int, :int, :uint], :bool],
       [:GPUTextureSupportsSampleCount, :SDL_GPUTextureSupportsSampleCount, [:pointer, :int, :int], :bool],
       [:CalculateGPUTextureFormatSize, :SDL_CalculateGPUTextureFormatSize, [:int, :uint, :uint, :uint], :uint],
+      [:GetPixelFormatFromGPUTextureFormat, :SDL_GetPixelFormatFromGPUTextureFormat, [:int], :int],
+      [:GetGPUTextureFormatFromPixelFormat, :SDL_GetGPUTextureFormatFromPixelFormat, [:int], :int],
     ]
     entries.each do |entry|
       attach_function entry[0], entry[1], entry[2], entry[3]

@@ -32,6 +32,7 @@ module SDL
   WINDOW_TOOLTIP = 0x0000000000040000
   WINDOW_POPUP_MENU = 0x0000000000080000
   WINDOW_KEYBOARD_GRABBED = 0x0000000000100000
+  WINDOW_FILL_DOCUMENT = 0x0000000000200000
   WINDOW_VULKAN = 0x0000000010000000
   WINDOW_METAL = 0x0000000020000000
   WINDOW_TRANSPARENT = 0x0000000040000000
@@ -51,6 +52,8 @@ module SDL
   GL_CONTEXT_RESET_LOSE_CONTEXT = 0x0001
   PROP_DISPLAY_HDR_ENABLED_BOOLEAN = "SDL.display.HDR_enabled"
   PROP_DISPLAY_KMSDRM_PANEL_ORIENTATION_NUMBER = "SDL.display.KMSDRM.panel_orientation"
+  PROP_DISPLAY_WAYLAND_WL_OUTPUT_POINTER = "SDL.display.wayland.wl_output"
+  PROP_DISPLAY_WINDOWS_HMONITOR_POINTER = "SDL.display.windows.hmonitor"
   PROP_WINDOW_CREATE_ALWAYS_ON_TOP_BOOLEAN = "SDL.window.create.always_on_top"
   PROP_WINDOW_CREATE_BORDERLESS_BOOLEAN = "SDL.window.create.borderless"
   PROP_WINDOW_CREATE_CONSTRAIN_POPUP_BOOLEAN = "SDL.window.create.constrain_popup"
@@ -80,12 +83,15 @@ module SDL
   PROP_WINDOW_CREATE_Y_NUMBER = "SDL.window.create.y"
   PROP_WINDOW_CREATE_COCOA_WINDOW_POINTER = "SDL.window.create.cocoa.window"
   PROP_WINDOW_CREATE_COCOA_VIEW_POINTER = "SDL.window.create.cocoa.view"
+  PROP_WINDOW_CREATE_WINDOWSCENE_POINTER = "SDL.window.create.uikit.windowscene"
   PROP_WINDOW_CREATE_WAYLAND_SURFACE_ROLE_CUSTOM_BOOLEAN = "SDL.window.create.wayland.surface_role_custom"
   PROP_WINDOW_CREATE_WAYLAND_CREATE_EGL_WINDOW_BOOLEAN = "SDL.window.create.wayland.create_egl_window"
   PROP_WINDOW_CREATE_WAYLAND_WL_SURFACE_POINTER = "SDL.window.create.wayland.wl_surface"
   PROP_WINDOW_CREATE_WIN32_HWND_POINTER = "SDL.window.create.win32.hwnd"
   PROP_WINDOW_CREATE_WIN32_PIXEL_FORMAT_HWND_POINTER = "SDL.window.create.win32.pixel_format_hwnd"
   PROP_WINDOW_CREATE_X11_WINDOW_NUMBER = "SDL.window.create.x11.window"
+  PROP_WINDOW_CREATE_EMSCRIPTEN_CANVAS_ID_STRING = "SDL.window.create.emscripten.canvas_id"
+  PROP_WINDOW_CREATE_EMSCRIPTEN_KEYBOARD_ELEMENT_STRING = "SDL.window.create.emscripten.keyboard_element"
   PROP_WINDOW_SHAPE_POINTER = "SDL.window.shape"
   PROP_WINDOW_HDR_ENABLED_BOOLEAN = "SDL.window.HDR_enabled"
   PROP_WINDOW_SDR_WHITE_LEVEL_FLOAT = "SDL.window.SDR_white_level"
@@ -102,7 +108,7 @@ module SDL
   PROP_WINDOW_KMSDRM_GBM_DEVICE_POINTER = "SDL.window.kmsdrm.gbm_dev"
   PROP_WINDOW_COCOA_WINDOW_POINTER = "SDL.window.cocoa.window"
   PROP_WINDOW_COCOA_METAL_VIEW_TAG_NUMBER = "SDL.window.cocoa.metal_view_tag"
-  PROP_WINDOW_OPENVR_OVERLAY_ID = "SDL.window.openvr.overlay_id"
+  PROP_WINDOW_OPENVR_OVERLAY_ID_NUMBER = "SDL.window.openvr.overlay_id"
   PROP_WINDOW_VIVANTE_DISPLAY_POINTER = "SDL.window.vivante.display"
   PROP_WINDOW_VIVANTE_WINDOW_POINTER = "SDL.window.vivante.window"
   PROP_WINDOW_VIVANTE_SURFACE_POINTER = "SDL.window.vivante.surface"
@@ -121,6 +127,8 @@ module SDL
   PROP_WINDOW_X11_DISPLAY_POINTER = "SDL.window.x11.display"
   PROP_WINDOW_X11_SCREEN_NUMBER = "SDL.window.x11.screen"
   PROP_WINDOW_X11_WINDOW_NUMBER = "SDL.window.x11.window"
+  PROP_WINDOW_EMSCRIPTEN_CANVAS_ID_STRING = "SDL.window.emscripten.canvas_id"
+  PROP_WINDOW_EMSCRIPTEN_KEYBOARD_ELEMENT_STRING = "SDL.window.emscripten.keyboard_element"
   WINDOW_SURFACE_VSYNC_DISABLED = 0
   WINDOW_SURFACE_VSYNC_ADAPTIVE = -1
 
@@ -137,6 +145,12 @@ module SDL
   FLASH_CANCEL = 0
   FLASH_BRIEFLY = 1
   FLASH_UNTIL_FOCUSED = 2
+  PROGRESS_STATE_INVALID = -1
+  PROGRESS_STATE_NONE = 0
+  PROGRESS_STATE_INDETERMINATE = 1
+  PROGRESS_STATE_NORMAL = 2
+  PROGRESS_STATE_PAUSED = 3
+  PROGRESS_STATE_ERROR = 4
   GL_RED_SIZE = 0
   GL_GREEN_SIZE = 1
   GL_BLUE_SIZE = 2
@@ -184,6 +198,7 @@ module SDL
   typedef :int, :SDL_DisplayOrientation
   typedef :ulong_long, :SDL_WindowFlags
   typedef :int, :SDL_FlashOperation
+  typedef :int, :SDL_ProgressState
   typedef :pointer, :SDL_GLContext
   typedef :pointer, :SDL_EGLDisplay
   typedef :pointer, :SDL_EGLConfig
@@ -275,6 +290,7 @@ module SDL
       [:SetWindowBordered, :SDL_SetWindowBordered, [:pointer, :bool], :bool],
       [:SetWindowResizable, :SDL_SetWindowResizable, [:pointer, :bool], :bool],
       [:SetWindowAlwaysOnTop, :SDL_SetWindowAlwaysOnTop, [:pointer, :bool], :bool],
+      [:SetWindowFillDocument, :SDL_SetWindowFillDocument, [:pointer, :bool], :bool],
       [:ShowWindow, :SDL_ShowWindow, [:pointer], :bool],
       [:HideWindow, :SDL_HideWindow, [:pointer], :bool],
       [:RaiseWindow, :SDL_RaiseWindow, [:pointer], :bool],
@@ -306,6 +322,10 @@ module SDL
       [:SetWindowHitTest, :SDL_SetWindowHitTest, [:pointer, :SDL_HitTest, :pointer], :bool],
       [:SetWindowShape, :SDL_SetWindowShape, [:pointer, :pointer], :bool],
       [:FlashWindow, :SDL_FlashWindow, [:pointer, :int], :bool],
+      [:SetWindowProgressState, :SDL_SetWindowProgressState, [:pointer, :int], :bool],
+      [:GetWindowProgressState, :SDL_GetWindowProgressState, [:pointer], :int],
+      [:SetWindowProgressValue, :SDL_SetWindowProgressValue, [:pointer, :float], :bool],
+      [:GetWindowProgressValue, :SDL_GetWindowProgressValue, [:pointer], :float],
       [:DestroyWindow, :SDL_DestroyWindow, [:pointer], :void],
       [:ScreenSaverEnabled, :SDL_ScreenSaverEnabled, [], :bool],
       [:EnableScreenSaver, :SDL_EnableScreenSaver, [], :bool],

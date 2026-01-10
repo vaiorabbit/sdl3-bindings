@@ -30,8 +30,9 @@ module SDL
   EVENT_DISPLAY_DESKTOP_MODE_CHANGED = 341
   EVENT_DISPLAY_CURRENT_MODE_CHANGED = 342
   EVENT_DISPLAY_CONTENT_SCALE_CHANGED = 343
+  EVENT_DISPLAY_USABLE_BOUNDS_CHANGED = 344
   EVENT_DISPLAY_FIRST = 337
-  EVENT_DISPLAY_LAST = 343
+  EVENT_DISPLAY_LAST = 344
   EVENT_WINDOW_SHOWN = 514
   EVENT_WINDOW_HIDDEN = 515
   EVENT_WINDOW_EXPOSED = 516
@@ -67,6 +68,8 @@ module SDL
   EVENT_KEYBOARD_ADDED = 773
   EVENT_KEYBOARD_REMOVED = 774
   EVENT_TEXT_EDITING_CANDIDATES = 775
+  EVENT_SCREEN_KEYBOARD_SHOWN = 776
+  EVENT_SCREEN_KEYBOARD_HIDDEN = 777
   EVENT_MOUSE_MOTION = 1024
   EVENT_MOUSE_BUTTON_DOWN = 1025
   EVENT_MOUSE_BUTTON_UP = 1026
@@ -98,6 +101,9 @@ module SDL
   EVENT_FINGER_UP = 1793
   EVENT_FINGER_MOTION = 1794
   EVENT_FINGER_CANCELED = 1795
+  EVENT_PINCH_BEGIN = 1808
+  EVENT_PINCH_UPDATE = 1809
+  EVENT_PINCH_END = 1810
   EVENT_CLIPBOARD_UPDATE = 2304
   EVENT_DROP_FILE = 4096
   EVENT_DROP_TEXT = 4097
@@ -479,6 +485,16 @@ module SDL
     )
   end
 
+  class PinchFingerEvent < FFI::Struct
+    layout(
+      :type, :int,
+      :reserved, :uint,
+      :timestamp, :ulong_long,
+      :scale, :float,
+      :windowID, :uint,
+    )
+  end
+
   class PenProximityEvent < FFI::Struct
     layout(
       :type, :int,
@@ -634,6 +650,7 @@ module SDL
       :quit, QuitEvent,
       :user, UserEvent,
       :tfinger, TouchFingerEvent,
+      :pinch, PinchFingerEvent,
       :pproximity, PenProximityEvent,
       :ptouch, PenTouchEvent,
       :pmotion, PenMotionEvent,
@@ -670,6 +687,7 @@ module SDL
       [:EventEnabled, :SDL_EventEnabled, [:uint], :bool],
       [:RegisterEvents, :SDL_RegisterEvents, [:int], :uint],
       [:GetWindowFromEvent, :SDL_GetWindowFromEvent, [:pointer], :pointer],
+      [:GetEventDescription, :SDL_GetEventDescription, [:pointer, :pointer, :int], :int],
     ]
     entries.each do |entry|
       attach_function entry[0], entry[1], entry[2], entry[3]

@@ -10,9 +10,6 @@ module SDL
   extend FFI::Library
   # Define/Macro
 
-  SOUND_VER_MAJOR = 3
-  SOUND_VER_MINOR = 0
-  SOUND_VER_PATCH = 0
 
   # Enum
 
@@ -28,14 +25,6 @@ module SDL
 
   # Struct
 
-  class Sound_AudioInfo < FFI::Struct
-    layout(
-      :format, :ushort,
-      :channels, :uchar,
-      :rate, :uint,
-    )
-  end
-
   class Sound_DecoderInfo < FFI::Struct
     layout(
       :extensions, :pointer,
@@ -49,19 +38,11 @@ module SDL
     layout(
       :opaque, :pointer,
       :decoder, :pointer,
-      :desired, Sound_AudioInfo,
-      :actual, Sound_AudioInfo,
+      :desired, AudioSpec,
+      :actual, AudioSpec,
       :buffer, :pointer,
       :buffer_size, :uint,
       :flags, :int,
-    )
-  end
-
-  class Sound_Version < FFI::Struct
-    layout(
-      :major, :int,
-      :minor, :int,
-      :patch, :int,
     )
   end
 
@@ -70,7 +51,7 @@ module SDL
 
   def self.setup_sound_symbols(output_error = false)
     entries = [
-      [:Sound_GetLinkedVersion, :Sound_GetLinkedVersion, [:pointer], :void],
+      [:Sound_Version, :Sound_Version, [], :int],
       [:Sound_Init, :Sound_Init, [], :int],
       [:Sound_Quit, :Sound_Quit, [], :int],
       [:Sound_AvailableDecoders, :Sound_AvailableDecoders, [], :pointer],

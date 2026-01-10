@@ -43,6 +43,7 @@ module SDL
       [:HasLASX, :SDL_HasLASX, [], :bool],
       [:GetSystemRAM, :SDL_GetSystemRAM, [], :int],
       [:GetSIMDAlignment, :SDL_GetSIMDAlignment, [], :ulong_long],
+      [:GetSystemPageSize, :SDL_GetSystemPageSize, [], :int],
     ]
     entries.each do |entry|
       attach_function entry[0], entry[1], entry[2], entry[3]

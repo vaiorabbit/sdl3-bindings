@@ -48,8 +48,16 @@ module SDL
   typedef :int, :SDL_SystemCursor
   typedef :int, :SDL_MouseWheelDirection
   typedef :uint, :SDL_MouseButtonFlags
+  callback :SDL_MouseMotionTransformCallback, [:pointer, :ulong_long, :pointer, :uint, :pointer, :pointer], :void
 
   # Struct
+
+  class CursorFrameInfo < FFI::Struct
+    layout(
+      :surface, :pointer,
+      :duration, :uint,
+    )
+  end
 
 
   # Function
@@ -65,11 +73,13 @@ module SDL
       [:GetRelativeMouseState, :SDL_GetRelativeMouseState, [:pointer, :pointer], :uint],
       [:WarpMouseInWindow, :SDL_WarpMouseInWindow, [:pointer, :float, :float], :void],
       [:WarpMouseGlobal, :SDL_WarpMouseGlobal, [:float, :float], :bool],
+      [:SetRelativeMouseTransform, :SDL_SetRelativeMouseTransform, [:SDL_MouseMotionTransformCallback, :pointer], :bool],
       [:SetWindowRelativeMouseMode, :SDL_SetWindowRelativeMouseMode, [:pointer, :bool], :bool],
       [:GetWindowRelativeMouseMode, :SDL_GetWindowRelativeMouseMode, [:pointer], :bool],
       [:CaptureMouse, :SDL_CaptureMouse, [:bool], :bool],
       [:CreateCursor, :SDL_CreateCursor, [:pointer, :pointer, :int, :int, :int, :int], :pointer],
       [:CreateColorCursor, :SDL_CreateColorCursor, [:pointer, :int, :int], :pointer],
+      [:CreateAnimatedCursor, :SDL_CreateAnimatedCursor, [:pointer, :int, :int, :int], :pointer],
       [:CreateSystemCursor, :SDL_CreateSystemCursor, [:int], :pointer],
       [:SetCursor, :SDL_SetCursor, [:pointer], :bool],
       [:GetCursor, :SDL_GetCursor, [], :pointer],
