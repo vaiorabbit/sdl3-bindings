@@ -1,5 +1,5 @@
-set PROJECT=SDL3_ttf
-set VERSION=3.2.2
+set PROJECT=SDL_ttf
+set VERSION=24990fdfd68936022d9b9f6158f80a48ad3c30ab
 set PREFIX=%PROJECT%-%VERSION%
 
 pushd .
@@ -7,7 +7,7 @@ pushd .
 if not exist intermediate (
     mkdir intermediate
 )
-curl -L https://github.com/libsdl-org/SDL_ttf/releases/download/release-%VERSION%/%PREFIX%.zip > intermediate/%PREFIX%.zip
+curl -L https://github.com/libsdl-org/SDL_ttf/archive/%VERSION%.zip > intermediate/%PREFIX%.zip
 cd intermediate
 %WINDIR%\System32\tar.exe -xf %PREFIX%.zip
 cd %PREFIX%/
