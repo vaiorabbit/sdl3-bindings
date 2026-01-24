@@ -11,14 +11,19 @@ module SDL
   # Define/Macro
 
   IMAGE_MAJOR_VERSION = 3
-  IMAGE_MINOR_VERSION = 2
-  IMAGE_MICRO_VERSION = 6
+  IMAGE_MINOR_VERSION = 4
+  IMAGE_MICRO_VERSION = 0
 
   # Enum
 
+  IMG_DECODER_STATUS_INVALID = -1
+  IMG_DECODER_STATUS_OK = 0
+  IMG_DECODER_STATUS_FAILED = 1
+  IMG_DECODER_STATUS_COMPLETE = 2
 
   # Typedef
 
+  typedef :int, :IMG_AnimationDecoderStatus
 
   # Struct
 
@@ -38,35 +43,40 @@ module SDL
   def self.setup_image_symbols(output_error = false)
     entries = [
       [:IMG_Version, :IMG_Version, [], :int],
-      [:IMG_LoadTyped_IO, :IMG_LoadTyped_IO, [:pointer, :bool, :pointer], :pointer],
       [:IMG_Load, :IMG_Load, [:pointer], :pointer],
       [:IMG_Load_IO, :IMG_Load_IO, [:pointer, :bool], :pointer],
+      [:IMG_LoadTyped_IO, :IMG_LoadTyped_IO, [:pointer, :bool, :pointer], :pointer],
       [:IMG_LoadTexture, :IMG_LoadTexture, [:pointer, :pointer], :pointer],
       [:IMG_LoadTexture_IO, :IMG_LoadTexture_IO, [:pointer, :pointer, :bool], :pointer],
       [:IMG_LoadTextureTyped_IO, :IMG_LoadTextureTyped_IO, [:pointer, :pointer, :bool, :pointer], :pointer],
+      [:IMG_LoadGPUTexture, :IMG_LoadGPUTexture, [:pointer, :pointer, :pointer, :pointer, :pointer], :pointer],
+      [:IMG_LoadGPUTexture_IO, :IMG_LoadGPUTexture_IO, [:pointer, :pointer, :pointer, :bool, :pointer, :pointer], :pointer],
+      [:IMG_LoadGPUTextureTyped_IO, :IMG_LoadGPUTextureTyped_IO, [:pointer, :pointer, :pointer, :bool, :pointer, :pointer, :pointer], :pointer],
+      [:IMG_GetClipboardImage, :IMG_GetClipboardImage, [], :pointer],
+      [:IMG_isANI, :IMG_isANI, [:pointer], :bool],
       [:IMG_isAVIF, :IMG_isAVIF, [:pointer], :bool],
-      [:IMG_isICO, :IMG_isICO, [:pointer], :bool],
       [:IMG_isCUR, :IMG_isCUR, [:pointer], :bool],
       [:IMG_isBMP, :IMG_isBMP, [:pointer], :bool],
       [:IMG_isGIF, :IMG_isGIF, [:pointer], :bool],
+      [:IMG_isICO, :IMG_isICO, [:pointer], :bool],
       [:IMG_isJPG, :IMG_isJPG, [:pointer], :bool],
       [:IMG_isJXL, :IMG_isJXL, [:pointer], :bool],
       [:IMG_isLBM, :IMG_isLBM, [:pointer], :bool],
       [:IMG_isPCX, :IMG_isPCX, [:pointer], :bool],
       [:IMG_isPNG, :IMG_isPNG, [:pointer], :bool],
       [:IMG_isPNM, :IMG_isPNM, [:pointer], :bool],
-      [:IMG_isSVG, :IMG_isSVG, [:pointer], :bool],
       [:IMG_isQOI, :IMG_isQOI, [:pointer], :bool],
+      [:IMG_isSVG, :IMG_isSVG, [:pointer], :bool],
       [:IMG_isTIF, :IMG_isTIF, [:pointer], :bool],
+      [:IMG_isWEBP, :IMG_isWEBP, [:pointer], :bool],
       [:IMG_isXCF, :IMG_isXCF, [:pointer], :bool],
       [:IMG_isXPM, :IMG_isXPM, [:pointer], :bool],
       [:IMG_isXV, :IMG_isXV, [:pointer], :bool],
-      [:IMG_isWEBP, :IMG_isWEBP, [:pointer], :bool],
       [:IMG_LoadAVIF_IO, :IMG_LoadAVIF_IO, [:pointer], :pointer],
-      [:IMG_LoadICO_IO, :IMG_LoadICO_IO, [:pointer], :pointer],
-      [:IMG_LoadCUR_IO, :IMG_LoadCUR_IO, [:pointer], :pointer],
       [:IMG_LoadBMP_IO, :IMG_LoadBMP_IO, [:pointer], :pointer],
+      [:IMG_LoadCUR_IO, :IMG_LoadCUR_IO, [:pointer], :pointer],
       [:IMG_LoadGIF_IO, :IMG_LoadGIF_IO, [:pointer], :pointer],
+      [:IMG_LoadICO_IO, :IMG_LoadICO_IO, [:pointer], :pointer],
       [:IMG_LoadJPG_IO, :IMG_LoadJPG_IO, [:pointer], :pointer],
       [:IMG_LoadJXL_IO, :IMG_LoadJXL_IO, [:pointer], :pointer],
       [:IMG_LoadLBM_IO, :IMG_LoadLBM_IO, [:pointer], :pointer],
@@ -74,28 +84,66 @@ module SDL
       [:IMG_LoadPNG_IO, :IMG_LoadPNG_IO, [:pointer], :pointer],
       [:IMG_LoadPNM_IO, :IMG_LoadPNM_IO, [:pointer], :pointer],
       [:IMG_LoadSVG_IO, :IMG_LoadSVG_IO, [:pointer], :pointer],
+      [:IMG_LoadSizedSVG_IO, :IMG_LoadSizedSVG_IO, [:pointer, :int, :int], :pointer],
       [:IMG_LoadQOI_IO, :IMG_LoadQOI_IO, [:pointer], :pointer],
       [:IMG_LoadTGA_IO, :IMG_LoadTGA_IO, [:pointer], :pointer],
       [:IMG_LoadTIF_IO, :IMG_LoadTIF_IO, [:pointer], :pointer],
+      [:IMG_LoadWEBP_IO, :IMG_LoadWEBP_IO, [:pointer], :pointer],
       [:IMG_LoadXCF_IO, :IMG_LoadXCF_IO, [:pointer], :pointer],
       [:IMG_LoadXPM_IO, :IMG_LoadXPM_IO, [:pointer], :pointer],
       [:IMG_LoadXV_IO, :IMG_LoadXV_IO, [:pointer], :pointer],
-      [:IMG_LoadWEBP_IO, :IMG_LoadWEBP_IO, [:pointer], :pointer],
-      [:IMG_LoadSizedSVG_IO, :IMG_LoadSizedSVG_IO, [:pointer, :int, :int], :pointer],
       [:IMG_ReadXPMFromArray, :IMG_ReadXPMFromArray, [:pointer], :pointer],
       [:IMG_ReadXPMFromArrayToRGB888, :IMG_ReadXPMFromArrayToRGB888, [:pointer], :pointer],
+      [:IMG_Save, :IMG_Save, [:pointer, :pointer], :bool],
+      [:IMG_SaveTyped_IO, :IMG_SaveTyped_IO, [:pointer, :pointer, :bool, :pointer], :bool],
       [:IMG_SaveAVIF, :IMG_SaveAVIF, [:pointer, :pointer, :int], :bool],
       [:IMG_SaveAVIF_IO, :IMG_SaveAVIF_IO, [:pointer, :pointer, :bool, :int], :bool],
-      [:IMG_SavePNG, :IMG_SavePNG, [:pointer, :pointer], :bool],
-      [:IMG_SavePNG_IO, :IMG_SavePNG_IO, [:pointer, :pointer, :bool], :bool],
+      [:IMG_SaveBMP, :IMG_SaveBMP, [:pointer, :pointer], :bool],
+      [:IMG_SaveBMP_IO, :IMG_SaveBMP_IO, [:pointer, :pointer, :bool], :bool],
+      [:IMG_SaveCUR, :IMG_SaveCUR, [:pointer, :pointer], :bool],
+      [:IMG_SaveCUR_IO, :IMG_SaveCUR_IO, [:pointer, :pointer, :bool], :bool],
+      [:IMG_SaveGIF, :IMG_SaveGIF, [:pointer, :pointer], :bool],
+      [:IMG_SaveGIF_IO, :IMG_SaveGIF_IO, [:pointer, :pointer, :bool], :bool],
+      [:IMG_SaveICO, :IMG_SaveICO, [:pointer, :pointer], :bool],
+      [:IMG_SaveICO_IO, :IMG_SaveICO_IO, [:pointer, :pointer, :bool], :bool],
       [:IMG_SaveJPG, :IMG_SaveJPG, [:pointer, :pointer, :int], :bool],
       [:IMG_SaveJPG_IO, :IMG_SaveJPG_IO, [:pointer, :pointer, :bool, :int], :bool],
+      [:IMG_SavePNG, :IMG_SavePNG, [:pointer, :pointer], :bool],
+      [:IMG_SavePNG_IO, :IMG_SavePNG_IO, [:pointer, :pointer, :bool], :bool],
+      [:IMG_SaveTGA, :IMG_SaveTGA, [:pointer, :pointer], :bool],
+      [:IMG_SaveTGA_IO, :IMG_SaveTGA_IO, [:pointer, :pointer, :bool], :bool],
+      [:IMG_SaveWEBP, :IMG_SaveWEBP, [:pointer, :pointer, :float], :bool],
+      [:IMG_SaveWEBP_IO, :IMG_SaveWEBP_IO, [:pointer, :pointer, :bool, :float], :bool],
       [:IMG_LoadAnimation, :IMG_LoadAnimation, [:pointer], :pointer],
       [:IMG_LoadAnimation_IO, :IMG_LoadAnimation_IO, [:pointer, :bool], :pointer],
       [:IMG_LoadAnimationTyped_IO, :IMG_LoadAnimationTyped_IO, [:pointer, :bool, :pointer], :pointer],
-      [:IMG_FreeAnimation, :IMG_FreeAnimation, [:pointer], :void],
+      [:IMG_LoadANIAnimation_IO, :IMG_LoadANIAnimation_IO, [:pointer], :pointer],
+      [:IMG_LoadAPNGAnimation_IO, :IMG_LoadAPNGAnimation_IO, [:pointer], :pointer],
+      [:IMG_LoadAVIFAnimation_IO, :IMG_LoadAVIFAnimation_IO, [:pointer], :pointer],
       [:IMG_LoadGIFAnimation_IO, :IMG_LoadGIFAnimation_IO, [:pointer], :pointer],
       [:IMG_LoadWEBPAnimation_IO, :IMG_LoadWEBPAnimation_IO, [:pointer], :pointer],
+      [:IMG_SaveAnimation, :IMG_SaveAnimation, [:pointer, :pointer], :bool],
+      [:IMG_SaveAnimationTyped_IO, :IMG_SaveAnimationTyped_IO, [:pointer, :pointer, :bool, :pointer], :bool],
+      [:IMG_SaveANIAnimation_IO, :IMG_SaveANIAnimation_IO, [:pointer, :pointer, :bool], :bool],
+      [:IMG_SaveAPNGAnimation_IO, :IMG_SaveAPNGAnimation_IO, [:pointer, :pointer, :bool], :bool],
+      [:IMG_SaveAVIFAnimation_IO, :IMG_SaveAVIFAnimation_IO, [:pointer, :pointer, :bool, :int], :bool],
+      [:IMG_SaveGIFAnimation_IO, :IMG_SaveGIFAnimation_IO, [:pointer, :pointer, :bool], :bool],
+      [:IMG_SaveWEBPAnimation_IO, :IMG_SaveWEBPAnimation_IO, [:pointer, :pointer, :bool, :int], :bool],
+      [:IMG_CreateAnimatedCursor, :IMG_CreateAnimatedCursor, [:pointer, :int, :int], :pointer],
+      [:IMG_FreeAnimation, :IMG_FreeAnimation, [:pointer], :void],
+      [:IMG_CreateAnimationEncoder, :IMG_CreateAnimationEncoder, [:pointer], :pointer],
+      [:IMG_CreateAnimationEncoder_IO, :IMG_CreateAnimationEncoder_IO, [:pointer, :bool, :pointer], :pointer],
+      [:IMG_CreateAnimationEncoderWithProperties, :IMG_CreateAnimationEncoderWithProperties, [:uint], :pointer],
+      [:IMG_AddAnimationEncoderFrame, :IMG_AddAnimationEncoderFrame, [:pointer, :pointer, :ulong_long], :bool],
+      [:IMG_CloseAnimationEncoder, :IMG_CloseAnimationEncoder, [:pointer], :bool],
+      [:IMG_CreateAnimationDecoder, :IMG_CreateAnimationDecoder, [:pointer], :pointer],
+      [:IMG_CreateAnimationDecoder_IO, :IMG_CreateAnimationDecoder_IO, [:pointer, :bool, :pointer], :pointer],
+      [:IMG_CreateAnimationDecoderWithProperties, :IMG_CreateAnimationDecoderWithProperties, [:uint], :pointer],
+      [:IMG_GetAnimationDecoderProperties, :IMG_GetAnimationDecoderProperties, [:pointer], :uint],
+      [:IMG_GetAnimationDecoderFrame, :IMG_GetAnimationDecoderFrame, [:pointer, :pointer, :pointer], :bool],
+      [:IMG_GetAnimationDecoderStatus, :IMG_GetAnimationDecoderStatus, [:pointer], :int],
+      [:IMG_ResetAnimationDecoder, :IMG_ResetAnimationDecoder, [:pointer], :bool],
+      [:IMG_CloseAnimationDecoder, :IMG_CloseAnimationDecoder, [:pointer], :bool],
     ]
     entries.each do |entry|
       attach_function entry[0], entry[1], entry[2], entry[3]

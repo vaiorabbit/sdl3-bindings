@@ -3,7 +3,7 @@
 # sdl3-bindings : SDL3 wrapper for Ruby #
 
 *   Created : 2015-09-19
-*   Last modified : 2026-01-10
+*   Last modified : 2026-01-24
 
 ## Features ##
 
@@ -23,9 +23,9 @@ See the project below to learn how to use this library:
 
 ## Target version ##
 
-*   [2026-01-20]
+*   [2026-01-24]
     * SDL : [3.4.0](https://github.com/libsdl-org/SDL/releases/tag/release-3.4.0)
-    * SDL_image : [3.2.6](https://github.com/libsdl-org/SDL_image/releases/tag/release-3.2.6)
+    * SDL_image : [3.4.0](https://github.com/libsdl-org/SDL_image/releases/tag/release-3.4.0)
     * SDL_mixer : [63f2c5a21760e3f1ad406ec8a8b18c6346f204b3](https://github.com/libsdl-org/SDL_mixer/commit/63f2c5a21760e3f1ad406ec8a8b18c6346f204b3)
     * SDL_sound : [0d55b53a78f2c82683b8723c4c8cecdc20396f7d](https://github.com/icculus/SDL_sound/commit/0d55b53a78f2c82683b8723c4c8cecdc20396f7d)
     * SDL_ttf : [24990fdfd68936022d9b9f6158f80a48ad3c30ab](https://github.com/libsdl-org/SDL_ttf/commit/24990fdfd68936022d9b9f6158f80a48ad3c30ab)
@@ -120,6 +120,12 @@ See the project below to learn how to use this library:
     * SDL_mixer : dd801fdd9af752c99c32a2356d2ebdf1ebb7ebaa
     * SDL_sound : 68d18fe0a1105d1043b9f62d5e37fca19c0cd2c1
     * SDL_ttf : 3.2.2
+*   [2026-01-10]
+    * SDL : [3.4.0](https://github.com/libsdl-org/SDL/releases/tag/release-3.4.0)
+    * SDL_image : [3.2.6](https://github.com/libsdl-org/SDL_image/releases/tag/release-3.2.6)
+    * SDL_mixer : [63f2c5a21760e3f1ad406ec8a8b18c6346f204b3](https://github.com/libsdl-org/SDL_mixer/commit/63f2c5a21760e3f1ad406ec8a8b18c6346f204b3)
+    * SDL_sound : [0d55b53a78f2c82683b8723c4c8cecdc20396f7d](https://github.com/icculus/SDL_sound/commit/0d55b53a78f2c82683b8723c4c8cecdc20396f7d)
+    * SDL_ttf : [24990fdfd68936022d9b9f6158f80a48ad3c30ab](https://github.com/libsdl-org/SDL_ttf/commit/24990fdfd68936022d9b9f6158f80a48ad3c30ab)
 
 </details>
 

@@ -1298,8 +1298,8 @@
     , "TTF_SUBSTRING_TEXT_END" : "0x00000800"
     , "SDL_IMAGE_H_" : null
     , "SDL_IMAGE_MAJOR_VERSION" : "3"
-    , "SDL_IMAGE_MINOR_VERSION" : "2"
-    , "SDL_IMAGE_MICRO_VERSION" : "6"
+    , "SDL_IMAGE_MINOR_VERSION" : "4"
+    , "SDL_IMAGE_MICRO_VERSION" : "0"
     , "SDL_IMAGE_VERSION" : null
     , "SDL_IMAGE_VERSION_ATLEAST" : null
     , "SDL_MIXER_H_" : null
