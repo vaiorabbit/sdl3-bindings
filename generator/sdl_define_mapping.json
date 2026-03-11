@@ -4,6 +4,7 @@
     , "SDL_TriggerBreakpoint" : null
     , "SDL_FUNCTION" : null
     , "SDL_FILE" : null
+    , "SDL_ASSERT_FILE" : null
     , "SDL_LINE" : null
     , "SDL_NULL_WHILE_LOOP_CONDITION" : null
     , "SDL_disabled_assert" : null
@@ -38,6 +39,7 @@
     , "SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK" : "0xFFFFFFFF"
     , "SDL_AUDIO_DEVICE_DEFAULT_RECORDING" : "0xFFFFFFFE"
     , "SDL_AUDIO_FRAMESIZE" : null
+    , "SDL_PROP_AUDIOSTREAM_AUTO_CLEANUP_BOOLEAN" : "\"SDL.audiostream.auto_cleanup\""
     , "SDL_bits_h_" : null
     , "SDL_blendmode_h_" : null
     , "SDL_BLENDMODE_NONE" : "0x00000000"
@@ -130,8 +132,11 @@
     , "SDL_PROP_GPU_DEVICE_CREATE_SHADERS_METALLIB_BOOLEAN" : "\"SDL.gpu.device.create.shaders.metallib\""
     , "SDL_PROP_GPU_DEVICE_CREATE_D3D12_ALLOW_FEWER_RESOURCE_SLOTS_BOOLEAN" : "\"SDL.gpu.device.create.d3d12.allowtier1resourcebinding\""
     , "SDL_PROP_GPU_DEVICE_CREATE_D3D12_SEMANTIC_NAME_STRING" : "\"SDL.gpu.device.create.d3d12.semantic\""
+    , "SDL_PROP_GPU_DEVICE_CREATE_D3D12_AGILITY_SDK_VERSION_NUMBER" : "\"SDL.gpu.device.create.d3d12.agility_sdk_version\""
+    , "SDL_PROP_GPU_DEVICE_CREATE_D3D12_AGILITY_SDK_PATH_STRING" : "\"SDL.gpu.device.create.d3d12.agility_sdk_path\""
     , "SDL_PROP_GPU_DEVICE_CREATE_VULKAN_REQUIRE_HARDWARE_ACCELERATION_BOOLEAN" : "\"SDL.gpu.device.create.vulkan.requirehardwareacceleration\""
     , "SDL_PROP_GPU_DEVICE_CREATE_VULKAN_OPTIONS_POINTER" : "\"SDL.gpu.device.create.vulkan.options\""
+    , "SDL_PROP_GPU_DEVICE_CREATE_METAL_ALLOW_MACFAMILY1_BOOLEAN" : "\"SDL.gpu.device.create.metal.allowmacfamily1\""
     , "SDL_PROP_GPU_DEVICE_NAME_STRING" : "\"SDL.gpu.device.name\""
     , "SDL_PROP_GPU_DEVICE_DRIVER_NAME_STRING" : "\"SDL.gpu.device.driver_name\""
     , "SDL_PROP_GPU_DEVICE_DRIVER_VERSION_STRING" : "\"SDL.gpu.device.driver_version\""
@@ -151,6 +156,7 @@
     , "SDL_PROP_GPU_TRANSFERBUFFER_CREATE_NAME_STRING" : "\"SDL.gpu.transferbuffer.create.name\""
     , "SDL_guid_h_" : null
     , "SDL_haptic_h_" : null
+    , "SDL_HAPTIC_INFINITY" : "4294967295"
     , "SDL_HAPTIC_CONSTANT" : "1 << 0"
     , "SDL_HAPTIC_SINE" : "1 << 1"
     , "SDL_HAPTIC_SQUARE" : "1 << 2"
@@ -175,8 +181,8 @@
     , "SDL_HAPTIC_CARTESIAN" : "1"
     , "SDL_HAPTIC_SPHERICAL" : "2"
     , "SDL_HAPTIC_STEERING_AXIS" : "3"
-    , "SDL_HAPTIC_INFINITY" : "4294967295"
     , "SDL_hidapi_h_" : null
+    , "SDL_PROP_HIDAPI_LIBUSB_DEVICE_HANDLE_POINTER" : "\"SDL.hidapi.libusb.device.handle\""
     , "SDL_hints_h_" : null
     , "SDL_HINT_ALLOW_ALT_TAB_WHILE_GRABBED" : "\"SDL_ALLOW_ALT_TAB_WHILE_GRABBED\""
     , "SDL_HINT_ANDROID_ALLOW_RECREATE_ACTIVITY" : "\"SDL_ANDROID_ALLOW_RECREATE_ACTIVITY\""
@@ -342,6 +348,7 @@
     , "SDL_HINT_OPENGL_LIBRARY" : "\"SDL_OPENGL_LIBRARY\""
     , "SDL_HINT_EGL_LIBRARY" : "\"SDL_EGL_LIBRARY\""
     , "SDL_HINT_OPENGL_ES_DRIVER" : "\"SDL_OPENGL_ES_DRIVER\""
+    , "SDL_HINT_OPENGL_FORCE_SRGB_FRAMEBUFFER" : "\"SDL_OPENGL_FORCE_SRGB_FRAMEBUFFER\""
     , "SDL_HINT_OPENVR_LIBRARY" : "\"SDL_OPENVR_LIBRARY\""
     , "SDL_HINT_ORIENTATIONS" : "\"SDL_ORIENTATIONS\""
     , "SDL_HINT_POLL_SENTINEL" : "\"SDL_POLL_SENTINEL\""
@@ -983,7 +990,7 @@
     , "SDL_RENDERER_VSYNC_ADAPTIVE" : "-1"
     , "SDL_DEBUG_TEXT_FONT_CHARACTER_SIZE" : "8"
     , "SDL_revision_h_" : null
-    , "SDL_REVISION" : "\"SDL-release-3.4.0-0-ga962f40bb\""
+    , "SDL_REVISION" : "\"SDL-release-3.4.2-0-g683181b47\""
     , "SDL_scancode_h_" : null
     , "SDL_sensor_h_" : null
     , "SDL_STANDARD_GRAVITY" : "9.80665"
@@ -1118,7 +1125,7 @@
     , "SDL_version_h_" : null
     , "SDL_MAJOR_VERSION" : "3"
     , "SDL_MINOR_VERSION" : "4"
-    , "SDL_MICRO_VERSION" : "0"
+    , "SDL_MICRO_VERSION" : "2"
     , "SDL_VERSIONNUM" : null
     , "SDL_VERSIONNUM_MAJOR" : null
     , "SDL_VERSIONNUM_MINOR" : null
@@ -1304,7 +1311,7 @@
     , "SDL_IMAGE_VERSION_ATLEAST" : null
     , "SDL_MIXER_H_" : null
     , "SDL_MIXER_MAJOR_VERSION" : "3"
-    , "SDL_MIXER_MINOR_VERSION" : "1"
+    , "SDL_MIXER_MINOR_VERSION" : "2"
     , "SDL_MIXER_MICRO_VERSION" : "0"
     , "SDL_MIXER_VERSION" : null
     , "SDL_MIXER_VERSION_ATLEAST" : null
@@ -1335,12 +1342,14 @@
     , "MIX_PROP_PLAY_LOOP_START_MILLISECOND_NUMBER" : "\"SDL_mixer.play.loop_start_millisecond\""
     , "MIX_PROP_PLAY_FADE_IN_FRAMES_NUMBER" : "\"SDL_mixer.play.fade_in_frames\""
     , "MIX_PROP_PLAY_FADE_IN_MILLISECONDS_NUMBER" : "\"SDL_mixer.play.fade_in_milliseconds\""
+    , "MIX_PROP_PLAY_FADE_IN_START_GAIN_FLOAT" : "\"SDL_mixer.play.fade_in_start_gain\""
     , "MIX_PROP_PLAY_APPEND_SILENCE_FRAMES_NUMBER" : "\"SDL_mixer.play.append_silence_frames\""
     , "MIX_PROP_PLAY_APPEND_SILENCE_MILLISECONDS_NUMBER" : "\"SDL_mixer.play.append_silence_milliseconds\""
+    , "MIX_PROP_PLAY_HALT_WHEN_EXHAUSTED_BOOLEAN" : "\"SDL_mixer.play.halt_when_exhausted\""
     , "SDL_SOUND_H_" : null
-    , "SOUND_VER_MAJOR" : "3"
-    , "SOUND_VER_MINOR" : "0"
-    , "SOUND_VER_PATCH" : "0"
-    , "SOUND_VERSION" : null
+    , "SDL_SOUND_MAJOR_VERSION" : "3"
+    , "SDL_SOUND_MINOR_VERSION" : "0"
+    , "SDL_SOUND_MICRO_VERSION" : "0"
+    , "SDL_SOUND_VERSION" : null
     , "SDL_SOUND_VERSION_ATLEAST" : null
 }

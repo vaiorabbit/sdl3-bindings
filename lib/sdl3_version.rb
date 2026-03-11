@@ -12,7 +12,7 @@ module SDL
 
   MAJOR_VERSION = 3
   MINOR_VERSION = 4
-  MICRO_VERSION = 0
+  MICRO_VERSION = 2
 
   # Enum
 

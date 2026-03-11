@@ -10,6 +10,7 @@ module SDL
   extend FFI::Library
   # Define/Macro
 
+  PROP_HIDAPI_LIBUSB_DEVICE_HANDLE_POINTER = "SDL.hidapi.libusb.device.handle"
 
   # Enum
 

@@ -11,7 +11,7 @@ module SDL
   # Define/Macro
 
   MIXER_MAJOR_VERSION = 3
-  MIXER_MINOR_VERSION = 1
+  MIXER_MINOR_VERSION = 2
   MIXER_MICRO_VERSION = 0
   MIX_PROP_MIXER_DEVICE_NUMBER = "SDL_mixer.mixer.device"
   MIX_PROP_AUDIO_LOAD_IOSTREAM_POINTER = "SDL_mixer.audio.load.iostream"
@@ -40,8 +40,10 @@ module SDL
   MIX_PROP_PLAY_LOOP_START_MILLISECOND_NUMBER = "SDL_mixer.play.loop_start_millisecond"
   MIX_PROP_PLAY_FADE_IN_FRAMES_NUMBER = "SDL_mixer.play.fade_in_frames"
   MIX_PROP_PLAY_FADE_IN_MILLISECONDS_NUMBER = "SDL_mixer.play.fade_in_milliseconds"
+  MIX_PROP_PLAY_FADE_IN_START_GAIN_FLOAT = "SDL_mixer.play.fade_in_start_gain"
   MIX_PROP_PLAY_APPEND_SILENCE_FRAMES_NUMBER = "SDL_mixer.play.append_silence_frames"
   MIX_PROP_PLAY_APPEND_SILENCE_MILLISECONDS_NUMBER = "SDL_mixer.play.append_silence_milliseconds"
+  MIX_PROP_PLAY_HALT_WHEN_EXHAUSTED_BOOLEAN = "SDL_mixer.play.halt_when_exhausted"
 
   # Enum
 
@@ -85,13 +87,16 @@ module SDL
       [:MIX_DestroyMixer, :MIX_DestroyMixer, [:pointer], :void],
       [:MIX_GetMixerProperties, :MIX_GetMixerProperties, [:pointer], :uint],
       [:MIX_GetMixerFormat, :MIX_GetMixerFormat, [:pointer, :pointer], :bool],
+      [:MIX_LockMixer, :MIX_LockMixer, [:pointer], :void],
+      [:MIX_UnlockMixer, :MIX_UnlockMixer, [:pointer], :void],
       [:MIX_LoadAudio_IO, :MIX_LoadAudio_IO, [:pointer, :pointer, :bool, :bool], :pointer],
       [:MIX_LoadAudio, :MIX_LoadAudio, [:pointer, :pointer, :bool], :pointer],
+      [:MIX_LoadAudioNoCopy, :MIX_LoadAudioNoCopy, [:pointer, :pointer, :ulong_long, :bool], :pointer],
       [:MIX_LoadAudioWithProperties, :MIX_LoadAudioWithProperties, [:uint], :pointer],
       [:MIX_LoadRawAudio_IO, :MIX_LoadRawAudio_IO, [:pointer, :pointer, :pointer, :bool], :pointer],
       [:MIX_LoadRawAudio, :MIX_LoadRawAudio, [:pointer, :pointer, :ulong_long, :pointer], :pointer],
       [:MIX_LoadRawAudioNoCopy, :MIX_LoadRawAudioNoCopy, [:pointer, :pointer, :ulong_long, :pointer, :bool], :pointer],
-      [:MIX_CreateSineWaveAudio, :MIX_CreateSineWaveAudio, [:pointer, :int, :float], :pointer],
+      [:MIX_CreateSineWaveAudio, :MIX_CreateSineWaveAudio, [:pointer, :int, :float, :long_long], :pointer],
       [:MIX_GetAudioProperties, :MIX_GetAudioProperties, [:pointer], :uint],
       [:MIX_GetAudioDuration, :MIX_GetAudioDuration, [:pointer], :long_long],
       [:MIX_GetAudioFormat, :MIX_GetAudioFormat, [:pointer, :pointer], :bool],
@@ -111,7 +116,7 @@ module SDL
       [:MIX_SetTrackPlaybackPosition, :MIX_SetTrackPlaybackPosition, [:pointer, :long_long], :bool],
       [:MIX_GetTrackPlaybackPosition, :MIX_GetTrackPlaybackPosition, [:pointer], :long_long],
       [:MIX_GetTrackFadeFrames, :MIX_GetTrackFadeFrames, [:pointer], :long_long],
-      [:MIX_TrackLooping, :MIX_TrackLooping, [:pointer], :bool],
+      [:MIX_GetTrackLoops, :MIX_GetTrackLoops, [:pointer], :int],
       [:MIX_SetTrackLoops, :MIX_SetTrackLoops, [:pointer, :int], :bool],
       [:MIX_GetTrackAudio, :MIX_GetTrackAudio, [:pointer], :pointer],
       [:MIX_GetTrackAudioStream, :MIX_GetTrackAudioStream, [:pointer], :pointer],
@@ -136,11 +141,13 @@ module SDL
       [:MIX_ResumeTag, :MIX_ResumeTag, [:pointer, :pointer], :bool],
       [:MIX_TrackPlaying, :MIX_TrackPlaying, [:pointer], :bool],
       [:MIX_TrackPaused, :MIX_TrackPaused, [:pointer], :bool],
-      [:MIX_SetMasterGain, :MIX_SetMasterGain, [:pointer, :float], :bool],
-      [:MIX_GetMasterGain, :MIX_GetMasterGain, [:pointer], :float],
+      [:MIX_SetMixerGain, :MIX_SetMixerGain, [:pointer, :float], :bool],
+      [:MIX_GetMixerGain, :MIX_GetMixerGain, [:pointer], :float],
       [:MIX_SetTrackGain, :MIX_SetTrackGain, [:pointer, :float], :bool],
       [:MIX_GetTrackGain, :MIX_GetTrackGain, [:pointer], :float],
       [:MIX_SetTagGain, :MIX_SetTagGain, [:pointer, :pointer, :float], :bool],
+      [:MIX_SetMixerFrequencyRatio, :MIX_SetMixerFrequencyRatio, [:pointer, :float], :bool],
+      [:MIX_GetMixerFrequencyRatio, :MIX_GetMixerFrequencyRatio, [:pointer], :float],
       [:MIX_SetTrackFrequencyRatio, :MIX_SetTrackFrequencyRatio, [:pointer, :float], :bool],
       [:MIX_GetTrackFrequencyRatio, :MIX_GetTrackFrequencyRatio, [:pointer], :float],
       [:MIX_SetTrackOutputChannelMap, :MIX_SetTrackOutputChannelMap, [:pointer, :pointer, :int], :bool],
@@ -157,7 +164,7 @@ module SDL
       [:MIX_SetTrackCookedCallback, :MIX_SetTrackCookedCallback, [:pointer, :MIX_TrackMixCallback, :pointer], :bool],
       [:MIX_SetGroupPostMixCallback, :MIX_SetGroupPostMixCallback, [:pointer, :MIX_GroupMixCallback, :pointer], :bool],
       [:MIX_SetPostMixCallback, :MIX_SetPostMixCallback, [:pointer, :MIX_PostMixCallback, :pointer], :bool],
-      [:MIX_Generate, :MIX_Generate, [:pointer, :pointer, :int], :bool],
+      [:MIX_Generate, :MIX_Generate, [:pointer, :pointer, :int], :int],
       [:MIX_CreateAudioDecoder, :MIX_CreateAudioDecoder, [:pointer, :uint], :pointer],
       [:MIX_CreateAudioDecoder_IO, :MIX_CreateAudioDecoder_IO, [:pointer, :bool, :uint], :pointer],
       [:MIX_DestroyAudioDecoder, :MIX_DestroyAudioDecoder, [:pointer], :void],
