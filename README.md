@@ -3,7 +3,7 @@
 # sdl3-bindings : SDL3 wrapper for Ruby #
 
 *   Created : 2015-09-19
-*   Last modified : 2026-03-11
+*   Last modified : 2026-04-04
 
 ## Features ##
 
@@ -23,13 +23,12 @@ See the project below to learn how to use this library:
 
 ## Target version ##
 
-*   [2026-03-11]
-    * SDL : [3.4.2](https://github.com/libsdl-org/SDL/releases/tag/release-3.4.2)
+*   [2026-04-04]
+    * SDL : [3.4.4](https://github.com/libsdl-org/SDL/releases/tag/release-3.4.4)
     * SDL_image : [3.4.0](https://github.com/libsdl-org/SDL_image/releases/tag/release-3.4.0)
     * SDL_mixer : [3.2.0](https://github.com/libsdl-org/SDL_mixer/releases/tag/release-3.2.0)
-    * SDL_sound : [0d55b53a78f2c82683b8723c4c8cecdc20396f7d](https://github.com/icculus/SDL_sound/commit/0d55b53a78f2c82683b8723c4c8cecdc20396f7d)
-    * SDL_ttf : [24990fdfd68936022d9b9f6158f80a48ad3c30ab](https://github.com/libsdl-org/SDL_ttf/commit/24990fdfd68936022d9b9f6158f80a48ad3c30ab)
-
+    * SDL_sound : [b00e4a318fc7e4074b67f75dbb22373e1e07c56b]( https://github.com/icculus/SDL_sound/commit/b00e4a318fc7e4074b67f75dbb22373e1e07c56b )
+    * SDL_ttf : [de8c8a3380cca39cb30331576228c20d68a30424](https://github.com/libsdl-org/SDL_ttf/commit/de8c8a3380cca39cb30331576228c20d68a30424)
 
 <details>
 <summary>Older versions</summary>
@@ -130,6 +129,12 @@ See the project below to learn how to use this library:
     * SDL : [3.4.0](https://github.com/libsdl-org/SDL/releases/tag/release-3.4.0)
     * SDL_image : [3.4.0](https://github.com/libsdl-org/SDL_image/releases/tag/release-3.4.0)
     * SDL_mixer : [63f2c5a21760e3f1ad406ec8a8b18c6346f204b3](https://github.com/libsdl-org/SDL_mixer/commit/63f2c5a21760e3f1ad406ec8a8b18c6346f204b3)
+    * SDL_sound : [0d55b53a78f2c82683b8723c4c8cecdc20396f7d](https://github.com/icculus/SDL_sound/commit/0d55b53a78f2c82683b8723c4c8cecdc20396f7d)
+    * SDL_ttf : [24990fdfd68936022d9b9f6158f80a48ad3c30ab](https://github.com/libsdl-org/SDL_ttf/commit/24990fdfd68936022d9b9f6158f80a48ad3c30ab)
+*   [2026-03-11]
+    * SDL : [3.4.2](https://github.com/libsdl-org/SDL/releases/tag/release-3.4.2)
+    * SDL_image : [3.4.0](https://github.com/libsdl-org/SDL_image/releases/tag/release-3.4.0)
+    * SDL_mixer : [3.2.0](https://github.com/libsdl-org/SDL_mixer/releases/tag/release-3.2.0)
     * SDL_sound : [0d55b53a78f2c82683b8723c4c8cecdc20396f7d](https://github.com/icculus/SDL_sound/commit/0d55b53a78f2c82683b8723c4c8cecdc20396f7d)
     * SDL_ttf : [24990fdfd68936022d9b9f6158f80a48ad3c30ab](https://github.com/libsdl-org/SDL_ttf/commit/24990fdfd68936022d9b9f6158f80a48ad3c30ab)
 

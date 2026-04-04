@@ -1,3 +1,9 @@
+2026-04-04  vaiorabbit  <http://twitter.com/vaiorabbit>
+
+	* SDL 3.4.4 ( https://github.com/libsdl-org/SDL/releases/tag/release-3.4.4 )
+	* SDL_sound b00e4a318fc7e4074b67f75dbb22373e1e07c56b ( https://github.com/icculus/SDL_sound/commit/b00e4a318fc7e4074b67f75dbb22373e1e07c56b )
+	* SDL_ttf de8c8a3380cca39cb30331576228c20d68a30424 ( https://github.com/libsdl-org/SDL_ttf/commit/de8c8a3380cca39cb30331576228c20d68a30424 )
+
 2026-03-11  vaiorabbit  <http://twitter.com/vaiorabbit>
 
 	* SDL 3.4.2 ( https://github.com/libsdl-org/SDL/releases/tag/release-3.4.2 )
