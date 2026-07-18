@@ -11,7 +11,7 @@ module SDL
   # Define/Macro
 
   SOUND_MAJOR_VERSION = 3
-  SOUND_MINOR_VERSION = 0
+  SOUND_MINOR_VERSION = 2
   SOUND_MICRO_VERSION = 0
 
   # Enum
@@ -66,6 +66,7 @@ module SDL
       [:Sound_FreeSample, :Sound_FreeSample, [:pointer], :void],
       [:Sound_GetDuration, :Sound_GetDuration, [:pointer], :int],
       [:Sound_SetBufferSize, :Sound_SetBufferSize, [:pointer, :uint], :int],
+      [:Sound_SetDesiredFormat, :Sound_SetDesiredFormat, [:pointer, :pointer], :int],
       [:Sound_Decode, :Sound_Decode, [:pointer], :uint],
       [:Sound_DecodeAll, :Sound_DecodeAll, [:pointer], :uint],
       [:Sound_Rewind, :Sound_Rewind, [:pointer], :int],

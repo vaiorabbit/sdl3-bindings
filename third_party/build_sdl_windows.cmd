@@ -1,5 +1,5 @@
 set PROJECT=SDL3
-set VERSION=3.4.4
+set VERSION=3.4.12
 set PREFIX=%PROJECT%-%VERSION%
 
 pushd .

@@ -1,5 +1,5 @@
-set PROJECT=SDL_sound
-set VERSION=b00e4a318fc7e4074b67f75dbb22373e1e07c56b
+set PROJECT=SDL3_sound
+set VERSION=3.2.0
 set PREFIX=%PROJECT%-%VERSION%
 
 pushd .
@@ -7,7 +7,7 @@ pushd .
 if not exist intermediate (
     mkdir intermediate
 )
-curl -L https://github.com/icculus/SDL_sound/archive/%VERSION%.zip > intermediate/%PREFIX%.zip
+curl -L https://github.com/icculus/SDL_sound/releases/download/v%VERSION%/%PREFIX%.zip > intermediate/%PREFIX%.zip
 cd intermediate
 %WINDIR%\System32\tar.exe -xf %PREFIX%.zip
 cd %PREFIX%/

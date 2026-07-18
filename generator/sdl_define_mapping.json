@@ -224,6 +224,7 @@
     , "SDL_HINT_EMSCRIPTEN_CANVAS_SELECTOR" : "\"SDL_EMSCRIPTEN_CANVAS_SELECTOR\""
     , "SDL_HINT_EMSCRIPTEN_KEYBOARD_ELEMENT" : "\"SDL_EMSCRIPTEN_KEYBOARD_ELEMENT\""
     , "SDL_HINT_ENABLE_SCREEN_KEYBOARD" : "\"SDL_ENABLE_SCREEN_KEYBOARD\""
+    , "SDL_HINT_ENABLE_STEAM_SCREEN_KEYBOARD" : "\"SDL_ENABLE_STEAM_SCREEN_KEYBOARD\""
     , "SDL_HINT_EVDEV_DEVICES" : "\"SDL_EVDEV_DEVICES\""
     , "SDL_HINT_EVENT_LOGGING" : "\"SDL_EVENT_LOGGING\""
     , "SDL_HINT_FORCE_RAISEWINDOW" : "\"SDL_FORCE_RAISEWINDOW\""
@@ -403,6 +404,7 @@
     , "SDL_HINT_VIDEO_WAYLAND_PREFER_LIBDECOR" : "\"SDL_VIDEO_WAYLAND_PREFER_LIBDECOR\""
     , "SDL_HINT_VIDEO_WAYLAND_SCALE_TO_DISPLAY" : "\"SDL_VIDEO_WAYLAND_SCALE_TO_DISPLAY\""
     , "SDL_HINT_VIDEO_WIN_D3DCOMPILER" : "\"SDL_VIDEO_WIN_D3DCOMPILER\""
+    , "SDL_HINT_VIDEO_X11_ENABLE_XSYNC_EXT" : "\"SDL_VIDEO_X11_ENABLE_XSYNC_EXT\""
     , "SDL_HINT_VIDEO_X11_EXTERNAL_WINDOW_INPUT" : "\"SDL_VIDEO_X11_EXTERNAL_WINDOW_INPUT\""
     , "SDL_HINT_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR" : "\"SDL_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR\""
     , "SDL_HINT_VIDEO_X11_NET_WM_PING" : "\"SDL_VIDEO_X11_NET_WM_PING\""
@@ -992,7 +994,7 @@
     , "SDL_RENDERER_VSYNC_ADAPTIVE" : "-1"
     , "SDL_DEBUG_TEXT_FONT_CHARACTER_SIZE" : "8"
     , "SDL_revision_h_" : null
-    , "SDL_REVISION" : "\"SDL-release-3.4.4-0-g5848e584a\""
+    , "SDL_REVISION" : "\"SDL-release-3.4.12-0-gf87239e71\""
     , "SDL_scancode_h_" : null
     , "SDL_sensor_h_" : null
     , "SDL_STANDARD_GRAVITY" : "9.80665"
@@ -1127,7 +1129,7 @@
     , "SDL_version_h_" : null
     , "SDL_MAJOR_VERSION" : "3"
     , "SDL_MINOR_VERSION" : "4"
-    , "SDL_MICRO_VERSION" : "4"
+    , "SDL_MICRO_VERSION" : "12"
     , "SDL_VERSIONNUM" : null
     , "SDL_VERSIONNUM_MAJOR" : null
     , "SDL_VERSIONNUM_MINOR" : null
@@ -1308,13 +1310,13 @@
     , "SDL_IMAGE_H_" : null
     , "SDL_IMAGE_MAJOR_VERSION" : "3"
     , "SDL_IMAGE_MINOR_VERSION" : "4"
-    , "SDL_IMAGE_MICRO_VERSION" : "0"
+    , "SDL_IMAGE_MICRO_VERSION" : "4"
     , "SDL_IMAGE_VERSION" : null
     , "SDL_IMAGE_VERSION_ATLEAST" : null
     , "SDL_MIXER_H_" : null
     , "SDL_MIXER_MAJOR_VERSION" : "3"
     , "SDL_MIXER_MINOR_VERSION" : "2"
-    , "SDL_MIXER_MICRO_VERSION" : "0"
+    , "SDL_MIXER_MICRO_VERSION" : "4"
     , "SDL_MIXER_VERSION" : null
     , "SDL_MIXER_VERSION_ATLEAST" : null
     , "MIX_PROP_MIXER_DEVICE_NUMBER" : "\"SDL_mixer.mixer.device\""
@@ -1323,6 +1325,7 @@
     , "MIX_PROP_AUDIO_LOAD_PREDECODE_BOOLEAN" : "\"SDL_mixer.audio.load.predecode\""
     , "MIX_PROP_AUDIO_LOAD_PREFERRED_MIXER_POINTER" : "\"SDL_mixer.audio.load.preferred_mixer\""
     , "MIX_PROP_AUDIO_LOAD_SKIP_METADATA_TAGS_BOOLEAN" : "\"SDL_mixer.audio.load.skip_metadata_tags\""
+    , "MIX_PROP_AUDIO_LOAD_IGNORE_LOOPS_BOOLEAN" : "\"SDL_mixer.audio.load.ignore_loops\""
     , "MIX_PROP_AUDIO_DECODER_STRING" : "\"SDL_mixer.audio.decoder\""
     , "MIX_PROP_METADATA_TITLE_STRING" : "\"SDL_mixer.metadata.title\""
     , "MIX_PROP_METADATA_ARTIST_STRING" : "\"SDL_mixer.metadata.artist\""
@@ -1340,6 +1343,7 @@
     , "MIX_PROP_PLAY_MAX_MILLISECONDS_NUMBER" : "\"SDL_mixer.play.max_milliseconds\""
     , "MIX_PROP_PLAY_START_FRAME_NUMBER" : "\"SDL_mixer.play.start_frame\""
     , "MIX_PROP_PLAY_START_MILLISECOND_NUMBER" : "\"SDL_mixer.play.start_millisecond\""
+    , "MIX_PROP_PLAY_START_ORDER_NUMBER" : "\"SDL_mixer.play.start_order\""
     , "MIX_PROP_PLAY_LOOP_START_FRAME_NUMBER" : "\"SDL_mixer.play.loop_start_frame\""
     , "MIX_PROP_PLAY_LOOP_START_MILLISECOND_NUMBER" : "\"SDL_mixer.play.loop_start_millisecond\""
     , "MIX_PROP_PLAY_FADE_IN_FRAMES_NUMBER" : "\"SDL_mixer.play.fade_in_frames\""
@@ -1350,7 +1354,7 @@
     , "MIX_PROP_PLAY_HALT_WHEN_EXHAUSTED_BOOLEAN" : "\"SDL_mixer.play.halt_when_exhausted\""
     , "SDL_SOUND_H_" : null
     , "SDL_SOUND_MAJOR_VERSION" : "3"
-    , "SDL_SOUND_MINOR_VERSION" : "0"
+    , "SDL_SOUND_MINOR_VERSION" : "2"
     , "SDL_SOUND_MICRO_VERSION" : "0"
     , "SDL_SOUND_VERSION" : null
     , "SDL_SOUND_VERSION_ATLEAST" : null

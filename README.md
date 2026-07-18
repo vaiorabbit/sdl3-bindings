@@ -3,7 +3,7 @@
 # sdl3-bindings : SDL3 wrapper for Ruby #
 
 *   Created : 2015-09-19
-*   Last modified : 2026-04-04
+*   Last modified : 2026-07-18
 
 ## Features ##
 
@@ -23,12 +23,12 @@ See the project below to learn how to use this library:
 
 ## Target version ##
 
-*   [2026-04-04]
-    * SDL : [3.4.4](https://github.com/libsdl-org/SDL/releases/tag/release-3.4.4)
-    * SDL_image : [3.4.0](https://github.com/libsdl-org/SDL_image/releases/tag/release-3.4.0)
-    * SDL_mixer : [3.2.0](https://github.com/libsdl-org/SDL_mixer/releases/tag/release-3.2.0)
-    * SDL_sound : [b00e4a318fc7e4074b67f75dbb22373e1e07c56b]( https://github.com/icculus/SDL_sound/commit/b00e4a318fc7e4074b67f75dbb22373e1e07c56b )
-    * SDL_ttf : [de8c8a3380cca39cb30331576228c20d68a30424](https://github.com/libsdl-org/SDL_ttf/commit/de8c8a3380cca39cb30331576228c20d68a30424)
+*   [2026-07-18]
+    * SDL : [3.4.12](https://github.com/libsdl-org/SDL/releases/tag/release-3.4.12)
+    * SDL_image : [3.4.4](https://github.com/libsdl-org/SDL_image/releases/tag/release-3.4.4)
+    * SDL_mixer : [3.2.4](https://github.com/libsdl-org/SDL_mixer/releases/tag/release-3.2.4)
+    * SDL_sound : [3.2.0](https://github.com/icculus/SDL_sound/releases/tag/v3.2.0)
+    * SDL_ttf : [a42434b8c96daaf7650dbd0befe480c090d1c2eb](https://github.com/libsdl-org/SDL_ttf/commit/a42434b8c96daaf7650dbd0befe480c090d1c2eb)
 
 <details>
 <summary>Older versions</summary>
@@ -137,16 +137,23 @@ See the project below to learn how to use this library:
     * SDL_mixer : [3.2.0](https://github.com/libsdl-org/SDL_mixer/releases/tag/release-3.2.0)
     * SDL_sound : [0d55b53a78f2c82683b8723c4c8cecdc20396f7d](https://github.com/icculus/SDL_sound/commit/0d55b53a78f2c82683b8723c4c8cecdc20396f7d)
     * SDL_ttf : [24990fdfd68936022d9b9f6158f80a48ad3c30ab](https://github.com/libsdl-org/SDL_ttf/commit/24990fdfd68936022d9b9f6158f80a48ad3c30ab)
+*   [2026-04-04]
+    * SDL : [3.4.4](https://github.com/libsdl-org/SDL/releases/tag/release-3.4.4)
+    * SDL_image : [3.4.0](https://github.com/libsdl-org/SDL_image/releases/tag/release-3.4.0)
+    * SDL_mixer : [3.2.0](https://github.com/libsdl-org/SDL_mixer/releases/tag/release-3.2.0)
+    * SDL_sound : [b00e4a318fc7e4074b67f75dbb22373e1e07c56b]( https://github.com/icculus/SDL_sound/commit/b00e4a318fc7e4074b67f75dbb22373e1e07c56b )
+    * SDL_ttf : [de8c8a3380cca39cb30331576228c20d68a30424](https://github.com/libsdl-org/SDL_ttf/commit/de8c8a3380cca39cb30331576228c20d68a30424)
 
 </details>
 
 ## Tested Environments ##
 
-*   [2026-01-10] Windows 11 (25H2), ruby 4.0.0 (2025-12-25 revision 553f1675f3) +PRISM [x64-mingw-ucrt]
+*   [2026-07-18] Windows 11 (25H2), ruby 4.0.5 (2026-05-20 revision 64336ffd0e) +PRISM [x64-mingw-ucrt]
 
 <details>
 <summary>Older Environments</summary>
 
+*   [2026-01-10] Windows 11 (25H2), ruby 4.0.0 (2025-12-25 revision 553f1675f3) +PRISM [x64-mingw-ucrt]
 *   [2025-12-28] Windows 11 (25H2), ruby 4.0.0 (2025-12-25 revision 553f1675f3) +PRISM [x64-mingw-ucrt]
 *   [2025-03-29] Windows 11 (24H2), ruby 3.4.2 (2025-02-15 revision d2930f8e7a) +PRISM [x64-mingw-ucrt]
 *   [2025-01-26] Windows 11 (24H2), ruby 3.4.1 (2024-12-25 revision 48d4efcb85) +PRISM [x64-mingw-ucrt]
