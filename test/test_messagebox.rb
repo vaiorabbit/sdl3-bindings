@@ -1,11 +1,10 @@
 # coding: utf-8
-require_relative '../lib/sdl2'
+require_relative '../lib/sdl3'
 require_relative 'util'
 
 if __FILE__ == $PROGRAM_NAME
-  load_sdl2_lib()
-  success = SDL.Init(SDL::INIT_EVERYTHING)
-  exit if success != 0
+  load_sdl3_lib()
+  exit unless SDL.Init(SDL::INIT_VIDEO)
 
   # SDL_ShowSimpleMessageBox
   success = SDL.ShowSimpleMessageBox(SDL::MESSAGEBOX_ERROR,
@@ -18,11 +17,11 @@ if __FILE__ == $PROGRAM_NAME
   button = [SDL::MessageBoxButtonData.new(buttons[0]), SDL::MessageBoxButtonData.new(buttons[1])]
 
   button[0][:flags] = SDL::MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT
-  button[0][:buttonid] = 0
+  button[0][:buttonID] = 0
   button[0][:text] = FFI::MemoryPointer.from_string("OK")
 
   button[1][:flags] = SDL::MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT
-  button[1][:buttonid] = 1
+  button[1][:buttonID] = 1
   button[1][:text] = FFI::MemoryPointer.from_string("Cancel")
 
   data = SDL::MessageBoxData.new
@@ -34,7 +33,9 @@ if __FILE__ == $PROGRAM_NAME
   data[:buttons] = buttons
   data[:colorScheme] = nil
 
-  success = SDL.ShowMessageBox(data, buttons)
+  clicked = FFI::MemoryPointer.new(:int)
+  success = SDL.ShowMessageBox(data, clicked)
+  puts "Clicked button id: #{clicked.read_int}" if success
 
   SDL.Quit()
 end

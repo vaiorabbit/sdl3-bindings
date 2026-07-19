@@ -1,17 +1,17 @@
-require 'sdl2'
-# require_relative '../lib/sdl2'
+require_relative '../lib/sdl3'
 require_relative 'util'
 
 if __FILE__ == $PROGRAM_NAME
-  load_sdl2_lib()
-  success = SDL.Init(SDL::INIT_EVERYTHING)
-  puts "SDL_Init : #{success == 0 ? 'Success' : 'Failed'}"
-  exit if success != 0
-  # p SDL_INIT_EVERYTHING.to_s(16)
+  load_sdl3_lib()
+  success = SDL.Init(SDL::INIT_VIDEO | SDL::INIT_AUDIO | SDL::INIT_EVENTS | SDL::INIT_GAMEPAD | SDL::INIT_JOYSTICK)
+  puts "SDL_Init : #{success ? 'Success' : 'Failed'}"
+  exit unless success
   puts "Platform: #{SDL.GetPlatform().read_string}"
-  version = SDL::Version.new
-  SDL.GetVersion(version)
-  puts("Major, Minor and Patch: #{version[:major]} #{version[:minor]} #{version[:patch]}")
-  SDL.ClearHints()
+  version = SDL.GetVersion()
+  major = version / 1_000_000
+  minor = (version / 1_000) % 1_000
+  micro = version % 1_000
+  puts("Major, Minor and Patch: #{major} #{minor} #{micro}")
+  SDL.ResetHints()
   SDL.Quit()
 end

@@ -1,17 +1,16 @@
-require_relative '../lib/sdl2'
+require_relative '../lib/sdl3'
 require_relative 'util'
 
 $ticks = 0
 
 if __FILE__ == $PROGRAM_NAME
-  load_sdl2_lib()
-  success = SDL.Init(SDL::INIT_TIMER)
-  exit if success < 0
+  load_sdl3_lib()
+  exit unless SDL.Init(0)
 
   resolution = 1
 
-  cb = Proc.new do |interval, param|
-    puts("Timer #{interval} : param = #{param}, $ticks=#{$ticks}")
+  cb = Proc.new do |param, timer_id, interval|
+    puts("Timer id=#{timer_id} interval=#{interval} : param=#{param}, $ticks=#{$ticks}")
     $ticks += 1
     interval
   end

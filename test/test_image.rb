@@ -5,11 +5,11 @@ WINDOW_W = 640
 WINDOW_H = 360
 
 if __FILE__ == $PROGRAM_NAME
-  load_sdl2_lib()
+  load_sdl3_lib()
   success = SDL.Init(SDL::INIT_AUDIO | SDL::INIT_VIDEO | SDL::INIT_GAMEPAD)
   exit unless success
 
-  window = SDL.CreateWindow("Minimal SDL_Image Test via sdl2-bindings", WINDOW_W, WINDOW_H, 0)
+  window = SDL.CreateWindow("Minimal SDL_Image Test via sdl3-bindings", WINDOW_W, WINDOW_H, 0)
 
   renderer = SDL.CreateRenderer(window, nil)
 

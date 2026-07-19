@@ -1,30 +1,32 @@
-# sdl2-bindings port of testaudioinfo.c
-require 'sdl2'
-# require_relative '../lib/sdl2'
+# sdl3-bindings port of testaudioinfo.c
+require_relative '../lib/sdl3'
 require_relative 'util'
 
-def print_devices(iscapture)
-  typestr = iscapture ? "capture" : "output"
-  n = SDL.GetNumAudioDevices(iscapture)
+def print_devices(playback)
+  typestr = playback ? "playback" : "recording"
+  count_buf = FFI::MemoryPointer.new(:int)
+  device_ids = playback ? SDL.GetAudioPlaybackDevices(count_buf) : SDL.GetAudioRecordingDevices(count_buf)
+  n = count_buf.read_int
 
   puts("#{typestr} devices:")
 
-  if n == -1
+  if device_ids.nil? || device_ids.null?
     printf("  Driver can't detect specific %s devices.\n\n", typestr)
   elsif n == 0
     printf("  No %s devices found.\n\n", typestr)
   else
     n.times do |i|
-      printf("  %s\n", SDL.GetAudioDeviceName(i, iscapture).read_string)
+      device_id = device_ids.get_uint32(i * FFI.type_size(:uint))
+      name = SDL.GetAudioDeviceName(device_id)
+      printf("  [%u] %s\n", device_id, name ? name.read_string : "Unknown")
     end
     printf("\n")
   end
 end
 
 if __FILE__ == $PROGRAM_NAME
-  load_sdl2_lib()
-  success = SDL.Init(SDL::INIT_AUDIO)
-  exit if success < 0
+  load_sdl3_lib()
+  exit unless SDL.Init(SDL::INIT_AUDIO)
   n = SDL.GetNumAudioDrivers()
   if n == 0
     printf("No built-in audio drivers\n\n")
@@ -37,8 +39,8 @@ if __FILE__ == $PROGRAM_NAME
 
   printf("Using audio driver: %s\n\n", SDL.GetCurrentAudioDriver().read_string)
 
-  print_devices(0)
-  print_devices(1)
+  print_devices(true)
+  print_devices(false)
 
   SDL.Quit()
 end

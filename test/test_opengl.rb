@@ -2,7 +2,7 @@
 # $ gem install opengl-bindings2
 
 require 'opengl'
-require_relative '../lib/sdl2'
+require_relative '../lib/sdl3'
 require_relative 'util'
 
 $color =
@@ -93,13 +93,12 @@ end
 
 
 if __FILE__ == $PROGRAM_NAME
-  load_sdl2_lib()
-  success = SDL.Init(SDL::INIT_EVERYTHING)
-  exit if success < 0
+  load_sdl3_lib()
+  exit unless SDL.Init(SDL::INIT_VIDEO)
 
   WINDOW_W = 640
   WINDOW_H = 360
-  window = SDL.CreateWindow("OpenGL Window via sdl2-bindings", 0, 0, WINDOW_W, WINDOW_H, SDL::WINDOW_OPENGL)
+  window = SDL.CreateWindow("OpenGL Window via sdl3-bindings", WINDOW_W, WINDOW_H, SDL::WINDOW_OPENGL)
 
   ratio = WINDOW_W.to_f / WINDOW_H
 
@@ -126,14 +125,14 @@ if __FILE__ == $PROGRAM_NAME
   event = SDL::Event.new
   done = false
   while not done
-    while SDL.PollEvent(event) != 0
+    while SDL.PollEvent(event)
       # 'type' and 'timestamp' are common members for all SDL Event structs.
       event_type = event[:common][:type]
       event_timestamp = event[:common][:timestamp]
       # puts "Event : type=0x#{event_type.to_s(16)}, timestamp=#{event_timestamp}"
       case event_type
-      when SDL::KEYDOWN
-        if event[:key][:keysym][:sym] == SDL::SDLK_ESCAPE
+      when SDL::EVENT_KEY_DOWN
+        if event[:key][:key] == SDL::SDLK_ESCAPE
           done = true
         end
       end
@@ -146,7 +145,7 @@ if __FILE__ == $PROGRAM_NAME
     SDL.GL_SwapWindow(window)
   end
 
-  SDL.GL_DeleteContext(context)
+  SDL.GL_DestroyContext(context)
   SDL.DestroyWindow(window)
   SDL.Quit()
 end

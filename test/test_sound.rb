@@ -1,16 +1,14 @@
-require_relative '../lib/sdl2'
+require_relative '../lib/sdl3'
+require_relative 'util'
 
 if __FILE__ == $0
-  SDL.load_lib(Dir.pwd + '/libSDL2.dylib', sound_libpath: Dir.pwd + '/libSDL2_sound.dylib')
-  success = SDL.Init(SDL::INIT_AUDIO)
-  exit if success < 0
+  load_sdl3_lib()
+  exit unless SDL.Init(SDL::INIT_AUDIO)
 
   success = SDL.Sound_Init()
   exit if success < 0
 
-  version = SDL::Sound_Version.new
-  SDL.Sound_GetLinkedVersion(version)
-  puts("Major, Minor and Patch: #{version[:major]} #{version[:minor]} #{version[:patch]}")
+  puts("SDL_sound version: #{SDL.Sound_Version}")
 
   decoder_info_ptr = SDL.Sound_AvailableDecoders()
   until decoder_info_ptr.read_pointer.null?

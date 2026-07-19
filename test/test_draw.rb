@@ -1,5 +1,4 @@
-# require 'sdl2'
-require_relative '../lib/sdl2'
+require_relative '../lib/sdl3'
 require_relative 'util'
 
 NUM_OBJECTS = 100
@@ -92,29 +91,28 @@ def draw_rects(renderer)
 end
 
 if __FILE__ == $PROGRAM_NAME
-  load_sdl2_lib()
-  success = SDL.Init(SDL::INIT_VIDEO)
-  exit if success < 0
+  load_sdl3_lib()
+  exit unless SDL.Init(SDL::INIT_VIDEO)
 
   WINDOW_W = 640
   WINDOW_H = 360
   window = SDL.CreateWindow("RenderPoint/RenderLine/RenderFillRect", WINDOW_W, WINDOW_H, SDL::WINDOW_OPENGL)
   SDL.SetWindowPosition(window, 32, 32)
 
-  renderer = SDL.CreateRenderer(window, nil, 0)
+  renderer = SDL.CreateRenderer(window, nil)
 
   event = SDL::Event.new
 
   done = false
   while not done
-    while SDL.PollEvent(event) != 0
+    while SDL.PollEvent(event)
       # 'type' and 'timestamp' are common members for all SDL Event structs.
       event_type = event[:common][:type]
       event_timestamp = event[:common][:timestamp]
       # puts "Event : type=0x#{event_type.to_s(16)}, timestamp=#{event_timestamp}"
       case event_type
       when SDL::EVENT_KEY_DOWN
-        if event[:key][:keysym][:sym] == SDL::SDLK_ESCAPE
+        if event[:key][:key] == SDL::SDLK_ESCAPE
           done = true
         end
       end

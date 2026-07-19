@@ -60,7 +60,7 @@ def move_sprite(renderer)
 end
 
 if __FILE__ == $PROGRAM_NAME
-  load_sdl2_lib()
+  load_sdl3_lib()
 
   window = SDL.CreateWindow("Minimal Sprite Test via sdl3-bindings", WINDOW_W, WINDOW_H, SDL::WINDOW_RESIZABLE)
   SDL.SetWindowPosition(window, 64, 64)
