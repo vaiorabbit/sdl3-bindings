@@ -57,5 +57,6 @@
     "SDL_ttf.h",
     "SDL_image.h",
     "SDL_mixer.h",
-    "SDL_sound.h"
+    "SDL_sound.h",
+    "SDL_shadercross.h"
 ]

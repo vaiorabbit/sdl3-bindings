@@ -59,3 +59,4 @@ python generate_SDL_ttf.py > ../lib/sdl3_ttf.rb
 python generate_SDL_image.py > ../lib/sdl3_image.rb
 python generate_SDL_mixer.py > ../lib/sdl3_mixer.rb
 python generate_SDL_sound.py > ../lib/sdl3_sound.rb
+python generate_SDL_shadercross.py > ../lib/sdl3_shadercross.rb

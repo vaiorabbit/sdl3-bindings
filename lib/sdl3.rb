@@ -64,18 +64,20 @@ require_relative 'sdl3_mixer.rb'
 require_relative 'sdl3_ttf.rb'
 # SDL_sound
 require_relative 'sdl3_sound.rb'
+# SDL_shadercross
+require_relative 'sdl3_shadercross.rb'
 
 module SDL
   extend FFI::Library
 
   @@sdl3_import_done = false
-  def self.load_lib(libpath, output_error: false, image_libpath: nil, ttf_libpath: nil, mixer_libpath: nil, sound_libpath: nil)
+  def self.load_lib(libpath, output_error: false, image_libpath: nil, ttf_libpath: nil, mixer_libpath: nil, sound_libpath: nil, shadercross_libpath: nil)
 
     unless @@sdl3_import_done
       # Ref.: Using Multiple and Alternate Libraries
       # https://github.com/ffi/ffi/wiki/Using-Multiple-and-Alternate-Libraries
       begin
-        lib_paths = [libpath, image_libpath, ttf_libpath, mixer_libpath, sound_libpath].compact
+        lib_paths = [libpath, image_libpath, ttf_libpath, mixer_libpath, sound_libpath, shadercross_libpath].compact
 
         ffi_lib_flags :now, :global
         ffi_lib *lib_paths
@@ -85,6 +87,7 @@ module SDL
         setup_ttf_symbols(output_error) if ttf_libpath
         setup_mixer_symbols(output_error) if mixer_libpath
         setup_sound_symbols(output_error) if sound_libpath
+        setup_shadercross_symbols(output_error) if shadercross_libpath
       rescue => error
         $stderr.puts("[Warning] Failed to load libraries (#{error}).") if output_error
       end

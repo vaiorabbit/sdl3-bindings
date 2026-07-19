@@ -380,4 +380,13 @@
     , "Sound_SampleFlags" : "TypeKind.ENUM"
     , "Sound_DecoderInfo" : "TypeKind.RECORD"
     , "Sound_Sample" : "TypeKind.RECORD"
+    , "SDL_ShaderCross_IOVarType" : "TypeKind.ENUM"
+    , "SDL_ShaderCross_ShaderStage" : "TypeKind.ENUM"
+    , "SDL_ShaderCross_IOVarMetadata" : "TypeKind.RECORD"
+    , "SDL_ShaderCross_GraphicsShaderResourceInfo" : "TypeKind.RECORD"
+    , "SDL_ShaderCross_GraphicsShaderMetadata" : "TypeKind.RECORD"
+    , "SDL_ShaderCross_ComputePipelineMetadata" : "TypeKind.RECORD"
+    , "SDL_ShaderCross_SPIRV_Info" : "TypeKind.RECORD"
+    , "SDL_ShaderCross_HLSL_Define" : "TypeKind.RECORD"
+    , "SDL_ShaderCross_HLSL_Info" : "TypeKind.RECORD"
 }

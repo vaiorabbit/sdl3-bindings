@@ -1,8 +1,10 @@
+*~
 generator/__pycache__
+generator/SDL3_*
 generator/*SDL3/SDL*
 generator/*SDL3/*h
 generator/bak
 generator/clang
 third_party/bak
-third_party/*SDL*
+third_party/SDL*
 third_party/intermediate*
