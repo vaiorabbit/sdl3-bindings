@@ -77,7 +77,20 @@ module SDL
       # Ref.: Using Multiple and Alternate Libraries
       # https://github.com/ffi/ffi/wiki/Using-Multiple-and-Alternate-Libraries
       begin
-        lib_paths = [libpath, image_libpath, ttf_libpath, mixer_libpath, sound_libpath, shadercross_libpath].compact
+        lib_paths = [libpath, image_libpath, ttf_libpath, mixer_libpath, sound_libpath].compact
+
+        if shadercross_libpath
+          if Gem.win_platform?
+            shadercross_dir = File.dirname(shadercross_libpath)
+            shadercross_dependencies = [
+              File.join(shadercross_dir, 'dxcompiler.dll'),
+              File.join(shadercross_dir, 'libspirv-cross-c-shared.dll'),
+            ].select { |path| File.file?(path) }
+            lib_paths.concat(shadercross_dependencies)
+          end
+
+          lib_paths << shadercross_libpath
+        end
 
         ffi_lib_flags :now, :global
         ffi_lib *lib_paths
