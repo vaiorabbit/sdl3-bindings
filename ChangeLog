@@ -2,6 +2,7 @@
 
 	* SDL.load_lib: Added shadercross_libpath which accepts Array of paths for SDL3_shadercross initialization.
 	* For Windows shadercross loading, pass dependencies before SDL3_shadercross.dll (e.g. libspirv-cross-c-shared.dll, dxcompiler.dll).
+	* Added test/test_gpu_spinning_cube.rb
 
 2026-07-18  vaiorabbit  <http://twitter.com/vaiorabbit>
 
