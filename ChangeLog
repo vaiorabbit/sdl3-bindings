@@ -1,3 +1,8 @@
+2026-07-20  vaiorabbit  <http://twitter.com/vaiorabbit>
+
+	* SDL.load_lib: Added shadercross_libpath which accepts Array of paths for SDL3_shadercross initialization.
+	* For Windows shadercross loading, pass dependencies before SDL3_shadercross.dll (e.g. libspirv-cross-c-shared.dll, dxcompiler.dll).
+
 2026-07-18  vaiorabbit  <http://twitter.com/vaiorabbit>
 
 	* SDL 3.4.12 ( https://github.com/libsdl-org/SDL/releases/tag/release-3.4.12 )

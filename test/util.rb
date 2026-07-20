@@ -6,7 +6,11 @@ def load_sdl3_lib()
                  mixer_libpath: File.absolute_path(Dir.pwd + '/../third_party/SDL/bin/SDL3_mixer.dll'),
                  ttf_libpath: File.absolute_path(Dir.pwd + '/../third_party/SDL/bin/SDL3_ttf.dll'),
                  sound_libpath: File.absolute_path(Dir.pwd + '/../third_party/SDL/bin/SDL3_sound.dll'),
-                 shadercross_libpath: File.absolute_path(Dir.pwd + '/../third_party/SDL/bin/SDL3_shadercross.dll'))
+                 shadercross_libpath: [
+                   File.absolute_path(Dir.pwd + '/../third_party/SDL/bin/libspirv-cross-c-shared.dll'),
+                   File.absolute_path(Dir.pwd + '/../third_party/SDL/bin/dxcompiler.dll'),
+                   File.absolute_path(Dir.pwd + '/../third_party/SDL/bin/SDL3_shadercross.dll'),
+                 ])
   when /darwin/
     SDL.load_lib('../third_party/SDL/lib/libSDL3.dylib', output_error: true,
                  image_libpath: '../third_party/SDL/lib/libSDL3_image.dylib',

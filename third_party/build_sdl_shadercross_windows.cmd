@@ -12,9 +12,9 @@ pushd .
 if not exist intermediate (
     mkdir intermediate
 )
-::curl -L https://github.com/libsdl-org/SDL_shadercross/archive/%VERSION%.zip > intermediate/%PREFIX%.zip
+curl -L https://github.com/libsdl-org/SDL_shadercross/archive/%VERSION%.zip > intermediate/%PREFIX%.zip
 cd intermediate
-::%WINDIR%\System32\tar.exe -xf %PREFIX%.zip
+%WINDIR%\System32\tar.exe -xf %PREFIX%.zip
 cd %PREFIX%/
 
 cd external/
@@ -25,7 +25,6 @@ cd build-scripts/
 cmake -P download-prebuilt-DirectXShaderCompiler.cmake
 cd ..
 
-rem Build and install SPIRV-Cross so find_package(spirv_cross_*) works with SDLSHADERCROSS_VENDORED=OFF.
 cmake -S external/SPIRV-Cross -B spirv_cross_build -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=Release -D SPIRV_CROSS_SHARED=ON -D SPIRV_CROSS_STATIC=OFF -D SPIRV_CROSS_CLI=OFF -D SPIRV_CROSS_ENABLE_TESTS=OFF -D CMAKE_C_FLAGS_RELEASE="%COMMON_C_FLAGS%" -D CMAKE_CXX_FLAGS_RELEASE="%COMMON_CXX_FLAGS%" -D CMAKE_SHARED_LINKER_FLAGS="%COMMON_LINKER_FLAGS%" -D CMAKE_INSTALL_PREFIX=%CD%/spirv_cross_prefix
 cmake --build spirv_cross_build
 cmake --install spirv_cross_build
